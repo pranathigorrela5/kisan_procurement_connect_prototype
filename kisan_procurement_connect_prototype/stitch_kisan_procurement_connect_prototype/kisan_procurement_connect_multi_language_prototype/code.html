@@ -1,0 +1,1517 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><title>Kisan Procurement Connect</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;family=Public+Sans:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-lowest": "#ffffff", "outline": "#707a6f", "surface-container": "#e6eeff", "on-secondary-fixed": "#2f1500", "secondary-fixed-dim": "#ffb77d", "primary-fixed-dim": "#8ad89a", "on-primary-fixed-variant": "#005226", "surface-container-low": "#eff4ff", "surface-container-highest": "#d9e3f6", "tertiary-fixed": "#c0efb7", "on-primary-container": "#93e1a2", "inverse-primary": "#8ad89a", "on-tertiary-container": "#aedca5", "tertiary-container": "#396236", "on-secondary-container": "#663500", "on-primary-fixed": "#00210b", "on-surface-variant": "#404940", "inverse-surface": "#27313f", "primary": "#004c22", "secondary-container": "#fe932c", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#6e3900", "on-primary": "#ffffff", "secondary": "#904d00", "on-background": "#121c2a", "surface-container-high": "#dee9fc", "surface-variant": "#d9e3f6", "secondary-fixed": "#ffdcc3", "on-tertiary": "#ffffff", "surface-tint": "#1d6c39", "inverse-on-surface": "#eaf1ff", "tertiary": "#224a21", "tertiary-fixed-dim": "#a5d29c", "background": "#f8f9ff", "primary-fixed": "#a5f4b4", "on-error": "#ffffff", "outline-variant": "#bfc9bd", "on-surface": "#121c2a", "error": "#ba1a1a", "on-tertiary-fixed-variant": "#284f26", "error-container": "#ffdad6", "surface-bright": "#f8f9ff", "surface": "#f8f9ff", "surface-dim": "#d0dbed", "on-error-container": "#93000a", "primary-container": "#156634", "on-tertiary-fixed": "#002203" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin-tablet": "1.5rem", "touch-min": "3rem", "margin-mobile": "1rem", "space-xs": "0.5rem", "space-sm": "0.75rem", "touch-generous": "3.375rem", "space-2xs": "0.25rem", "space-2xl": "3rem", "space-lg": "1.5rem", "space-xl": "2rem", "space-md": "1rem", "gutter-desktop": "1.5rem", "gutter-mobile": "0.75rem" }, fontFamily: { "headline-xl": ["Public Sans"], "body-md": ["Noto Sans"], "headline-lg-mobile": ["Public Sans"], "label-md": ["Noto Sans"], "headline-md": ["Public Sans"], "label-lg": ["Noto Sans"], "body-xl": ["Noto Sans"], "label-sm": ["Noto Sans"], "headline-lg": ["Public Sans"], "body-lg": ["Noto Sans"], "headline-xl-mobile": ["Public Sans"] }, fontSize: { "headline-xl": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-md": ["14px", { lineHeight: "22px", letterSpacing: "0.01em", fontWeight: "400" }], "headline-lg-mobile": ["22px", { lineHeight: "30px", letterSpacing: "0em", fontWeight: "700" }], "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "0em", fontWeight: "600" }], "label-lg": ["16px", { lineHeight: "24px", letterSpacing: "0.02em", fontWeight: "600" }], "body-xl": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "500" }], "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.03em", fontWeight: "700" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0.01em", fontWeight: "400" }], "headline-xl-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-20 px-margin-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs min-w-0"><img alt="Kisan Procurement Connect Official Emblem" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvANMTot8oVaVJb8nn6v8oFAdzCBK_PI2JdOmxXpKtZMzrHAC1NxL1sYxgvWfq0z7nhcp40z2uEmfDa6cp5u-iJ6rsFKtqzgp13ZSYky6kRkPuq3Bf1xy198H2ZwD1m0tppJG5uSc8MGypTjZSFJg2LG7kor7t7COGW0Uoa7rOhb1Hs7rUiJomIGEQoQQuPZaqydfVe0JkYF3zHFaDLdk334x6XuaM0YJinLXq75oMF_OEssfaCU3XtqrNNtxMPd2gXzE"><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-2xs"><span class="font-label-sm text-label-sm text-primary tracking-wide uppercase truncate">Kisan Connect</span><span class="material-symbols-outlined text-primary text-[14px]">verified</span></div><h1 class="font-headline-md text-headline-md text-on-surface truncate leading-tight">Dashboard</h1></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="Change Language" class="h-11 px-space-xs flex items-center gap-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm"><span class="material-symbols-outlined text-[18px]">translate</span><span class="">EN / తె / हि</span></button><a aria-label="Farmer Emergency Helpline 1800-180-1551" class="w-11 h-11 rounded-full bg-secondary-container text-on-secondary flex items-center justify-center" href="tel:18001801551"><span class="material-symbols-outlined text-[22px]">support_agent</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-28 bg-surface"><div class="flex flex-col w-full text-on-surface" id="kpc-app-container">
+<!-- TOP BAR: Screen Selector Sheet & Instant Multi-lingual Toggle -->
+<div class="sticky top-0 z-40 bg-surface-container-low px-margin-mobile py-space-xs shadow-sm flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between gap-space-xs">
+<!-- Screen Quick Switcher Dropdown -->
+<div class="flex items-center gap-space-2xs min-w-0 flex-1">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0">layers</span>
+<select class="w-full bg-surface-container-lowest text-on-surface font-label-sm text-label-sm rounded-lg px-space-xs py-1.5 focus:outline-none focus:ring-2 focus:ring-primary shadow-xs truncate" id="screen-selector" onchange="navigateToScreen(this.value)">
+<option value="1">1. Splash / Logo</option>
+<option value="2">2. Language Selection</option>
+<option value="3">3. Farmer Login</option>
+<option value="4">4. Farmer Registration</option>
+<option value="5">5. Farmer Dashboard</option>
+<option value="6">6. Book Slot</option>
+<option value="7">7. Booking Confirmation</option>
+<option value="8">8. My Live Queue (#24)</option>
+<option value="9">9. Procurement Status</option>
+<option value="10">10. Procurement Schedule</option>
+<option value="11">11. Notifications</option>
+<option value="12">12. My Bookings</option>
+<option value="13">13. Farmer Profile</option>
+<option value="14">14. Help &amp; Support</option>
+</select>
+</div>
+<!-- Language Pills Switcher -->
+<div class="flex items-center bg-surface-container-highest p-0.5 rounded-full flex-shrink-0">
+<button class="lang-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm transition-all bg-primary text-on-primary shadow-xs" data-lang="en" onclick="setAppLanguage('en')" type="button">EN</button>
+<button class="lang-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm transition-all text-on-surface-variant" data-lang="te" onclick="setAppLanguage('te')" type="button">తెలుగు</button>
+<button class="lang-pill px-2.5 py-1 rounded-full font-label-sm text-label-sm transition-all text-on-surface-variant" data-lang="hi" onclick="setAppLanguage('hi')" type="button">हिंदी</button>
+</div>
+</div>
+</div>
+<!-- SCREEN CONTAINER -->
+<div class="w-full px-margin-mobile py-space-md flex flex-col gap-space-lg">
+<!-- ========================================================================= -->
+<!-- SCREEN 1: SPLASH / LOGO -->
+<!-- ========================================================================= -->
+<section class="kpc-screen flex flex-col items-center justify-center text-center py-space-xl min-h-[520px]" id="screen-1">
+<div class="relative mb-space-lg">
+<div class="w-28 h-28 rounded-full overflow-hidden shadow-md flex items-center justify-center"><img alt="Kisan Procurement Connect Official Emblem" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9oxeVT-lVSHwvnQFOFYq_cvjLeCxsRGOJJ84vHA3_l84Nje7CejPGWYQFbIwVKPTXEEqeYxErq_WQ8zcNWc-ZrR0H4BGRUbRPGo7nq3bwZPDqRJa2utmhgTAI9TT92foQmV6SZsSZQuJlT2C-KTmJG3RB56XTCCPTzy0SJ-1hVzLVTkBi3jjy-Cn03sGru_OrI2In7iBTk2L7OLIn1TfN20aN4HoVcuUnw7AG972D40o-EuNKLsAoYpwuHif-PPsFBvc"></div>
+
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-primary font-bold mb-space-2xs leading-tight" data-i18n="app_title">Kisan Procurement Connect</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs mb-space-xl" data-i18n="app_tagline">Smart Procurement • Less Waiting • Better Information</p>
+<div class="w-full max-w-sm flex flex-col gap-space-sm">
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md active:scale-98 transition-transform" onclick="navigateToScreen(2)" type="button">
+<span data-i18n="get_started" class="">Get Started</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm mt-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">support_agent</span>
+<span data-i18n="toll_free_desc" class="">Toll-Free Kisan Mitra:</span>
+<a class="font-bold text-primary underline" href="tel:18001801551">1800-180-1551</a>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 2: LANGUAGE SELECTION -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-2">
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(1)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="select_language_title">Select Your Language</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="select_language_sub">మీ భాషను ఎంచుకోండి / अपनी भाषा चुनें</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm mt-space-xs">
+<!-- English Card -->
+<div class="lang-select-card p-space-md rounded-xl shadow-sm flex items-center justify-between cursor-pointer transition-all bg-primary-fixed" id="lang-card-en" onclick="selectLanguageCard('en')">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary font-bold text-lg">EN</div>
+<div>
+<p class="font-headline-md text-headline-md font-bold">English</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Default System Interface</p>
+</div>
+</div>
+<div class="radio-indicator w-6 h-6 rounded-full bg-surface-container-lowest flex items-center justify-center">
+<div class="dot w-3 h-3 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Telugu Card -->
+<div class="lang-select-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between cursor-pointer transition-all" id="lang-card-te" onclick="selectLanguageCard('te')">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary font-bold text-lg">తె</div>
+<div>
+<p class="font-headline-md text-headline-md font-bold">తెలుగు (Telugu)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">ఆంధ్రప్రదేశ్ / తెలంగాణ రైతుల కోసం</p>
+</div>
+</div>
+<div class="radio-indicator w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center">
+<div class="dot w-3 h-3 rounded-full bg-transparent"></div>
+</div>
+</div>
+<!-- Hindi Card -->
+<div class="lang-select-card bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between cursor-pointer transition-all" id="lang-card-hi" onclick="selectLanguageCard('hi')">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary font-bold text-lg">हि</div>
+<div>
+<p class="font-headline-md text-headline-md font-bold">हिंदी (Hindi)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">सरल एवं सुगम किसान पोर्टल</p>
+</div>
+</div>
+<div class="radio-indicator w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center">
+<div class="dot w-3 h-3 rounded-full bg-transparent"></div>
+</div>
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs mt-space-lg shadow-md active:scale-98 transition-transform" onclick="confirmLanguageSelection()" type="button">
+<span data-i18n="continue_btn" class="">Continue</span>
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 3: FARMER LOGIN -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-3">
+<div class="flex items-center gap-space-xs mb-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(2)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold" data-i18n="gov_portal">PM-AASHA MSP Portal</span>
+</div>
+<div class="flex flex-col items-center text-center my-space-xs">
+<img alt="Kisan Procurement Connect Official Emblem" class="w-16 h-16 object-contain mb-space-xs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8p1fFncM84RG_PmJIHRdybN1Hi5s_maONnyJH_xlm72yub_q8UUOkBtBKAUavEBcf6087oOSsC31tYUA99aFeVY-ysfDgRXUsWM6FSCfwreGIkYd9s48mPra075aoqHQsEDDXsJaTWIhnq3GeYJmV7G6oZRXup8xky56cO4MKz1YDsRKm0mlwtOimRN6aFlYYaF8wbEjk9rGpAglzl1OZ4ver_oMMHfgQswjc8SNRzeLxiT0-skvP9nfXXEaqXQESpVw">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary" data-i18n="login_title">Farmer Login</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="login_subtitle">Enter your registered mobile number or Farmer ID</p>
+</div>
+<form class="flex flex-col gap-space-md bg-surface-container-lowest p-space-md rounded-2xl shadow-sm" onsubmit="event.preventDefault(); navigateToScreen(5);">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface" data-i18n="mobile_label">Mobile Number / Farmer ID</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">phone_iphone</span>
+<input class="w-full h-12 pl-11 pr-3 bg-surface-container-low rounded-xl text-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" required="" type="tel" value="9876543210">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" data-i18n="password_label">Password / OTP PIN</label>
+<a class="font-label-sm text-label-sm text-secondary font-bold" data-i18n="forgot_password" href="#" onclick="alert(getTranslation('otp_sent_alert'));">Forgot Password?</a>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">lock</span>
+<input class="w-full h-12 pl-11 pr-3 bg-surface-container-low rounded-xl text-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-primary" required="" type="password" value="••••••">
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md mt-space-xs" type="submit">
+<span data-i18n="login_btn" class="">Login to Portal</span>
+<span class="material-symbols-outlined text-[20px]">login</span>
+</button>
+</form>
+<div class="flex flex-col items-center gap-space-sm text-center">
+<button class="font-label-md text-label-md text-primary font-bold underline py-2" data-i18n="new_farmer_register" onclick="navigateToScreen(4)" type="button">New Farmer? Register Now (నమోదు / नया पंजीकरण)</button>
+<div class="bg-surface-container-high px-space-md py-space-xs rounded-full flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[18px]">help</span>
+<span class="font-label-sm text-label-sm" data-i18n="need_help">Need Help? Mandi Helpline:</span>
+<a class="font-label-sm text-label-sm font-bold text-primary" href="tel:18001801551">1800-180-1551</a>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 4: FARMER REGISTRATION -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-4">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(3)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="registration_title">Farmer Registration</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="reg_subtitle">Enter farm and identity details</p>
+</div>
+</div>
+<form class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-2xl shadow-sm" onsubmit="event.preventDefault(); alert(getTranslation('account_created_msg')); navigateToScreen(5);">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="farmer_name_label">Farmer Full Name</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Ramesh Kumar" required="" type="text">
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="mobile_label">Mobile Number / Farmer ID</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="10-digit mobile" required="" type="tel">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="farmer_id_label">Farmer ID / PM-KISAN</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Optional / AP-9921" type="text">
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="password_label">Password / OTP PIN</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="6+ characters" required="" type="password">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="confirm_password">Confirm Password</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Re-enter password" required="" type="password">
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="state_label">State</label>
+<select class="h-12 px-2 bg-surface-container-low rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Andhra Pradesh</option>
+<option>Telangana</option>
+<option>Madhya Pradesh</option>
+<option>Punjab</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="district_label">District</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary" required="" type="text" value="Kurnool">
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="mandal_label">Mandal / Taluk</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary" required="" type="text" value="Nandyal">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md" data-i18n="village_label">Village</label>
+<input class="h-12 px-3 bg-surface-container-low rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary" required="" type="text" value="Panyam">
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md mt-space-xs" type="submit">
+<span data-i18n="create_account_btn" class="">Create Account</span>
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</form>
+<div class="text-center">
+<button class="font-label-md text-label-md text-on-surface-variant underline py-1" data-i18n="back_to_login" onclick="navigateToScreen(3)" type="button">Already have an account? Back to Login</button>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 5: FARMER DASHBOARD -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-5">
+<!-- Greeting Banner -->
+<div class="bg-primary text-on-primary p-space-md rounded-2xl shadow-sm flex items-center justify-between relative overflow-hidden">
+<div class="z-10">
+<div class="flex items-center gap-1.5 opacity-90">
+<span class="material-symbols-outlined text-[16px]">agriculture</span>
+<span class="font-label-sm text-label-sm tracking-wide uppercase" data-i18n="verified_farmer">Registered Farmer</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold mt-1" data-i18n="welcome_farmer">Welcome, Ramesh Kumar</h2>
+<p class="font-body-md text-body-md text-on-primary-container" data-i18n="dashboard_mandi_sub">Kurnool APMC Central Procurement Centre</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0">
+<span class="material-symbols-outlined text-[28px]">account_circle</span>
+</div>
+</div>
+<!-- Live Active Slot Highlight -->
+<div class="bg-secondary-container text-on-secondary p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[20px]">notification_important</span>
+<span data-i18n="upcoming_slot_title" class="">Your Active Slot: TODAY</span>
+</div>
+<span class="bg-on-secondary text-secondary-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-bold shadow-xs">
+            Queue #24
+          </span>
+</div>
+<div class="flex items-center justify-between text-on-secondary/95 text-body-md">
+<span class="">12 Oct 2025 • 10:00 AM - 12:00 PM</span>
+<span class="font-bold">Mandi Gate 2</span>
+</div>
+<div class="flex items-center gap-space-xs mt-1">
+<button class="flex-1 h-11 bg-on-secondary text-secondary-container rounded-xl font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-xs" onclick="navigateToScreen(8)" type="button">
+<span class="material-symbols-outlined text-[18px]">pin_drop</span>
+<span data-i18n="view_live_queue" class="">View Live Queue</span>
+</button>
+<button class="h-11 px-3 bg-secondary/20 text-on-secondary rounded-xl font-label-md text-label-md flex items-center justify-center" onclick="navigateToScreen(7)" type="button">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</button>
+</div>
+</div>
+<!-- 4 Action Bento Grid Cards -->
+<div class="grid grid-cols-2 gap-space-xs">
+<!-- 1. Book Slot -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col justify-between h-36 cursor-pointer active:scale-98 transition-transform" onclick="navigateToScreen(6)">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">calendar_month</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="book_slot_card">Book Procurement Slot</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant" data-i18n="book_slot_card_sub">Paddy, Cotton, Maize</p>
+</div>
+</div>
+<!-- 2. My Queue -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col justify-between h-36 cursor-pointer active:scale-98 transition-transform" onclick="navigateToScreen(8)">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">groups</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="my_queue_card">My Queue</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant" data-i18n="my_queue_card_sub">6 Farmers Ahead</p>
+</div>
+</div>
+<!-- 3. Status -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col justify-between h-36 cursor-pointer active:scale-98 transition-transform" onclick="navigateToScreen(9)">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">fact_check</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="procurement_status_card">Procurement Status</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant" data-i18n="status_card_sub">Quality &amp; Weighing</p>
+</div>
+</div>
+<!-- 4. Schedule -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col justify-between h-36 cursor-pointer active:scale-98 transition-transform" onclick="navigateToScreen(10)">
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">event_available</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="schedule_card">Procurement Schedule</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant" data-i18n="schedule_card_sub">Mandi Center Dates</p>
+</div>
+</div>
+</div>
+<!-- Fast Access List -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<button class="px-space-md py-space-sm flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" onclick="navigateToScreen(12)" type="button">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">history</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="my_bookings_title">My Past Bookings &amp; Receipts</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+<button class="px-space-md py-space-sm flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" onclick="navigateToScreen(11)" type="button">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="notifications_title">Notifications &amp; Alerts</span>
+</div>
+<span class="bg-error text-on-error font-label-sm text-label-sm px-2 py-0.5 rounded-full">3</span>
+</button>
+<button class="px-space-md py-space-sm flex items-center justify-between text-left hover:bg-surface-container-low transition-colors" onclick="navigateToScreen(14)" type="button">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary">help_center</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="help_support_title">Help &amp; Toll-Free Support</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 6: BOOK PROCUREMENT SLOT -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-6">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="book_slot_title">Book Procurement Slot</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="book_slot_step_sub">Step 1 to 3 • Easy Selection</p>
+</div>
+</div>
+<!-- Step 1: Select Centre -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center">1</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="step1_centre">Step 1: Select Mandi / Centre</span>
+</div>
+<select class="h-12 px-3 bg-surface-container-low rounded-xl text-body-md text-on-surface font-medium focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Central APMC Mandi, Kurnool (Main Yard)</option>
+<option>Nandyal Rythu Bharosa Kendra (Sub Yard)</option>
+<option>Allagadda Mandi Grain Terminal</option>
+</select>
+</div>
+<!-- Step 2: Select Date -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center">2</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="step2_date">Step 2: Select Procurement Date</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="p-2.5 rounded-xl bg-primary text-on-primary text-center flex flex-col items-center" type="button">
+<span class="font-label-sm text-label-sm">TODAY</span>
+<span class="font-headline-md text-headline-md font-bold">12</span>
+<span class="font-label-sm text-label-sm">Oct</span>
+</button>
+<button class="p-2.5 rounded-xl bg-surface-container-low text-on-surface text-center flex flex-col items-center" type="button">
+<span class="font-label-sm text-label-sm">TOMORROW</span>
+<span class="font-headline-md text-headline-md font-bold">13</span>
+<span class="font-label-sm text-label-sm">Oct</span>
+</button>
+<button class="p-2.5 rounded-xl bg-surface-container-low text-on-surface text-center flex flex-col items-center" type="button">
+<span class="font-label-sm text-label-sm">WEDNESDAY</span>
+<span class="font-headline-md text-headline-md font-bold">14</span>
+<span class="font-label-sm text-label-sm">Oct</span>
+</button>
+</div>
+</div>
+<!-- Step 3: Select Time Slot -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-xs flex items-center justify-center">3</span>
+<span class="font-label-md text-label-md font-bold" data-i18n="step3_slot">Step 3: Select Time Window</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Slot A -->
+<label class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-2.5">
+<input class="w-5 h-5 text-primary" name="slot" type="radio">
+<div>
+<p class="font-label-md text-label-md font-bold">08:00 AM - 10:00 AM</p>
+<p class="font-label-sm text-label-sm text-primary" data-i18n="avail_18">18 Available</p>
+</div>
+</div>
+<span class="bg-surface-container-lowest px-2 py-0.5 rounded-full font-label-sm text-label-sm">Morning</span>
+</label>
+<!-- Slot B (Selected) -->
+<label class="flex items-center justify-between p-3 rounded-xl bg-primary-fixed text-on-primary-fixed cursor-pointer">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-5 h-5 text-primary" name="slot" type="radio">
+<div>
+<p class="font-label-md text-label-md font-bold">10:00 AM - 12:00 PM</p>
+<p class="font-label-sm text-label-sm font-bold text-primary" data-i18n="avail_12">12 Available (Optimal)</p>
+</div>
+</div>
+<span class="bg-primary text-on-primary px-2 py-0.5 rounded-full font-label-sm text-label-sm">Selected</span>
+</label>
+<!-- Slot C -->
+<label class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-2.5">
+<input class="w-5 h-5 text-primary" name="slot" type="radio">
+<div>
+<p class="font-label-md text-label-md font-bold">12:00 PM - 02:00 PM</p>
+<p class="font-label-sm text-label-sm text-secondary" data-i18n="avail_5">5 Available (Filling Fast)</p>
+</div>
+</div>
+<span class="bg-surface-container-lowest px-2 py-0.5 rounded-full font-label-sm text-label-sm">Afternoon</span>
+</label>
+<!-- Slot D (Full) -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-highest opacity-60">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline text-[20px]">block</span>
+<div>
+<p class="font-label-md text-label-md font-medium text-on-surface">02:00 PM - 04:00 PM</p>
+<p class="font-label-sm text-label-sm text-error font-bold" data-i18n="slot_full">Slot Full</p>
+</div>
+</div>
+<span class="bg-error-container text-on-error-container px-2 py-0.5 rounded-full font-label-sm text-label-sm">Full</span>
+</div>
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md active:scale-98 transition-transform" onclick="navigateToScreen(7)" type="button">
+<span data-i18n="continue_review" class="">Continue to Confirmation</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 7: BOOKING CONFIRMATION -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-7">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(6)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="confirmation_title">Booking Confirmation</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="confirmation_sub">Verify and lock your appointment</p>
+</div>
+</div>
+<!-- Success Header Banner -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm text-center flex flex-col items-center">
+<div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined text-[36px]">event_seat</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold" data-i18n="slot_reserved">Slot Held for 10 Minutes</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface mt-1" data-i18n="ready_to_confirm">Ready to Confirm Token</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1" data-i18n="bring_sms_advice">Please bring Aadhaar card and land passbook to mandi</p>
+</div>
+<!-- Details Summary Card -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs border-b-0">
+<span class="font-label-md text-label-md text-on-surface-variant" data-i18n="farmer_name_label">Farmer Full Name</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Ramesh Kumar</span>
+</div>
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant" data-i18n="step1_centre">Step 1: Select Mandi / Centre</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Central APMC Mandi</span>
+</div>
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant" data-i18n="scheduled_date">Date</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">12 Oct 2025</span>
+</div>
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant" data-i18n="scheduled_time">Time Slot</span>
+<span class="font-label-md text-label-md font-bold text-primary">10:00 AM - 12:00 PM</span>
+</div>
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant" data-i18n="booking_id">Booking Reference</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">#KPC-98421</span>
+</div>
+<div class="bg-primary-fixed p-space-sm rounded-xl flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-primary-fixed font-bold uppercase" data-i18n="assigned_token">Assigned Token</span>
+<p class="font-headline-lg font-bold text-primary">Queue #24</p>
+</div>
+<span class="material-symbols-outlined text-[36px] text-primary">qr_code_2</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md" onclick="alert(getTranslation('slot_confirmed_alert')); navigateToScreen(8);" type="button">
+<span data-i18n="confirm_booking_btn" class="">Confirm Booking</span>
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+<button class="w-full h-12 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center" onclick="navigateToScreen(6)" type="button">
+<span data-i18n="go_back_btn" class="">Go Back &amp; Change Slot</span>
+</button>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 8: MY QUEUE -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-8">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="live_queue_title">Live Mandi Queue</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="live_queue_sub">Central APMC Mandi • Gate 2</p>
+</div>
+</div>
+<button class="h-9 px-3 bg-surface-container-high text-primary rounded-full font-label-sm text-label-sm flex items-center gap-1" onclick="refreshQueueEffect()" type="button">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+<span data-i18n="refresh_btn" class="">Refresh</span>
+</button>
+</div>
+<!-- Oversized Token Box -->
+<div class="bg-primary text-on-primary p-space-lg rounded-3xl shadow-md text-center flex flex-col items-center">
+<span class="bg-on-primary/20 px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider mb-2" data-i18n="your_token_badge">Your Assigned Number</span>
+<div class="font-headline-xl text-[64px] leading-none font-bold text-on-primary mb-2">24</div>
+<span class="font-body-md text-body-md text-on-primary-container" data-i18n="keep_tractor_ready">Keep tractor / vehicle ready at Entry Gate 2</span>
+</div>
+<!-- Queue Status Stat Trio -->
+<div class="grid grid-cols-3 gap-space-xs text-center">
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant block" data-i18n="now_serving">Serving</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">#18</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant block" data-i18n="farmers_ahead">Ahead</span>
+<span class="font-headline-md text-headline-md font-bold text-secondary">6</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant block" data-i18n="est_wait">Est. Wait</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">35m</span>
+</div>
+</div>
+<!-- Animated Visual Queue Line -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface" data-i18n="queue_progress">Queue Progress</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">75% Handled Today</span>
+</div>
+<!-- Progress track -->
+<div class="w-full bg-surface-container h-3.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-700" style="width: 75%"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span class="">Gate Entry: #1</span>
+<span class="text-primary font-bold">Serving: #18</span>
+<span class="text-secondary font-bold">You: #24</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-2 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span data-i18n="queue_live_label" class="">Live Connected with Mandi Weighbridge</span>
+</div>
+<span data-i18n="last_updated" id="queue-last-updated" class="">Last updated: Just now</span>
+</div>
+<button class="w-full h-14 bg-surface-container-high text-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs" onclick="navigateToScreen(9)" type="button">
+<span data-i18n="check_proc_status_btn" class="">Check Mandi Quality Stage</span>
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+</button>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 9: PROCUREMENT STATUS -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-9">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="procurement_status_title">Procurement Status</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="status_sub">Lot ID #LOT-7821 • Paddy Grade A</p>
+</div>
+</div>
+<!-- Vertical Progress Stepper -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-md">
+<!-- Step 1: Done -->
+<div class="flex items-start gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="w-0.5 h-10 bg-primary mt-1"></div>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="stage_slot_booked">Slot Booked</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">12 Oct, 09:15 AM • Confirmed</p>
+</div>
+</div>
+<!-- Step 2: Done -->
+<div class="flex items-start gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="w-0.5 h-10 bg-primary mt-1"></div>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="stage_farmer_arrived">Farmer Arrived</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">10:05 AM • Gate 2 Security Check In</p>
+</div>
+</div>
+<!-- Step 3: Done -->
+<div class="flex items-start gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+<div class="w-0.5 h-10 bg-primary mt-1"></div>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="stage_token_gen">Token Generated</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Physical token #24 handed over</p>
+</div>
+</div>
+<!-- Step 4: Active Stage -->
+<div class="flex items-start gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary flex items-center justify-center ring-4 ring-secondary-container/20">
+<span class="material-symbols-outlined text-[18px] animate-spin">sync</span>
+</div>
+<div class="w-0.5 h-10 bg-surface-container-highest mt-1"></div>
+</div>
+<div>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">CURRENT STAGE</span>
+<h4 class="font-label-lg text-label-lg font-bold text-primary mt-1" data-i18n="stage_in_progress">Procurement In Progress</h4>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="stage_in_progress_desc">Quality grading by Mandi Assayer underway</p>
+</div>
+</div>
+<!-- Step 5: Upcoming -->
+<div class="flex items-start gap-space-md opacity-50">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">scale</span>
+</div>
+<div class="w-0.5 h-10 bg-surface-container-highest mt-1"></div>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="stage_weighing">Electronic Weighing</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Weighbridge slip generation</p>
+</div>
+</div>
+<!-- Step 6: Upcoming -->
+<div class="flex items-start gap-space-md opacity-50">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface" data-i18n="stage_payment">DBT Payment Processing</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Direct credit to Bank Account via PFMS</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 10: PROCUREMENT SCHEDULE -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-10">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="schedule_header">Procurement Schedule</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="schedule_header_sub">Kurnool District Centers Calendar</p>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Day 1 Card -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">10 Sept / Current</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-bold" data-i18n="badge_available">Available</span>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Central APMC Mandi, Kurnool</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Timing: 08:00 AM - 05:00 PM • Crop: Paddy &amp; Maize</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Capacity: 450 Quintals left</span>
+<button class="px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm font-bold" data-i18n="book_now_btn" onclick="navigateToScreen(6)" type="button">Book</button>
+</div>
+</div>
+<!-- Day 2 Card (Full) -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">11 Sept / Tomorrow</span>
+<span class="bg-error-container text-on-error-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-bold" data-i18n="badge_full">Full</span>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Nandyal Sub-Mandi Hub</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Timing: 08:00 AM - 04:00 PM • Crop: Cotton &amp; Pulses</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-error font-bold">100% Slots Booked</span>
+<button class="px-3 py-1.5 bg-surface-container-highest text-outline rounded-lg font-label-sm text-label-sm font-bold" disabled="" type="button">Closed</button>
+</div>
+</div>
+<!-- Day 3 Card -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">12 Sept / Upcoming</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-bold" data-i18n="badge_available">Available</span>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Allagadda Mandi Grain Terminal</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Timing: 09:00 AM - 05:00 PM • Crop: Paddy Common</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Capacity: 720 Quintals</span>
+<button class="px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm font-bold" data-i18n="book_now_btn" onclick="navigateToScreen(6)" type="button">Book</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 11: NOTIFICATIONS -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-11">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="notifications_header">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="alerts_sub">Mandi announcements &amp; token updates</p>
+</div>
+</div>
+<button class="font-label-sm text-label-sm text-primary font-bold" data-i18n="mark_all_read" onclick="alert(getTranslation('all_read_msg'))" type="button">Mark Read</button>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Item 1 (Unread) -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex items-start gap-space-sm relative">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="font-label-md text-label-md font-bold text-on-surface" data-i18n="notif1_title">Queue #24 Assigned</h4>
+<span class="font-label-sm text-label-sm text-outline">10m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5" data-i18n="notif1_body">Your arrival at Gate 2 has been recorded. 6 farmers ahead of you.</p>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-primary absolute top-4 right-3"></span>
+</div>
+<!-- Item 2 (Unread) -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex items-start gap-space-sm relative">
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">event_available</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="font-label-md text-label-md font-bold text-on-surface" data-i18n="notif2_title">Slot Confirmed Successfully</h4>
+<span class="font-label-sm text-label-sm text-outline">1 hr ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5" data-i18n="notif2_body">Procurement appointment confirmed for 12 Oct at Central Mandi.</p>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-primary absolute top-4 right-3"></span>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container text-on-surface flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="font-label-md text-label-md font-bold text-on-surface" data-i18n="notif3_title">Payment Disbursed</h4>
+<span class="font-label-sm text-label-sm text-outline">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5" data-i18n="notif3_body">MSP Payment of ₹54,200 credited to Bank of Baroda a/c **4821.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 12: MY BOOKINGS -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-12">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="my_bookings_header">My Bookings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="bookings_records_sub">Upcoming and completed appointments</p>
+</div>
+</div>
+<!-- Segmented Tab Switch -->
+<div class="flex bg-surface-container p-1 rounded-xl">
+<button class="flex-1 py-2 rounded-lg font-label-md text-label-md font-bold bg-surface-container-lowest text-primary shadow-xs transition-all" data-i18n="tab_upcoming" id="tab-upcoming-btn" onclick="switchBookingTab('upcoming')" type="button">Upcoming (1)</button>
+<button class="flex-1 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant transition-all" data-i18n="tab_past" id="tab-past-btn" onclick="switchBookingTab('past')" type="button">Past Completed (2)</button>
+</div>
+<!-- Tab Content 1: Upcoming -->
+<div class="flex flex-col gap-space-sm" id="booking-tab-upcoming">
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary">#KPC-98421</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold" data-i18n="status_active">Active Today</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Central APMC Mandi, Kurnool</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">12 Oct 2025 • 10:00 AM - 12:00 PM</p>
+<div class="bg-surface-container-low p-2.5 rounded-xl flex items-center justify-between mt-1">
+<span class="font-label-md text-label-md font-bold text-secondary">Queue #24</span>
+<button class="font-label-sm text-label-sm font-bold text-primary underline" data-i18n="track_live" onclick="navigateToScreen(8)" type="button">Track Live Status</button>
+</div>
+</div>
+</div>
+<!-- Tab Content 2: Past (Hidden by default) -->
+<div class="hidden flex-col gap-space-sm" id="booking-tab-past">
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs opacity-90">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-outline">#KPC-87114</span>
+<span class="bg-surface-container-highest text-on-surface px-2 py-0.5 rounded-full font-label-sm text-label-sm font-bold" data-i18n="status_completed">Completed</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Nandyal Sub-Mandi Hub</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">28 Sept 2025 • 09:00 AM</p>
+<p class="font-body-md text-body-md text-primary font-bold">Paddy Grade A • 48 Quintals • ₹1,04,640 Paid</p>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 13: FARMER PROFILE -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-13">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="profile_header">Farmer Profile</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="profile_sub">Government Registry &amp; Farm Records</p>
+</div>
+</div>
+<!-- Identity Badge -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex items-center gap-space-md">
+<div class="w-16 h-16 rounded-2xl bg-primary text-on-primary flex items-center justify-center flex-shrink-0 text-2xl font-bold">
+          RK
+        </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface truncate">Ramesh Kumar</h3>
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">+91 98765 43210</p>
+<span class="inline-block bg-primary-fixed text-on-primary-fixed text-[11px] font-bold px-2 py-0.5 rounded-full mt-1">ID: AP-KRN-2023-8812</span>
+</div>
+</div>
+<!-- Farm & Location Details -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<h4 class="font-label-md text-label-md font-bold text-primary mb-1" data-i18n="land_records_title">Registered Land Particulars</h4>
+<div class="flex items-center justify-between py-1.5 border-b-0">
+<span class="font-body-md text-body-md text-on-surface-variant" data-i18n="village_label">Village</span>
+<span class="font-label-md text-label-md font-bold">Panyam</span>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b-0">
+<span class="font-body-md text-body-md text-on-surface-variant" data-i18n="mandal_label">Mandal / Taluk</span>
+<span class="font-label-md text-label-md font-bold">Nandyal</span>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b-0">
+<span class="font-body-md text-body-md text-on-surface-variant" data-i18n="district_label">District</span>
+<span class="font-label-md text-label-md font-bold">Kurnool</span>
+</div>
+<div class="flex items-center justify-between py-1.5 border-b-0">
+<span class="font-body-md text-body-md text-on-surface-variant" data-i18n="state_label">State</span>
+<span class="font-label-md text-label-md font-bold">Andhra Pradesh</span>
+</div>
+<div class="flex items-center justify-between py-1.5">
+<span class="font-body-md text-body-md text-on-surface-variant" data-i18n="preferred_lang">Preferred Language</span>
+<span class="font-label-md text-label-md font-bold text-primary" id="profile-lang-display">English</span>
+</div>
+</div>
+<!-- Profile Actions -->
+<div class="flex flex-col gap-space-xs">
+<button class="w-full h-12 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center gap-2" onclick="alert(getTranslation('edit_feature_msg'))" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span data-i18n="edit_profile_btn" class="">Edit Profile Particulars</span>
+</button>
+<button class="w-full h-12 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center gap-2" onclick="navigateToScreen(2)" type="button">
+<span class="material-symbols-outlined text-[18px]">translate</span>
+<span data-i18n="change_language_btn" class="">Change Language</span>
+</button>
+<button class="w-full h-12 bg-error-container text-on-error-container rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 mt-2" onclick="navigateToScreen(3)" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span data-i18n="logout_btn" class="">Logout of Kisan Account</span>
+</button>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SCREEN 14: HELP & SUPPORT -->
+<!-- ========================================================================= -->
+<section class="kpc-screen hidden flex-col gap-space-md" id="screen-14">
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="navigateToScreen(5)" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface" data-i18n="help_support_header">Help &amp; Support</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" data-i18n="help_support_sub">24x7 Kisan Assistance &amp; Guidance</p>
+</div>
+</div>
+<!-- Emergency Helpline Card -->
+<div class="bg-secondary-container text-on-secondary p-space-md rounded-2xl shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[28px]">support_agent</span>
+<div>
+<h3 class="font-headline-md text-headline-md font-bold" data-i18n="toll_free_title">Official Mandi Toll-Free</h3>
+<p class="font-body-md text-body-md opacity-90" data-i18n="toll_free_hours">Free Call • 7 AM - 9 PM Everyday</p>
+</div>
+</div>
+<a class="w-full h-12 bg-on-secondary text-secondary-container rounded-xl font-headline-md text-headline-md font-bold flex items-center justify-center gap-2 mt-1 shadow-sm" href="tel:18001801551">
+<span class="material-symbols-outlined">call</span>
+<span class="">1800-180-1551</span>
+</a>
+</div>
+<!-- FAQs Accordions -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface mb-1" data-i18n="faq_title">Frequently Asked Questions</h4>
+<!-- FAQ 1 -->
+<details class="group border-b pb-2 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface flex items-center justify-between list-none">
+<span data-i18n="faq1_q" class="">How do I book a procurement slot?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2" data-i18n="faq1_a">Go to Dashboard, tap 'Book Slot', choose your nearest APMC mandi yard, pick date and time, and confirm.</p>
+</details>
+<!-- FAQ 2 -->
+<details class="group border-b pb-2 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface flex items-center justify-between list-none">
+<span data-i18n="faq2_q" class="">How does the digital queue work?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2" data-i18n="faq2_a">Once you arrive at the gate, your token is activated. Your live queue updates automatically showing how many tractors are ahead.</p>
+</details>
+<!-- FAQ 3 -->
+<details class="group pb-1 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface flex items-center justify-between list-none">
+<span data-i18n="faq3_q" class="">How to check payment and MSP status?</span>
+<span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2" data-i18n="faq3_a">Tap 'Procurement Status' or 'My Bookings' to view the weighing slip, moisture check result, and DBT bank account deposit status.</p>
+</details>
+</div>
+</section>
+</div>
+</div>
+<!-- CLIENT INTERACTION SCRIPT & MULTI-LINGUAL TRANSLATION ENGINE -->
+<script>
+  // Complete Dictionary for 14 Screens in EN, TE, HI
+  const translations = {
+    en: {
+      official_gov: "Govt. Verified",
+      app_title: "Kisan Procurement Connect",
+      app_tagline: "Smart Procurement • Less Waiting • Better Information",
+      get_started: "Get Started",
+      toll_free_desc: "Toll-Free Kisan Mitra:",
+      select_language_title: "Select Your Language",
+      select_language_sub: "మీ భాషను ఎంచుకోండి / अपनी भाषा चुनें",
+      continue_btn: "Continue",
+      gov_portal: "PM-AASHA MSP Portal",
+      login_title: "Farmer Login",
+      login_subtitle: "Enter your registered mobile number or Farmer ID",
+      mobile_label: "Mobile Number / Farmer ID",
+      password_label: "Password / OTP PIN",
+      forgot_password: "Forgot Password?",
+      login_btn: "Login to Portal",
+      new_farmer_register: "New Farmer? Register Now (నమోదు / नया पंजीकरण)",
+      need_help: "Need Help? Mandi Helpline:",
+      registration_title: "Farmer Registration",
+      reg_subtitle: "Enter farm and identity details",
+      farmer_name_label: "Farmer Full Name",
+      farmer_id_label: "Farmer ID / PM-KISAN",
+      confirm_password: "Confirm Password",
+      state_label: "State",
+      district_label: "District",
+      mandal_label: "Mandal / Taluk",
+      village_label: "Village",
+      create_account_btn: "Create Account",
+      back_to_login: "Already have an account? Back to Login",
+      verified_farmer: "Registered Farmer",
+      welcome_farmer: "Welcome, Ramesh Kumar",
+      dashboard_mandi_sub: "Kurnool APMC Central Procurement Centre",
+      upcoming_slot_title: "Your Active Slot: TODAY",
+      view_live_queue: "View Live Queue",
+      book_slot_card: "Book Procurement Slot",
+      book_slot_card_sub: "Paddy, Cotton, Maize",
+      my_queue_card: "My Queue",
+      my_queue_card_sub: "6 Farmers Ahead",
+      procurement_status_card: "Procurement Status",
+      status_card_sub: "Quality & Weighing",
+      schedule_card: "Procurement Schedule",
+      schedule_card_sub: "Mandi Center Dates",
+      my_bookings_title: "My Past Bookings & Receipts",
+      notifications_title: "Notifications & Alerts",
+      help_support_title: "Help & Toll-Free Support",
+      book_slot_title: "Book Procurement Slot",
+      book_slot_step_sub: "Step 1 to 3 • Easy Selection",
+      step1_centre: "Step 1: Select Mandi / Centre",
+      step2_date: "Step 2: Select Procurement Date",
+      step3_slot: "Step 3: Select Time Window",
+      avail_18: "18 Available",
+      avail_12: "12 Available (Optimal)",
+      avail_5: "5 Available (Filling Fast)",
+      slot_full: "Slot Full",
+      continue_review: "Continue to Confirmation",
+      confirmation_title: "Booking Confirmation",
+      confirmation_sub: "Verify and lock your appointment",
+      slot_reserved: "Slot Held for 10 Minutes",
+      ready_to_confirm: "Ready to Confirm Token",
+      bring_sms_advice: "Please bring Aadhaar card and land passbook to mandi",
+      scheduled_date: "Date",
+      scheduled_time: "Time Slot",
+      booking_id: "Booking Reference",
+      assigned_token: "Assigned Token",
+      confirm_booking_btn: "Confirm Booking",
+      go_back_btn: "Go Back & Change Slot",
+      live_queue_title: "Live Mandi Queue",
+      live_queue_sub: "Central APMC Mandi • Gate 2",
+      refresh_btn: "Refresh",
+      your_token_badge: "Your Assigned Number",
+      keep_tractor_ready: "Keep tractor / vehicle ready at Entry Gate 2",
+      now_serving: "Serving",
+      farmers_ahead: "Ahead",
+      est_wait: "Est. Wait",
+      queue_progress: "Queue Progress",
+      queue_live_label: "Live Connected with Mandi Weighbridge",
+      last_updated: "Last updated: Just now",
+      check_proc_status_btn: "Check Mandi Quality Stage",
+      procurement_status_title: "Procurement Status",
+      status_sub: "Lot ID #LOT-7821 • Paddy Grade A",
+      stage_slot_booked: "Slot Booked",
+      stage_farmer_arrived: "Farmer Arrived",
+      stage_token_gen: "Token Generated",
+      stage_in_progress: "Procurement In Progress",
+      stage_in_progress_desc: "Quality grading by Mandi Assayer underway",
+      stage_weighing: "Electronic Weighing",
+      stage_payment: "DBT Payment Processing",
+      schedule_header: "Procurement Schedule",
+      schedule_header_sub: "Kurnool District Centers Calendar",
+      badge_available: "Available",
+      badge_full: "Full",
+      book_now_btn: "Book",
+      notifications_header: "Notifications",
+      alerts_sub: "Mandi announcements & token updates",
+      mark_all_read: "Mark Read",
+      notif1_title: "Queue #24 Assigned",
+      notif1_body: "Your arrival at Gate 2 has been recorded. 6 farmers ahead of you.",
+      notif2_title: "Slot Confirmed Successfully",
+      notif2_body: "Procurement appointment confirmed for 12 Oct at Central Mandi.",
+      notif3_title: "Payment Disbursed",
+      notif3_body: "MSP Payment of ₹54,200 credited to Bank of Baroda a/c **4821.",
+      my_bookings_header: "My Bookings",
+      bookings_records_sub: "Upcoming and completed appointments",
+      tab_upcoming: "Upcoming (1)",
+      tab_past: "Past Completed (2)",
+      status_active: "Active Today",
+      status_completed: "Completed",
+      track_live: "Track Live Status",
+      profile_header: "Farmer Profile",
+      profile_sub: "Government Registry & Farm Records",
+      land_records_title: "Registered Land Particulars",
+      preferred_lang: "Preferred Language",
+      edit_profile_btn: "Edit Profile Particulars",
+      change_language_btn: "Change Language",
+      logout_btn: "Logout of Kisan Account",
+      help_support_header: "Help & Support",
+      help_support_sub: "24x7 Kisan Assistance & Guidance",
+      toll_free_title: "Official Mandi Toll-Free",
+      toll_free_hours: "Free Call • 7 AM - 9 PM Everyday",
+      faq_title: "Frequently Asked Questions",
+      faq1_q: "How do I book a procurement slot?",
+      faq1_a: "Go to Dashboard, tap 'Book Slot', choose your nearest APMC mandi yard, pick date and time, and confirm.",
+      faq2_q: "How does the digital queue work?",
+      faq2_a: "Once you arrive at the gate, your token is activated. Your live queue updates automatically showing how many tractors are ahead.",
+      faq3_q: "How to check payment and MSP status?",
+      faq3_a: "Tap 'Procurement Status' or 'My Bookings' to view the weighing slip, moisture check result, and DBT bank account deposit status.",
+      otp_sent_alert: "OTP sent to your registered mobile number.",
+      account_created_msg: "Account created successfully! Welcome to Kisan Procurement Connect.",
+      slot_confirmed_alert: "Slot Confirmed! Your token is Queue #24. SMS sent to your mobile.",
+      all_read_msg: "All notifications marked as read.",
+      edit_feature_msg: "Profile edit request submitted to Mandal Revenue Officer (MRO)."
+    },
+    te: {
+      official_gov: "ప్రభుత్వ గుర్తింపు",
+      app_title: "కిసాన్ ప్రొక్యూర్మెంట్ కనెక్ట్",
+      app_tagline: "స్మార్ట్ కొనుగోలు • వేచి ఉండడం తక్కువ • ఖచ్చితమైన సమాచారం",
+      get_started: "ప్రారంభించండి",
+      toll_free_desc: "ఉచిత కిసాన్ మిత్ర కాల్:",
+      select_language_title: "మీ భాషను ఎంచుకోండి",
+      select_language_sub: "మీకు అనుకూలమైన భాషలో సేవలు పొందండి",
+      continue_btn: "కొనసాగించండి",
+      gov_portal: "పీఎం-ఆశా మద్దతు ధర పోర్టల్",
+      login_title: "రైతు లాగిన్",
+      login_subtitle: "మీ నమోదిత మొబైల్ నంబర్ లేదా రైతు ఐడీ నమోదు చేయండి",
+      mobile_label: "మొబైల్ నంబర్ / రైతు ఐడీ",
+      password_label: "పాస్‌వర్డ్ / ఓటీపీ పిన్",
+      forgot_password: "పాస్‌వర్డ్ మర్చిపోయారా?",
+      login_btn: "లాగిన్ అవ్వండి",
+      new_farmer_register: "కొత్త రైతు? ఇప్పుడే నమోదు చేసుకోండి",
+      need_help: "సహాయం కావాలా? మార్కెట్ యార్డ్ హెల్ప్‌లైన్:",
+      registration_title: "రైతు నమోదు ఫారం",
+      reg_subtitle: "వ్యవసాయ మరియు వ్యక్తిగత వివరాలను నమోదు చేయండి",
+      farmer_name_label: "రైతు పూర్తి పేరు",
+      farmer_id_label: "రైతు ఐడీ / పీఎం-కిసాన్",
+      confirm_password: "పాస్‌వర్డ్ నిర్ధారించండి",
+      state_label: "రాష్ట్రం",
+      district_label: "జిల్లా",
+      mandal_label: "మండలం",
+      village_label: "గ్రామం",
+      create_account_btn: "ఖాతా సృష్టించండి",
+      back_to_login: "ఇప్పటికే ఖాతా ఉందా? లాగిన్‌కు వెళ్ళండి",
+      verified_farmer: "ధృవీకరించబడిన రైతు",
+      welcome_farmer: "రైతు మిత్రునికి స్వాగతం, రమేష్ కుమార్",
+      dashboard_mandi_sub: "కర్నూలు వ్యవసాయ మార్కెట్ కొనుగోలు కేంద్రం",
+      upcoming_slot_title: "మీ కొనుగోలు స్లాట్: ఈరోజు",
+      view_live_queue: "లైవ్ క్యూ చూడండి",
+      book_slot_card: "స్లాట్ బుక్ చేయండి",
+      book_slot_card_sub: "వరి, పత్తి, మొక్కజొన్న",
+      my_queue_card: "నా క్యూ వివరాలు",
+      my_queue_card_sub: "ముందు 6 గురు రైతులున్నారు",
+      procurement_status_card: "కొనుగోలు స్థితి",
+      status_card_sub: "నాణ్యత & తూకం వివరాలు",
+      schedule_card: "కేంద్రాల షెడ్యూల్",
+      schedule_card_sub: "మార్కెట్ కేంద్రాల తేదీలు",
+      my_bookings_title: "నా బుకింగ్స్ & రసీదులు",
+      notifications_title: "నోటిఫికేషన్లు & హెచ్చరికలు",
+      help_support_title: "హెల్ప్‌లైన్ & సహాయ కేంద్రం",
+      book_slot_title: "కొనుగోలు స్లాట్ బుకింగ్",
+      book_slot_step_sub: "1 నుండి 3 దశలు • సులభమైన ఎంపిక",
+      step1_centre: "దశ 1: కొనుగోలు కేంద్రాన్ని ఎంచుకోండి",
+      step2_date: "దశ 2: తేదిని ఎంచుకోండి",
+      step3_slot: "దశ 3: సమయాన్ని ఎంచుకోండి",
+      avail_18: "18 అందుబాటులో ఉన్నాయి",
+      avail_12: "12 అందుబాటులో ఉన్నాయి (సిఫార్సు)",
+      avail_5: "5 మాత్రమే మిగిలాయి",
+      slot_full: "స్లాట్ నిండిపోయింది",
+      continue_review: "వివరాల నిర్ధారణకు వెళ్లండి",
+      confirmation_title: "బుకింగ్ నిర్ధారణ",
+      confirmation_sub: "మీ వివరాలను సరిచూసి లాక్ చేయండి",
+      slot_reserved: "10 నిమిషాల వరకు స్లాట్ రిజర్వ్ చేయబడింది",
+      ready_to_confirm: "టోకెన్ నిర్ధారించడానికి సిద్ధంగా ఉంది",
+      bring_sms_advice: "దయచేసి ఆధార్ కార్డు, పట్టాదార్ పాస్ పుస్తకం తీసుకురండి",
+      scheduled_date: "తేది",
+      scheduled_time: "సమయం",
+      booking_id: "బుకింగ్ సంఖ్య",
+      assigned_token: "కేటాయించిన టోకెన్",
+      confirm_booking_btn: "స్లాట్ నిర్ధారించండి",
+      go_back_btn: "వెనక్కి వెళ్లి మార్చండి",
+      live_queue_title: "మార్కెట్ లైవ్ క్యూ",
+      live_queue_sub: "కర్నూలు మార్కెట్ యార్డ్ • గేట్ 2",
+      refresh_btn: "తాజాకరించు",
+      your_token_badge: "మీకు కేటాయించిన నంబర్",
+      keep_tractor_ready: "గేట్ 2 వద్ద ట్రాక్టర్ లేదా వాహనాన్ని సిద్ధంగా ఉంచండి",
+      now_serving: "ప్రస్తుత నంబర్",
+      farmers_ahead: "మీ కంటే ముందు",
+      est_wait: "వేచి ఉండే సమయం",
+      queue_progress: "క్యూ పురోగతి",
+      queue_live_label: "మార్కెట్ వేబ్రిడ్జ్‌తో అనుసంధానించబడింది",
+      last_updated: "చివరిగా తాజాకరించబడింది: ఇప్పుడే",
+      check_proc_status_btn: "నాణ్యత తనిఖీ స్థితి చూడండి",
+      procurement_status_title: "కొనుగోలు స్థితి పురోగతి",
+      status_sub: "లాట్ ఐడీ #LOT-7821 • వరి గ్రేడ్-A",
+      stage_slot_booked: "స్లాట్ బుక్ అయ్యింది",
+      stage_farmer_arrived: "రైతు యార్డుకు చేరుకున్నారు",
+      stage_token_gen: "టోకెన్ జారీ చేయబడింది",
+      stage_in_progress: "కొనుగోలు ప్రక్రియ జరుగుతోంది",
+      stage_in_progress_desc: "నాణ్యత పరిశీలకుల ద్వారా ధాన్యం పరీక్ష జరుగుతోంది",
+      stage_weighing: "ఎలక్ట్రానిక్ కాటా తూకం",
+      stage_payment: "డిబిటి ద్వారా ఖాతాలో నగదు జమ",
+      schedule_header: "కొనుగోలు కేంద్రాల షెడ్యూల్",
+      schedule_header_sub: "కర్నూలు జిల్లా కేంద్రాల వివరాలు",
+      badge_available: "అందుబాటులో ఉంది",
+      badge_full: "పూర్తయింది",
+      book_now_btn: "బుక్ చేయండి",
+      notifications_header: "నోటిఫికేషన్లు",
+      alerts_sub: "మార్కెట్ ప్రకటనలు & టోకెన్ సమాచారం",
+      mark_all_read: "చదివినట్లు గుర్తించు",
+      notif1_title: "క్యూ #24 కేటాయించబడింది",
+      notif1_body: "గేట్ 2 వద్ద మీ రాక నమోదైంది. మీ కంటే ముందు 6 గురు రైతులున్నారు.",
+      notif2_title: "స్లాట్ విజయవంతంగా బుక్ అయింది",
+      notif2_body: "అక్టోబర్ 12న కర్నూలు మార్కెట్ యార్డులో మీ సమయం ఖరారైంది.",
+      notif3_title: "నగదు జమ చేయబడింది",
+      notif3_body: "మద్దతు ధర ₹54,200 మీ బ్యాంక్ ఆఫ్ బరోడా ఖాతాకు జమ అయ్యింది.",
+      my_bookings_header: "నా బుకింగ్స్",
+      bookings_records_sub: "రాబోయే మరియు మునుపటి లావాదేవీలు",
+      tab_upcoming: "రాబోయేవి (1)",
+      tab_past: "గత కొనుగోళ్లు (2)",
+      status_active: "ఈరోజు చురుకుగా ఉంది",
+      status_completed: "పూర్తయింది",
+      track_live: "లైవ్ స్థితి చూడండి",
+      profile_header: "రైతు ప్రొఫైల్",
+      profile_sub: "ప్రభుత్వ రికార్డులు & భూ వివరాలు",
+      land_records_title: "నమోదిత భూమి వివరాలు",
+      preferred_lang: "ఎంచుకున్న భాష",
+      edit_profile_btn: "ప్రొఫైల్ వివరాలు సవరించండి",
+      change_language_btn: "భాష మార్చుకోండి",
+      logout_btn: "ఖాతా నుండి నిష్క్రమించండి",
+      help_support_header: "సహాయం & మద్దతు",
+      help_support_sub: "రైతులకు 24x7 ఉచిత సలహా సేవలు",
+      toll_free_title: "అధికారిక టోల్-ఫ్రీ హెల్ప్‌లైన్",
+      toll_free_hours: "ఉచిత కాల్ • ప్రతిరోజూ ఉదయం 7 నుండి రాత్రి 9 వరకు",
+      faq_title: "తరచుగా అడిగే ప్రశ్నలు",
+      faq1_q: "కొనుగోలు స్లాట్ ఎలా బుక్ చేసుకోవాలి?",
+      faq1_a: "హోమ్ పేజీలో 'స్లాట్ బుక్ చేయండి' పై నొక్కి, మీ సమీప మార్కెట్ యార్డ్, తేదీ మరియు సమయాన్ని ఎంచుకుని నిర్ధారించండి.",
+      faq2_q: "డిజిటల్ క్యూ ఎలా పనిచేస్తుంది?",
+      faq2_a: "మీరు గేట్ వద్దకు రాగానే టోకెన్ ప్రారంభమవుతుంది. మీ కంటే ముందు ఎంతమంది ఉన్నారో స్క్రీన్ పై లైవ్‌గా చూడవచ్చు.",
+      faq3_q: "ధాన్యం నాణ్యత మరియు నగదు జమ స్థితిని ఎలా చూడాలి?",
+      faq3_a: "'కొనుగోలు స్థితి' నొక్కి తూకం వివరాలు, తేమ శాతం మరియు బ్యాంకు జమ వివరాలు ప్రత్యక్షంగా తెలుసుకోవచ్చు.",
+      otp_sent_alert: "మీ నమోదిత ఫోన్ నంబర్‌కు ఓటీపీ పంపబడింది.",
+      account_created_msg: "ఖాతా విజయవంతంగా సృష్టించబడింది! కిసాన్ పోర్టల్‌కు స్వాగతం.",
+      slot_confirmed_alert: "స్లాట్ ఖరారైంది! మీ క్యూ టోకెన్ నంబర్ #24.",
+      all_read_msg: "అన్ని సందేశాలు చదివినట్లుగా గుర్తించబడ్డాయి.",
+      edit_feature_msg: "ప్రొఫైల్ మార్పుల అభ్యర్థన మండల రెవెన్యూ అధికారికి పంపబడింది."
+    },
+    hi: {
+      official_gov: "सरकारी सत्यापित",
+      app_title: "किसान प्रोक्योरमेंट कनेक्ट",
+      app_tagline: "स्मार्ट खरीद • कम प्रतीक्षा • सटीक जानकारी",
+      get_started: "शुरू करें",
+      toll_free_desc: "टोल-फ्री किसान मित्र कॉल:",
+      select_language_title: "अपनी भाषा चुनें",
+      select_language_sub: "Select Your Language / మీ భాషను ఎంచుకోండి",
+      continue_btn: "आगे बढ़ें",
+      gov_portal: "पीएम-आशा न्यूनतम समर्थन मूल्य पोर्टल",
+      login_title: "किसान लॉगिन",
+      login_subtitle: "अपना पंजीकृत मोबाइल नंबर या किसान आईडी दर्ज करें",
+      mobile_label: "मोबाइल नंबर / किसान आईडी",
+      password_label: "पासवर्ड / ओटीपी पिन",
+      forgot_password: "पासवर्ड भूल गए?",
+      login_btn: "पोर्टल में लॉगिन करें",
+      new_farmer_register: "नए किसान? अभी पंजीकरण करें",
+      need_help: "मदद चाहिए? मंडी हेल्पलाइन:",
+      registration_title: "किसान पंजीकरण फॉर्म",
+      reg_subtitle: "कृषि भूमि एवं व्यक्तिगत विवरण दर्ज करें",
+      farmer_name_label: "किसान का पूरा नाम",
+      farmer_id_label: "किसान आईडी / पीएम-किसान",
+      confirm_password: "पासवर्ड की पुष्टि करें",
+      state_label: "राज्य",
+      district_label: "जिला",
+      mandal_label: "तहसील / मंडल",
+      village_label: "गाँव",
+      create_account_btn: "खाता बनाएं",
+      back_to_login: "पहले से खाता है? लॉगिन पर जाएं",
+      verified_farmer: "पंजीकृत किसान",
+      welcome_farmer: "किसान भाई का स्वागत है, रमेश कुमार",
+      dashboard_mandi_sub: "कुरनूल एपीएमसी केंद्रीय खरीद मंडी",
+      upcoming_slot_title: "आपका सक्रिय स्लॉट: आज",
+      view_live_queue: "लाइव कतार देखें",
+      book_slot_card: "खरीद स्लॉट बुक करें",
+      book_slot_card_sub: "धान, कपास, मक्का",
+      my_queue_card: "मेरी कतार स्थिति",
+      my_queue_card_sub: "आगे 6 किसान प्रतीक्षारत हैं",
+      procurement_status_card: "खरीद की स्थिति",
+      status_card_sub: "गुणवत्ता जाँच और तौल",
+      schedule_card: "मंडी खरीद कार्यक्रम",
+      schedule_card_sub: "मंडी केंद्र की तिथियां",
+      my_bookings_title: "मेरी बुकिंग और पर्चियां",
+      notifications_title: "सूचनाएं और अलर्ट",
+      help_support_title: "सहायता एवं हेल्पलाइन",
+      book_slot_title: "खरीद स्लॉट बुकिंग",
+      book_slot_step_sub: "चरण 1 से 3 • आसान स्लॉट चयन",
+      step1_centre: "चरण 1: मंडी / केंद्र चुनें",
+      step2_date: "चरण 2: खरीद की तारीख चुनें",
+      step3_slot: "चरण 3: समय का चयन करें",
+      avail_18: "18 स्लॉट उपलब्ध",
+      avail_12: "12 स्लॉट उपलब्ध (उत्तम)",
+      avail_5: "5 शेष (शीघ्र भर रहे हैं)",
+      slot_full: "स्लॉट पूर्ण",
+      continue_review: "विवरण की पुष्टि करें",
+      confirmation_title: "बुकिंग की पुष्टि",
+      confirmation_sub: "अपने विवरण की जाँच करें और टोकन सुरक्षित करें",
+      slot_reserved: "10 मिनट के लिए स्लॉट आरक्षित है",
+      ready_to_confirm: "टोकन पुष्टि के लिए तैयार है",
+      bring_sms_advice: "कृपया मंडी आते समय आधार कार्ड व खतौनी पासबुक साथ लाएं",
+      scheduled_date: "दिनांक",
+      scheduled_time: "समय",
+      booking_id: "बुकिंग संदर्भ",
+      assigned_token: "आवंटित टोकन",
+      confirm_booking_btn: "स्लॉट पक्का करें",
+      go_back_btn: "वापस जाएं और बदलें",
+      live_queue_title: "लाइव मंडी कतार",
+      live_queue_sub: "केंद्रीय एपीएमसी मंडी • गेट 2",
+      refresh_btn: "ताज़ा करें",
+      your_token_badge: "आपका आवंटित नंबर",
+      keep_tractor_ready: "गेट नंबर 2 पर अपना वाहन तैयार रखें",
+      now_serving: "वर्तमान नंबर",
+      farmers_ahead: "आपके आगे",
+      est_wait: "अनुमानित समय",
+      queue_progress: "कतार प्रगति",
+      queue_live_label: "मंडी धर्मकांटा / वेईब्रिज से सीधे जुड़ा हुआ",
+      last_updated: "अंतिम अपडेट: अभी-अभी",
+      check_proc_status_btn: "गुणवत्ता जाँच स्थिति देखें",
+      procurement_status_title: "खरीद प्रगति स्थिति",
+      status_sub: "लॉट आईडी #LOT-7821 • धान ग्रेड-ए",
+      stage_slot_booked: "स्लॉट बुक हुआ",
+      stage_farmer_arrived: "किसान मंडी पहुंचे",
+      stage_token_gen: "टोकन जारी किया गया",
+      stage_in_progress: "खरीद प्रक्रिया चालू है",
+      stage_in_progress_desc: "मंडी परखकर्ता द्वारा धान की गुणवत्ता जांच जारी है",
+      stage_weighing: "इलेक्ट्रॉनिक कांटा तौल",
+      stage_payment: "डीबीटी बैंक खाता भुगतान",
+      schedule_header: "मंडी खरीद कार्यक्रम",
+      schedule_header_sub: "कुरनूल जिले के खरीद केंद्रों की सूची",
+      badge_available: "उपलब्ध",
+      badge_full: "पूर्ण",
+      book_now_btn: "बुक करें",
+      notifications_header: "सूचनाएं",
+      alerts_sub: "मंडी घोषणाएं और टोकन अपडेट",
+      mark_all_read: "पढ़ा हुआ मार्क करें",
+      notif1_title: "कतार #24 आवंटित किया गया",
+      notif1_body: "गेट नंबर 2 पर आपकी आमद दर्ज हो चुकी है। आगे 6 किसान हैं।",
+      notif2_title: "स्लॉट सफलतापूर्वक बुक हुआ",
+      notif2_body: "12 अक्टूबर को केंद्रीय मंडी में आपका समय सुनिश्चित हो गया है।",
+      notif3_title: "एमएसपी भुगतान जारी",
+      notif3_body: "₹54,200 की राशि आपके बैंक ऑफ़ बड़ौदा खाते में जमा कर दी गई है।",
+      my_bookings_header: "मेरी बुकिंग्स",
+      bookings_records_sub: "आगामी और पूर्ण हो चुकी नियुक्तियां",
+      tab_upcoming: "आगामी (1)",
+      tab_past: "पिछली खरीद (2)",
+      status_active: "आज सक्रिय",
+      status_completed: "पूर्ण",
+      track_live: "लाइव स्थिति ट्रैक करें",
+      profile_header: "किसान प्रोफ़ाइल",
+      profile_sub: "सरकारी पंजीयन और भूमि अभिलेख",
+      land_records_title: "पंजीकृत भूमि विवरण",
+      preferred_lang: "पसंदीदा भाषा",
+      edit_profile_btn: "प्रोफ़ाइल विवरण संपादित करें",
+      change_language_btn: "भाषा बदलें",
+      logout_btn: "खाते से लॉगआउट करें",
+      help_support_header: "सहायता एवं समर्थन",
+      help_support_sub: "24x7 किसान हेल्पलाइन और मार्गदर्शन",
+      toll_free_title: "आधिकारिक मंडी टोल-फ्री",
+      toll_free_hours: "निःशुल्क कॉल • प्रतिदिन सुबह 7 से रात 9 बजे तक",
+      faq_title: "अक्सर पूछे जाने वाले प्रश्न (FAQ)",
+      faq1_q: "खरीद स्लॉट कैसे बुक करें?",
+      faq1_a: "डैशबोर्ड पर 'स्लॉट बुक करें' पर जाएं, निकटतम मंडी केंद्र, तारीख और समय का चयन करके पुष्टि करें।",
+      faq2_q: "डिजिटल कतार प्रणाली कैसे काम करती है?",
+      faq2_a: "मंडी गेट पर प्रवेश करते ही आपका टोकन सक्रिय हो जाता है और स्क्रीन पर दिखता है कि आगे कितने ट्रैक्टर हैं।",
+      faq3_q: "गुणवत्ता जाँच और भुगतान कैसे देखें?",
+      faq3_a: "'खरीद स्थिति' या 'मेरी बुकिंग्स' में जाकर नमी की मात्रा, तौल पर्ची और बैंक खाते में जमा राशि देख सकते हैं।",
+      otp_sent_alert: "आपके पंजीकृत मोबाइल नंबर पर ओटीपी भेज दिया गया है।",
+      account_created_msg: "खाता सफलतापूर्वक बन गया! किसान कनेक्ट पोर्टल में आपका स्वागत है।",
+      slot_confirmed_alert: "स्लॉट पक्का हो गया! आपका टोकन नंबर #24 है। एसएमएस भेज दिया गया है।",
+      all_read_msg: "सभी सूचनाएं पढ़ी हुई चिह्नित कर दी गई हैं।",
+      edit_feature_msg: "विवरण सुधार अनुरोध संबंधित राजस्व अधिकारी (तहसीलदार) को भेजा गया है।"
+    }
+  };
+
+  let currentLang = 'en';
+  let tempSelectedLang = 'en';
+
+  function getTranslation(key) {
+    if (translations[currentLang] && translations[currentLang][key]) {
+      return translations[currentLang][key];
+    }
+    return translations['en'][key] || key;
+  }
+
+  function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const text = getTranslation(key);
+      if (text) {
+        el.textContent = text;
+      }
+    });
+
+    // Update Language Pills UI
+    document.querySelectorAll('.lang-pill').forEach(btn => {
+      const lang = btn.getAttribute('data-lang');
+      if (lang === currentLang) {
+        btn.classList.add('bg-primary', 'text-on-primary', 'shadow-xs');
+        btn.classList.remove('text-on-surface-variant');
+      } else {
+        btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-xs');
+        btn.classList.add('text-on-surface-variant');
+      }
+    });
+
+    // Update profile display
+    const profileLangEl = document.getElementById('profile-lang-display');
+    if (profileLangEl) {
+      profileLangEl.textContent = currentLang === 'te' ? 'తెలుగు (Telugu)' : (currentLang === 'hi' ? 'हिंदी (Hindi)' : 'English');
+    }
+  }
+
+  function setAppLanguage(lang) {
+    currentLang = lang;
+    tempSelectedLang = lang;
+    highlightLanguageCard(lang);
+    applyTranslations();
+  }
+
+  function selectLanguageCard(lang) {
+    tempSelectedLang = lang;
+    highlightLanguageCard(lang);
+  }
+
+  function highlightLanguageCard(lang) {
+    ['en', 'te', 'hi'].forEach(l => {
+      const card = document.getElementById(`lang-card-${l}`);
+      if (!card) return;
+      const dot = card.querySelector('.dot');
+      const indicator = card.querySelector('.radio-indicator');
+      if (l === lang) {
+        card.classList.add('bg-primary-fixed', 'shadow-sm');
+        card.classList.remove('bg-surface-container-lowest');
+        if (dot) dot.classList.replace('bg-transparent', 'bg-primary');
+        if (indicator) indicator.classList.replace('bg-surface-container-highest', 'bg-surface-container-lowest');
+      } else {
+        card.classList.remove('bg-primary-fixed');
+        card.classList.add('bg-surface-container-lowest');
+        if (dot) dot.classList.replace('bg-primary', 'bg-transparent');
+        if (indicator) indicator.classList.replace('bg-surface-container-lowest', 'bg-surface-container-highest');
+      }
+    });
+  }
+
+  function confirmLanguageSelection() {
+    setAppLanguage(tempSelectedLang);
+    navigateToScreen(3);
+  }
+
+  function navigateToScreen(screenNum) {
+    const screens = document.querySelectorAll('.kpc-screen');
+    screens.forEach(s => s.classList.add('hidden'));
+
+    const target = document.getElementById(`screen-${screenNum}`);
+    if (target) {
+      target.classList.remove('hidden');
+    }
+
+    const selector = document.getElementById('screen-selector');
+    if (selector) {
+      selector.value = String(screenNum);
+    }
+
+    // Scroll gracefully to top of content
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function refreshQueueEffect() {
+    const updatedEl = document.getElementById('queue-last-updated');
+    if (updatedEl) {
+      updatedEl.textContent = currentLang === 'te' ? 'ఇప్పుడే తాజాకరించబడింది!' : (currentLang === 'hi' ? 'अभी-अभी अपडेट हुआ!' : 'Updated just now!');
+      updatedEl.classList.add('text-primary', 'font-bold');
+      setTimeout(() => {
+        updatedEl.textContent = getTranslation('last_updated');
+        updatedEl.classList.remove('text-primary', 'font-bold');
+      }, 2500);
+    }
+  }
+
+  function switchBookingTab(tab) {
+    const upEl = document.getElementById('booking-tab-upcoming');
+    const pastEl = document.getElementById('booking-tab-past');
+    const upBtn = document.getElementById('tab-upcoming-btn');
+    const pastBtn = document.getElementById('tab-past-btn');
+
+    if (tab === 'upcoming') {
+      upEl.classList.remove('hidden');
+      pastEl.classList.add('hidden');
+      upBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      upBtn.classList.remove('text-on-surface-variant');
+      pastBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      pastBtn.classList.add('text-on-surface-variant');
+    } else {
+      upEl.classList.add('hidden');
+      pastEl.classList.remove('hidden');
+      pastBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      pastBtn.classList.remove('text-on-surface-variant');
+      upBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      upBtn.classList.add('text-on-surface-variant');
+    }
+  }
+
+  // Bind Bottom Shell Navigation to Screens
+  document.addEventListener('DOMContentLoaded', () => {
+    setAppLanguage('en');
+
+    // Wire global bottom navigation links to prototype screens
+    const navLinks = document.querySelectorAll('nav a[data-path]');
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const path = link.getAttribute('data-path');
+        if (path === 'dashboard' || path === 'home') navigateToScreen(5);
+        else if (path === 'book-slot') navigateToScreen(6);
+        else if (path === 'my-queue') navigateToScreen(8);
+        else if (path === 'status') navigateToScreen(9);
+        else if (path === 'profile') navigateToScreen(13);
+      });
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_10px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-20 px-space-2xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 transition-colors text-primary font-bold" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm mt-0.5">Home</span></a><a class="flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="book-slot" href="#"><span class="material-symbols-outlined text-[24px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">Book Slot</span></a><a class="flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="my-queue" href="#"><span class="material-symbols-outlined text-[24px]">pin_drop</span><span class="font-label-sm text-label-sm mt-0.5">My Queue</span></a><a class="flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="status" href="#"><span class="material-symbols-outlined text-[24px]">fact_check</span><span class="font-label-sm text-label-sm mt-0.5">Status</span></a><a class="flex flex-col items-center justify-center min-w-[60px] min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[24px]">badge</span><span class="font-label-sm text-label-sm mt-0.5">Profile</span></a></div></nav>
+
+
+
+</body></html>
