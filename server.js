@@ -61,7 +61,6 @@ app.post('/api/auth/login', (req, res) => {
   }
 });
 
-// Admin Private Login Endpoint
 app.post('/api/auth/admin-login', (req, res) => {
   const { passcode } = req.body;
   if (!passcode) return res.status(400).json({ error: 'Passcode required' });
@@ -228,8 +227,25 @@ app.get('/api/queue/live/:centre_id', (req, res) => {
 });
 
 // ==========================================
-// 4. PRIVATE ADMIN & MANDI OPERATIONS APIS (PROTECTED BY requireAdminAuth)
+// 4. PRIVATE ADMIN OPERATIONS & TOKEN REVOCATION APIS
 // ==========================================
+
+// Revoke Timed-Out / Expired Token Endpoint
+app.post('/api/admin/token/revoke', requireAdminAuth, (req, res) => {
+  const { booking_id, reason } = req.body;
+
+  const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
+  if (!booking) return res.status(404).json({ error: 'Booking not found' });
+
+  db.prepare("UPDATE bookings SET status = 'EXPIRED_REVOKED' WHERE id = ?").run(booking.id);
+  db.prepare("UPDATE slots SET booked_count = MAX(0, booked_count - 1) WHERE id = ?").run(booking.slot_id);
+
+  res.json({
+    success: true,
+    message: `Token ${booking.token_number} (${booking.id}) has been REVOKED. Reason: ${reason || 'Time-out / No-show'}`,
+    booking_id: booking.id
+  });
+});
 
 app.post('/api/admin/gate/scan', requireAdminAuth, (req, res) => {
   const { booking_id } = req.body;
@@ -336,7 +352,10 @@ app.post('/api/admin/payment/approve', requireAdminAuth, (req, res) => {
     mspRate,
     totalAmount,
     bankRef,
-    message: `Payment of ₹${totalAmount.toLocaleString('en-IN')} authorized & PFMS/DBT transfer initiated: ${bankRef}`
+    payer: 'Government MSP Procurement Fund (Dept of Agri)',
+    payee: booking.farmer_name,
+    payee_phone: booking.farmer_phone,
+    message: `Payment of ₹${totalAmount.toLocaleString('en-IN')} authorized & PFMS/DBT transfer credited to Farmer ${booking.farmer_name}`
   });
 });
 
