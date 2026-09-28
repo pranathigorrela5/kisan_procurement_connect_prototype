@@ -38,7 +38,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-3 overflow-x-auto py-2">
       <button onclick="switchAdminTab('slots')" id="tab-btn-slots" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow">
         <span class="material-symbols-outlined text-base">calendar_clock</span>
-        <span>📅 Slot Config & Arrival Roster</span>
+        <span>📅 Slot Config & Roster</span>
+      </button>
+      <button onclick="switchAdminTab('analytics')" id="tab-btn-analytics" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined text-base">monitoring</span>
+        <span>📊 Monitoring & Analytics</span>
       </button>
       <button onclick="switchAdminTab('gate')" id="tab-btn-gate" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
         <span class="material-symbols-outlined text-base">qr_code_scanner</span>
@@ -54,17 +58,16 @@
       </button>
       <button onclick="switchAdminTab('payment')" id="tab-btn-payment" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
         <span class="material-symbols-outlined text-base">account_balance</span>
-        <span>4. Accounts & DBT</span>
+        <span>4. Accounts & PFMS</span>
       </button>
     </div>
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <!-- TAB 0: SLOT MANAGEMENT & DAILY ARRIVAL ROSTER (NEW) -->
+    <!-- TAB 0: SLOT MANAGEMENT & DAILY ARRIVAL ROSTER -->
     <div id="admin-tab-slots" class="admin-pane space-y-6">
       
-      <!-- Summary Bar & Controls -->
       <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Mandi Master Schedule</span>
@@ -84,7 +87,6 @@
         </div>
       </div>
 
-      <!-- Stats Metric Badges -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
           <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
@@ -117,7 +119,6 @@
         </div>
       </div>
 
-      <!-- Slot Time Windows Grid -->
       <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
@@ -125,7 +126,6 @@
             <span>Time Window Quotas & Scheduled Arrivals</span>
           </h3>
 
-          <!-- Modal Trigger to Add Custom Slot -->
           <button onclick="toggleNewSlotModal(true)" class="bg-[#004c22] hover:bg-emerald-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1 shadow">
             <span class="material-symbols-outlined text-sm">add_circle</span>
             <span>Add Custom Slot Window</span>
@@ -133,11 +133,10 @@
         </div>
 
         <div id="slots-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Dynamically filled with slot cards -->
+          <!-- Dynamically filled -->
         </div>
       </div>
 
-      <!-- Complete Expected Arrival Manifest Table -->
       <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-4">
           <div>
@@ -167,6 +166,55 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- TAB: MONITORING & ANALYTICS DASHBOARD (NEW) -->
+    <div id="admin-tab-analytics" class="admin-pane hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Department Executive Dashboard</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1">Monitoring & Analytics Overview</h2>
+            <p class="text-xs text-slate-500">Live centre load, staffing allocation, market trends, and system insights</p>
+          </div>
+          <button onclick="loadMonitoringAnalytics()" class="text-xs font-semibold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg">Refresh Analytics</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+            <span class="text-xs text-slate-500 uppercase font-semibold">Live Centre Load</span>
+            <p id="analytics-load" class="text-3xl font-extrabold text-blue-900 mt-1">...</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+            <span class="text-xs text-slate-500 uppercase font-semibold">Staffing Recommendation</span>
+            <p id="analytics-staffing" class="text-sm font-bold text-emerald-800 mt-2">...</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+            <span class="text-xs text-slate-500 uppercase font-semibold">Procurement Volume</span>
+            <p id="analytics-volume" class="text-3xl font-extrabold text-emerald-700 mt-1">...</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+            <span class="text-xs text-slate-500 uppercase font-semibold">Total PFMS Payout</span>
+            <p id="analytics-payout" class="text-3xl font-extrabold text-amber-700 mt-1">...</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-900 mb-3">Crop Breakdown & Market Trends</h3>
+            <div id="analytics-crop-list" class="space-y-2 text-xs">
+              <!-- Dynamically filled -->
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-900 mb-3">Centre Load & Active Staffing</h3>
+            <div id="analytics-staff-list" class="space-y-2 text-xs">
+              <!-- Dynamically filled -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- TAB 1: GATEKEEPER SCANNER MODULE -->
@@ -308,7 +356,7 @@
       <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Direct Benefit Transfer (DBT) Payment Approval</h2>
+            <h2 class="text-xl font-bold text-slate-900">PFMS Direct Benefit Transfer (DBT) Payment Approval</h2>
             <p class="text-xs text-slate-500">Weighed batches ready for financial authorization & MSP payment transfer</p>
           </div>
           <button onclick="loadPendingPaymentQueue()" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">Refresh List</button>
@@ -351,7 +399,6 @@
   <script>
     let masterManifestData = [];
 
-    // Set today's date in date picker on load
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('slot-date-picker').value = new Date().toISOString().split('T')[0];
       loadAdminSlotSchedule();
@@ -369,23 +416,52 @@
       activeBtn.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
 
       if (tabName === 'slots') loadAdminSlotSchedule();
+      if (tabName === 'analytics') loadMonitoringAnalytics();
       if (tabName === 'quality') loadPendingQualityQueue();
       if (tabName === 'weighbridge') loadPendingWeighbridgeQueue();
       if (tabName === 'payment') loadPendingPaymentQueue();
     }
 
-    // TAB 0: Slot Schedule & Manifest Loader
+    async function loadMonitoringAnalytics() {
+      const res = await fetch('/api/admin/analytics');
+      const data = await res.json();
+
+      document.getElementById('analytics-load').textContent = `${data.summary.arrived_count} Active`;
+      document.getElementById('analytics-staffing').textContent = data.staffing_needs.recommended_extra_staff;
+      document.getElementById('analytics-volume').textContent = `${data.summary.total_procured_quintals} QTL`;
+      document.getElementById('analytics-payout').textContent = `₹${data.summary.total_disbursed_inr.toLocaleString('en-IN')}`;
+
+      const cropList = document.getElementById('analytics-crop-list');
+      cropList.innerHTML = data.crop_analytics.map(c => `
+        <div class="flex justify-between p-2.5 rounded-xl bg-white border border-slate-200">
+          <span class="font-bold text-slate-800">${c.crop_name}</span>
+          <span class="font-bold text-emerald-800">${c.est_quintals} QTL (${c.bookings_count} bookings)</span>
+        </div>
+      `).join('');
+
+      const staffList = document.getElementById('analytics-staff-list');
+      staffList.innerHTML = `
+        <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between">
+          <span>Gatekeeper Stations</span> <strong class="text-blue-900">${data.staffing_needs.gatekeepers_active} Active</strong>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between">
+          <span>Quality Inspectors</span> <strong class="text-blue-900">${data.staffing_needs.quality_inspectors_active} Active</strong>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between">
+          <span>Weighbridge Stations</span> <strong class="text-blue-900">${data.staffing_needs.weighbridge_operators_active} Active</strong>
+        </div>
+      `;
+    }
+
     async function loadAdminSlotSchedule() {
       const date = document.getElementById('slot-date-picker').value || new Date().toISOString().split('T')[0];
       const res = await fetch(`/api/admin/slots/manage?centre_id=1&date=${date}`);
       const data = await res.json();
 
-      // Render summary stats
       document.getElementById('roster-stat-farmers').textContent = `${data.summary.total_expected_farmers} Farmers`;
       document.getElementById('roster-stat-quintals').textContent = `${data.summary.total_estimated_quintals} Quintals`;
       document.getElementById('roster-stat-slots').textContent = `${data.summary.total_slots} Windows`;
 
-      // Render slot cards grid
       const gridContainer = document.getElementById('slots-grid-container');
       gridContainer.innerHTML = data.slots.map(s => `
         <div class="p-4 rounded-2xl border ${s.booked_count > 0 ? 'border-amber-300 bg-amber-50/50' : 'border-slate-200 bg-slate-50'}">
@@ -400,7 +476,6 @@
         </div>
       `).join('');
 
-      // Render manifest table
       masterManifestData = data.manifest;
       renderManifestTable(masterManifestData);
     }
@@ -645,7 +720,7 @@
                 <span class="text-xl font-bold text-emerald-800">₹${totalAmount.toLocaleString('en-IN')}</span>
               </div>
               <button onclick="approvePayment('${b.id}')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow">
-                Authorize DBT Payment &rarr;
+                Authorize PFMS DBT Payment &rarr;
               </button>
             </div>
           </div>
@@ -654,7 +729,7 @@
     }
 
     async function approvePayment(booking_id) {
-      if (!confirm(`Authorize DBT Payment for ${booking_id}?`)) return;
+      if (!confirm(`Authorize PFMS Direct Benefit Transfer Payment for ${booking_id}?`)) return;
 
       const res = await fetch('/api/admin/payment/approve', {
         method: 'POST',

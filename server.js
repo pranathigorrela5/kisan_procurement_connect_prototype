@@ -10,11 +10,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Also serve static frontend prototype files
+// Serve static frontend prototype files
 app.use('/prototype', express.static(path.join(__dirname, 'kisan_procurement_connect_prototype/stitch_kisan_procurement_connect_prototype')));
 
+// Add KYC columns to users table if missing
+try {
+  db.exec('ALTER TABLE users ADD COLUMN aadhaar TEXT;');
+  db.exec('ALTER TABLE users ADD COLUMN land_record_id TEXT;');
+  db.exec('ALTER TABLE users ADD COLUMN bank_ifsc TEXT;');
+} catch (e) {}
+
 // ==========================================
-// 1. AUTHENTICATION & USER APIS
+// 1. AUTHENTICATION & FARMER KYC REGISTRATION
 // ==========================================
 
 app.post('/api/auth/login', (req, res) => {
@@ -32,6 +39,37 @@ app.post('/api/auth/login', (req, res) => {
     const result = insertStmt.run(`Farmer (${phone.slice(-4)})`, phone, 'FARMER', 'Guntur', 'Andhra Pradesh');
     const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
     return res.json({ success: true, user: newUser, created: true });
+  }
+});
+
+// Farmer Registration & Aadhaar/Land KYC
+app.post('/api/auth/register-kyc', (req, res) => {
+  const { name, phone, aadhaar, land_record_id, district, state, bank_account, bank_ifsc } = req.body;
+
+  if (!name || !phone || !aadhaar || !land_record_id) {
+    return res.status(400).json({ error: 'Name, Phone, Aadhaar number, and Land Record ID are required' });
+  }
+
+  // Check if farmer already exists
+  const existing = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone);
+
+  if (existing) {
+    db.prepare(`
+      UPDATE users 
+      SET name = ?, aadhaar = ?, land_record_id = ?, district = ?, state = ?, bank_account_no = ?, bank_ifsc = ?
+      WHERE phone = ?
+    `).run(name, aadhaar, land_record_id, district || 'Guntur', state || 'Andhra Pradesh', bank_account || '', bank_ifsc || '', phone);
+
+    const updated = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone);
+    return res.json({ success: true, user: updated, message: 'Farmer KYC verification updated successfully!' });
+  } else {
+    const insertStmt = db.prepare(`
+      INSERT INTO users (name, phone, role, district, state, aadhaar, land_record_id, bank_account_no, bank_ifsc)
+      VALUES (?, ?, 'FARMER', ?, ?, ?, ?, ?, ?)
+    `);
+    const result = insertStmt.run(name, phone, district || 'Guntur', state || 'Andhra Pradesh', aadhaar, land_record_id, bank_account || '', bank_ifsc || '');
+    const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
+    return res.status(201).json({ success: true, user: newUser, message: 'Aadhaar & Land Records Verified! Registration complete.' });
   }
 });
 
@@ -57,7 +95,6 @@ app.get('/api/slots', (req, res) => {
   const stmt = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ?');
   let slots = stmt.all(targetCentre, targetDate);
 
-  // Default fallback slots if none created for date
   if (slots.length === 0) {
     const defaultWindows = [
       '08:00 AM - 10:00 AM',
@@ -93,7 +130,6 @@ app.post('/api/bookings', (req, res) => {
     return res.status(404).json({ error: 'Invalid reference data for booking' });
   }
 
-  // Generate Booking ID and Token Number
   const randomNum = Math.floor(1000 + Math.random() * 9000);
   const bookingId = `BK-${randomNum}`;
   const tokenNum = `Q-${Math.floor(100 + Math.random() * 900)}`;
@@ -112,7 +148,6 @@ app.post('/api/bookings', (req, res) => {
     parseFloat(estimated_qtl), tokenNum
   );
 
-  // Increment slot booked count
   db.prepare('UPDATE slots SET booked_count = booked_count + 1 WHERE id = ?').run(slot.id);
 
   const newBooking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(bookingId);
@@ -160,7 +195,6 @@ app.get('/api/queue/live/:centre_id', (req, res) => {
 // 4. ADMIN & MANDI OPERATIONS APIS
 // ==========================================
 
-// Gatekeeper Arrival Scan
 app.post('/api/admin/gate/scan', (req, res) => {
   const { booking_id } = req.body;
   const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
@@ -174,7 +208,6 @@ app.post('/api/admin/gate/scan', (req, res) => {
   res.json({ success: true, message: `Farmer ${booking.farmer_name} checked in successfully!`, booking: updated });
 });
 
-// Quality Inspection Queue & Submit
 app.get('/api/admin/queue/pending-quality', (req, res) => {
   const stmt = db.prepare("SELECT * FROM bookings WHERE status = 'ARRIVED' ORDER BY arrived_at ASC");
   res.json(stmt.all());
@@ -201,7 +234,6 @@ app.post('/api/admin/quality/submit', (req, res) => {
   res.json({ success: true, status, bookingStatus, message: `Quality inspection recorded: ${status}` });
 });
 
-// Weighbridge Queue & Submit
 app.get('/api/admin/queue/pending-weighment', (req, res) => {
   const stmt = db.prepare("SELECT * FROM bookings WHERE status = 'QUALITY_PASSED' ORDER BY quality_checked_at ASC");
   res.json(stmt.all());
@@ -229,7 +261,6 @@ app.post('/api/admin/weighbridge/submit', (req, res) => {
   res.json({ success: true, netKg, netQtl, message: `Weighbridge recorded: ${netQtl} Quintals net weight` });
 });
 
-// Accounts & Payment Queue & Submit
 app.get('/api/admin/queue/pending-payment', (req, res) => {
   const stmt = db.prepare(`
     SELECT b.*, w.net_weight_qtl 
@@ -253,7 +284,7 @@ app.post('/api/admin/payment/approve', (req, res) => {
   const totalQtl = weighment.net_weight_qtl;
   const mspRate = booking.msp_rate;
   const totalAmount = totalQtl * mspRate;
-  const bankRef = `DBT-2026-${Math.floor(1000000 + Math.random() * 9000000)}`;
+  const bankRef = `PFMS-DBT-2026-${Math.floor(1000000 + Math.random() * 9000000)}`;
   const now = new Date().toISOString();
 
   db.prepare(`
@@ -269,31 +300,26 @@ app.post('/api/admin/payment/approve', (req, res) => {
     mspRate,
     totalAmount,
     bankRef,
-    message: `Payment of ₹${totalAmount.toLocaleString('en-IN')} approved & DBT reference generated: ${bankRef}`
+    message: `Payment of ₹${totalAmount.toLocaleString('en-IN')} authorized & PFMS/DBT transfer initiated: ${bankRef}`
   });
 });
 
 // ==========================================
-// 5. ADMIN SLOT MANAGEMENT & MANIFEST APIS
+// 5. ADMIN SLOT MANAGEMENT & MONITORING ANALYTICS
 // ==========================================
 
-// Get Detailed Arrival Roster & Slot Schedule Management for Admin
 app.get('/api/admin/slots/manage', (req, res) => {
   const { centre_id, date } = req.query;
   const targetDate = date || new Date().toISOString().split('T')[0];
   const targetCentre = centre_id || 1;
 
-  // Get slots
   const slots = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ?').all(targetCentre, targetDate);
-
-  // Get full expected arrival manifest for date
   const bookings = db.prepare(`
     SELECT * FROM bookings 
     WHERE centre_id = ? AND booking_date = ? 
     ORDER BY time_window ASC, token_number ASC
   `).all(targetCentre, targetDate);
 
-  // Aggregate stats per slot
   const slotDetails = slots.map(s => {
     const slotBookings = bookings.filter(b => b.slot_id === s.id || b.time_window === s.time_window);
     const totalEstQtl = slotBookings.reduce((sum, b) => sum + b.estimated_qtl, 0);
@@ -321,7 +347,6 @@ app.get('/api/admin/slots/manage', (req, res) => {
   });
 });
 
-// Create/Add New Custom Slot Config
 app.post('/api/admin/slots/config', (req, res) => {
   const { centre_id, slot_date, time_window, max_capacity } = req.body;
 
@@ -336,7 +361,48 @@ app.post('/api/admin/slots/config', (req, res) => {
   res.status(201).json({ success: true, slot: newSlot, message: `New slot '${time_window}' added successfully!` });
 });
 
-// Admin Analytics Dashboard Stats
+// Advanced Monitoring & Analytics Endpoint (As required in diagram)
+app.get('/api/admin/analytics', (req, res) => {
+  const totalBookings = db.prepare('SELECT COUNT(*) as count FROM bookings').get().count;
+  const arrivedCount = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
+  const qualityPassed = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
+  const totalProcuredQtl = db.prepare('SELECT COALESCE(SUM(net_weight_qtl), 0) as total FROM weighments').get().total;
+  const totalDisbursedAmt = db.prepare('SELECT COALESCE(SUM(net_amount), 0) as total FROM payments').get().total;
+
+  // Crop Breakdown
+  const cropStats = db.prepare(`
+    SELECT crop_name, COUNT(*) as bookings_count, SUM(estimated_qtl) as est_quintals
+    FROM bookings
+    GROUP BY crop_name
+  `).all();
+
+  // Centre Load
+  const centreStats = db.prepare(`
+    SELECT centre_name, COUNT(*) as active_farmers
+    FROM bookings
+    WHERE status IN ('BOOKED', 'ARRIVED', 'QUALITY_PASSED', 'WEIGHED')
+    GROUP BY centre_name
+  `).all();
+
+  res.json({
+    summary: {
+      total_bookings: totalBookings,
+      arrived_count: arrivedCount,
+      quality_passed_count: qualityPassed,
+      total_procured_quintals: Math.round(totalProcuredQtl * 100) / 100,
+      total_disbursed_inr: Math.round(totalDisbursedAmt)
+    },
+    centre_load: centreStats,
+    crop_analytics: cropStats,
+    staffing_needs: {
+      gatekeepers_active: 2,
+      quality_inspectors_active: 3,
+      weighbridge_operators_active: 2,
+      recommended_extra_staff: arrivedCount > 10 ? 'Add 1 Quality Inspector' : 'Optimal Staffing'
+    }
+  });
+});
+
 app.get('/api/admin/stats', (req, res) => {
   const totalBookings = db.prepare('SELECT COUNT(*) as count FROM bookings').get().count;
   const arrivedCount = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;

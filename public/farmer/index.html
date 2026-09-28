@@ -26,8 +26,11 @@
         </div>
       </div>
       
-      <!-- Language Selector -->
+      <!-- Voice IVR & Language Selector -->
       <div class="flex items-center space-x-1">
+        <button onclick="speakVoiceAssistance()" title="Voice IVR Assistance" class="bg-amber-500 hover:bg-amber-400 text-slate-950 p-1.5 rounded-lg flex items-center shadow">
+          <span class="material-symbols-outlined text-lg">volume_up</span>
+        </button>
         <select id="lang-select" onchange="changeLanguage()" class="bg-emerald-900 text-white text-xs font-semibold px-2 py-1.5 rounded-lg border border-emerald-700 outline-none">
           <option value="en">English 🇬🇧</option>
           <option value="hi">हिंदी 🇮🇳</option>
@@ -40,42 +43,73 @@
     </div>
   </header>
 
-  <!-- Login Modal / Screen (If not logged in) -->
-  <div id="login-modal" class="max-w-xl mx-auto p-4 mt-6">
+  <!-- Login / Aadhaar KYC Modal -->
+  <div id="login-modal" class="max-w-xl mx-auto p-4 mt-4 space-y-4">
     <div class="bg-white rounded-3xl p-6 shadow-lg border border-slate-200 text-center">
-      <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#004c22]">
-        <span class="material-symbols-outlined text-4xl">phone_iphone</span>
+      <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 text-[#004c22]">
+        <span class="material-symbols-outlined text-4xl">badge</span>
       </div>
-      <h2 class="text-2xl font-bold text-slate-900 mb-1" id="txt-login-title">Farmer Login</h2>
-      <p class="text-xs text-slate-500 mb-6" id="txt-login-subtitle">Enter your mobile number to view bookings and book slots</p>
+      <h2 class="text-2xl font-bold text-slate-900 mb-1" id="txt-login-title">Farmer Login & KYC Registration</h2>
+      <p class="text-xs text-slate-500 mb-5" id="txt-login-subtitle">Enter mobile number or register with Aadhaar & Land Record ID</p>
 
-      <div class="mb-4 text-left">
-        <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number</label>
-        <input type="tel" id="input-phone" value="9876543210" placeholder="10-digit mobile number" class="w-full text-lg font-bold px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-600">
-      </div>
-
-      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-6 text-xs text-amber-800 text-left">
-        <strong>Demo Quick Login Numbers:</strong>
-        <ul class="mt-1 space-y-1">
-          <li>• <code>9876543210</code> (Ramesh Kumar - Active Booking)</li>
-          <li>• <code>9876543211</code> (Suresh Patel - Arrived at Mandi)</li>
-          <li>• <code>9876543212</code> (Lakshmi Devi - Quality Passed)</li>
-        </ul>
+      <div class="flex border-b border-slate-200 mb-4 text-xs font-bold">
+        <button onclick="toggleAuthTab('login')" id="btn-tab-login" class="flex-1 py-2 text-emerald-800 border-b-2 border-emerald-800">Quick Login</button>
+        <button onclick="toggleAuthTab('kyc')" id="btn-tab-kyc" class="flex-1 py-2 text-slate-500">Aadhaar & Land KYC</button>
       </div>
 
-      <button onclick="loginFarmer()" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow transition text-base">
-        Login with OTP &rarr;
-      </button>
+      <!-- Quick Login Form -->
+      <form id="form-quick-login" onsubmit="event.preventDefault(); loginFarmer();">
+        <div class="mb-4 text-left">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number</label>
+          <input type="tel" id="input-phone" value="9876543210" placeholder="10-digit mobile number" class="w-full text-lg font-bold px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-600">
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 text-xs text-amber-800 text-left">
+          <strong>Demo Quick Login Numbers:</strong>
+          <ul class="mt-1 space-y-1">
+            <li>• <code>9876543210</code> (Ramesh Kumar - Booked)</li>
+            <li>• <code>9876543211</code> (Suresh Patel - Arrived)</li>
+            <li>• <code>9876543212</code> (Lakshmi Devi - Quality Passed)</li>
+          </ul>
+        </div>
+
+        <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow transition text-base">
+          Login &rarr;
+        </button>
+      </form>
+
+      <!-- Aadhaar & Land KYC Registration Form -->
+      <form id="form-kyc-register" onsubmit="handleKycRegister(event)" class="hidden text-left space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Farmer Full Name</label>
+          <input type="text" id="kyc-name" required placeholder="e.g. Ramesh Kumar" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Mobile Number</label>
+          <input type="tel" id="kyc-phone" required placeholder="10-digit number" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Aadhaar Card Number (12 Digits)</label>
+          <input type="text" id="kyc-aadhaar" required placeholder="12-digit UIDAI checksum" class="w-full text-sm font-mono font-bold p-3 rounded-xl border border-slate-300">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Land Passbook / Survey Khata Number</label>
+          <input type="text" id="kyc-land" required placeholder="e.g. KHT-8829-GNT" class="w-full text-sm font-mono font-bold p-3 rounded-xl border border-slate-300">
+        </div>
+
+        <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition mt-2">
+          Verify Aadhaar & Register KYC &rarr;
+        </button>
+      </form>
     </div>
   </div>
 
-  <!-- Main Farmer App Content (Hidden until login) -->
+  <!-- Main Farmer App Content -->
   <main id="app-content" class="hidden max-w-xl mx-auto p-4 space-y-5">
 
     <!-- Tab 1: Dashboard -->
     <div id="tab-dashboard" class="tab-pane space-y-4">
       
-      <!-- Welcome Banner -->
       <div class="bg-gradient-to-br from-[#004c22] to-emerald-800 text-white rounded-3xl p-5 shadow-md relative overflow-hidden">
         <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">Minimum Support Price (MSP) 2026</span>
         <h2 class="text-xl font-bold mt-1 mb-2">Government Crop Procurement Portal</h2>
@@ -86,7 +120,6 @@
         </button>
       </div>
 
-      <!-- Live MSP Rate Card -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
         <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center space-x-1">
           <span class="material-symbols-outlined text-amber-600">payments</span>
@@ -97,7 +130,6 @@
         </div>
       </div>
 
-      <!-- Active Bookings Summary -->
       <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-bold text-slate-800">My Procurement Bookings</h3>
@@ -158,14 +190,12 @@
         <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Live Mandi Queue Status</span>
         <h2 class="text-xl font-bold text-slate-900 mt-1 mb-4" id="queue-centre-name">Guntur Main APMC Mandi</h2>
 
-        <!-- Current Token Display Box -->
         <div class="bg-emerald-950 text-white p-6 rounded-2xl mb-6 shadow-inner">
           <p class="text-xs text-emerald-300 uppercase font-semibold">Currently Serving Token</p>
           <div id="serving-token-display" class="text-5xl font-extrabold text-amber-400 my-2">Q-101</div>
           <p class="text-xs text-emerald-200">Please be ready near the gate when your token is called.</p>
         </div>
 
-        <!-- Live Queue List -->
         <div class="text-left">
           <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Vehicles in Queue Today</h3>
           <div id="live-queue-list" class="space-y-2 text-xs">
@@ -183,23 +213,20 @@
           <span id="tracker-booking-id" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">BK-1001</span>
         </div>
 
-        <!-- QR Code Container for Gatekeeper -->
         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center mb-6">
           <p class="text-xs font-bold text-slate-700 mb-2">Scan QR Code at Mandi Entry Gate</p>
           <div id="qrcode" class="flex justify-center my-2"></div>
           <p class="text-xs font-mono text-slate-500 mt-1" id="qr-token-label">Token: Q-101</p>
         </div>
 
-        <!-- 6-Stage Timeline -->
         <div class="relative pl-6 space-y-6 border-l-2 border-slate-200 ml-2 text-xs" id="timeline-container">
           <!-- Dynamically built timeline steps -->
         </div>
 
-        <!-- Detailed Receipt Card -->
         <div id="receipt-box" class="hidden mt-6 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-xs">
           <h3 class="font-bold text-emerald-900 mb-2 flex items-center space-x-1">
             <span class="material-symbols-outlined text-base">receipt_long</span>
-            <span>Official Procurement & Payout Receipt</span>
+            <span>Official Procurement & PFMS DBT Receipt</span>
           </h3>
           <div class="space-y-1 text-slate-700" id="receipt-details">
             <!-- Dynamically filled -->
@@ -240,9 +267,9 @@
     let activeBooking = null;
 
     const translations = {
-      en: { appTitle: "Kisan Procurement", loginTitle: "Farmer Login", loginSub: "Enter mobile number to view bookings and book slots" },
-      hi: { appTitle: "किसान खरीद पोर्टल", loginTitle: "किसान लॉगिन", loginSub: "बुकिंग और स्लॉट बुक करने के लिए अपना मोबाइल नंबर दर्ज करें" },
-      te: { appTitle: "కిసాన్ కొనుగోలు పోర్టల్", loginTitle: "రైతు లాగిన్", loginSub: "స్లాట్ బుకింగ్ మరియు క్యూ స్టేటస్ చూడటానికి ఫోన్ నంబర్ నమోదు చేయండి" }
+      en: { appTitle: "Kisan Procurement", loginTitle: "Farmer Login & KYC", loginSub: "Enter mobile number or register with Aadhaar & Land Record ID" },
+      hi: { appTitle: "किसान खरीद पोर्टल", loginTitle: "किसान लॉगिन और केवाईसी", loginSub: "आधार और भूमि रिकॉर्ड के साथ लॉगिन या पंजीकरण करें" },
+      te: { appTitle: "కిసాన్ కొనుగోలు పోర్టల్", loginTitle: "రైతు లాగిన్ & కేవైసీ", loginSub: "ఆధార్ మరియు భూమి రికార్డులతో రిజిస్టర్ అవ్వండి" }
     };
 
     function changeLanguage() {
@@ -250,6 +277,44 @@
       document.getElementById('app-title').textContent = translations[lang].appTitle;
       document.getElementById('txt-login-title').textContent = translations[lang].loginTitle;
       document.getElementById('txt-login-subtitle').textContent = translations[lang].loginSub;
+    }
+
+    function toggleAuthTab(type) {
+      if (type === 'login') {
+        document.getElementById('form-quick-login').classList.remove('hidden');
+        document.getElementById('form-kyc-register').classList.add('hidden');
+        document.getElementById('btn-tab-login').className = 'flex-1 py-2 text-emerald-800 border-b-2 border-emerald-800';
+        document.getElementById('btn-tab-kyc').className = 'flex-1 py-2 text-slate-500';
+      } else {
+        document.getElementById('form-quick-login').classList.add('hidden');
+        document.getElementById('form-kyc-register').classList.remove('hidden');
+        document.getElementById('btn-tab-kyc').className = 'flex-1 py-2 text-emerald-800 border-b-2 border-emerald-800';
+        document.getElementById('btn-tab-login').className = 'flex-1 py-2 text-slate-500';
+      }
+    }
+
+    async function handleKycRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('kyc-name').value;
+      const phone = document.getElementById('kyc-phone').value;
+      const aadhaar = document.getElementById('kyc-aadhaar').value;
+      const land_record_id = document.getElementById('kyc-land').value;
+
+      try {
+        const res = await fetch('/api/auth/register-kyc', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, aadhaar, land_record_id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(data.message);
+          currentUser = data.user;
+          setupLoggedInUser();
+        }
+      } catch (err) {
+        alert('KYC registration failed.');
+      }
     }
 
     async function loginFarmer() {
@@ -265,18 +330,24 @@
         const data = await res.json();
         if (data.success) {
           currentUser = data.user;
-          document.getElementById('farmer-name-display').textContent = `${currentUser.name} (${currentUser.phone})`;
-          document.getElementById('login-modal').classList.add('hidden');
-          document.getElementById('app-content').classList.remove('hidden');
-          document.getElementById('bottom-nav').classList.remove('hidden');
-          document.getElementById('btn-logout').classList.remove('hidden');
-
-          await loadMasterData();
-          await loadFarmerBookings();
+          setupLoggedInUser();
         }
       } catch (e) {
         alert('Login failed. Ensure backend server is running.');
       }
+    }
+
+    async function setupLoggedInUser() {
+      document.getElementById('farmer-name-display').textContent = `${currentUser.name} (${currentUser.phone})`;
+      document.getElementById('login-modal').classList.add('hidden');
+      document.getElementById('app-content').classList.remove('hidden');
+      document.getElementById('bottom-nav').classList.remove('hidden');
+      document.getElementById('btn-logout').classList.remove('hidden');
+
+      await loadMasterData();
+      await loadFarmerBookings();
+
+      speakVoiceAssistance(`Welcome ${currentUser.name}. Your Kisan Procurement Assistant is active.`);
     }
 
     function logoutFarmer() {
@@ -287,6 +358,27 @@
       document.getElementById('btn-logout').classList.add('hidden');
     }
 
+    // Voice IVR Assistant using browser Web Speech API
+    function speakVoiceAssistance(customMsg) {
+      if (!('speechSynthesis' in window)) return;
+
+      const lang = document.getElementById('lang-select').value;
+      let text = customMsg || `Hello ${currentUser ? currentUser.name : 'Farmer'}. Currently serving token is ${activeBooking ? activeBooking.token_number : 'Q-101'}.`;
+
+      if (lang === 'hi' && !customMsg) {
+        text = `नमस्कार ${currentUser ? currentUser.name : 'किसान'}. आपका टोकन नंबर ${activeBooking ? activeBooking.token_number : 'क्यू-101'} है।`;
+      } else if (lang === 'te' && !customMsg) {
+        text = `నమస్కారం ${currentUser ? currentUser.name : 'రైతు'}. మీ టోకెన్ నంబర్ ${activeBooking ? activeBooking.token_number : 'క్యూ-101'}.`;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (lang === 'hi') utterance.lang = 'hi-IN';
+      else if (lang === 'te') utterance.lang = 'te-IN';
+      else utterance.lang = 'en-IN';
+
+      window.speechSynthesis.speak(utterance);
+    }
+
     async function loadMasterData() {
       const [resC, resCr] = await Promise.all([
         fetch('/api/centres'),
@@ -295,7 +387,6 @@
       masterCentres = await resC.json();
       masterCrops = await resCr.json();
 
-      // Render MSP Card
       const mspContainer = document.getElementById('msp-rate-container');
       mspContainer.innerHTML = masterCrops.map(c => `
         <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
@@ -304,7 +395,6 @@
         </div>
       `).join('');
 
-      // Render Dropdowns
       document.getElementById('select-centre').innerHTML = masterCentres.map(c => `<option value="${c.id}">${c.name} (${c.district})</option>`).join('');
       document.getElementById('select-crop').innerHTML = masterCrops.map(c => `<option value="${c.id}">${c.name} (MSP ₹${c.msp_rate_per_qtl}/QTL)</option>`).join('');
 
@@ -340,7 +430,7 @@
         return;
       }
 
-      activeBooking = bookings[0]; // Set latest booking for status tracking
+      activeBooking = bookings[0];
 
       listContainer.innerHTML = bookings.map(b => `
         <div onclick="selectBookingForTracker('${b.id}')" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 cursor-pointer transition">
@@ -388,6 +478,7 @@
         const data = await res.json();
         if (data.success) {
           alert(`Slot Booked Successfully! Token: ${data.booking.token_number}`);
+          speakVoiceAssistance(`Slot booked successfully. Your Token number is ${data.booking.token_number}`);
           await loadFarmerBookings();
           switchTab('status');
         }
@@ -409,7 +500,6 @@
       document.getElementById('tracker-booking-id').textContent = b.id;
       document.getElementById('qr-token-label').textContent = `Token Number: ${b.token_number}`;
 
-      // Render QR Code
       const qrContainer = document.getElementById('qrcode');
       qrContainer.innerHTML = '';
       const typeNumber = 4;
@@ -419,13 +509,12 @@
       qr.make();
       qrContainer.innerHTML = qr.createImgTag(4);
 
-      // Render 6-Stage Timeline
       const stages = [
-        { key: 'BOOKED', label: 'Slot Booked', desc: `${b.booking_date} (${b.time_window})` },
+        { key: 'BOOKED', label: 'Slot Booked & Reserved', desc: `${b.booking_date} (${b.time_window})` },
         { key: 'ARRIVED', label: 'Arrived at Mandi Gate', desc: b.arrived_at ? new Date(b.arrived_at).toLocaleTimeString() : 'Awaiting arrival check-in' },
         { key: 'QUALITY_PASSED', label: 'Quality Inspection', desc: data.quality ? `Moisture: ${data.quality.moisture_pct}%, Grade: ${data.quality.grade}` : 'Awaiting quality officer' },
         { key: 'WEIGHED', label: 'Weighbridge Measurement', desc: data.weighment ? `Net Weight: ${data.weighment.net_weight_qtl} Quintals` : 'Awaiting weighbridge' },
-        { key: 'PAYMENT_PROCESSED', label: 'DBT Payment Disbursed', desc: data.payment ? `₹${data.payment.net_amount.toLocaleString('en-IN')} (Ref: ${data.payment.bank_ref})` : 'Awaiting payment approval' }
+        { key: 'PAYMENT_PROCESSED', label: 'PFMS Direct Benefit Transfer', desc: data.payment ? `₹${data.payment.net_amount.toLocaleString('en-IN')} (Ref: ${data.payment.bank_ref})` : 'Awaiting payment authorization' }
       ];
 
       const stageOrder = ['BOOKED', 'ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED'];
@@ -446,7 +535,6 @@
         `;
       }).join('');
 
-      // Render Receipt if completed
       const receiptBox = document.getElementById('receipt-box');
       if (data.payment && data.weighment) {
         receiptBox.classList.remove('hidden');
@@ -455,7 +543,7 @@
           <p>• Net Weight: <strong>${data.weighment.net_weight_qtl} Quintals</strong></p>
           <p>• MSP Rate: <strong>₹${b.msp_rate} / QTL</strong></p>
           <p>• Total Amount: <strong class="text-emerald-800 text-sm">₹${data.payment.net_amount.toLocaleString('en-IN')}</strong></p>
-          <p class="text-[10px] text-slate-500 mt-1">Bank Ref: ${data.payment.bank_ref} | Status: DISBURSED VIA DBT</p>
+          <p class="text-[10px] text-slate-500 mt-1">PFMS Ref: ${data.payment.bank_ref} | Status: DISBURSED TO BANK</p>
         `;
       } else {
         receiptBox.classList.add('hidden');
