@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mandi Operations & Admin Portal - Kisan Procurement Connect</title>
+  <title>Private Mandi Operations & Admin Portal - Kisan Procurement Connect</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -14,17 +14,24 @@
 </head>
 <body class="min-h-screen text-slate-900 pb-12">
 
-  <!-- Admin Top Header -->
+  <!-- Private Admin Top Header -->
   <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <span class="material-symbols-outlined text-3xl text-amber-400">admin_panel_settings</span>
         <div>
-          <h1 class="text-xl font-bold leading-tight">Mandi Operations & Procurement Portal</h1>
-          <p class="text-xs text-slate-400">Centre: Guntur Main APMC Mandi (AP-GNT-01)</p>
+          <h1 class="text-xl font-bold leading-tight flex items-center space-x-2">
+            <span>Mandi Operations & Procurement Portal</span>
+            <span class="text-[10px] bg-red-800 text-white font-mono px-2 py-0.5 rounded uppercase">Private Access</span>
+          </h1>
+          <p class="text-xs text-slate-400" id="header-staff-info">Centre: Guntur Main APMC Mandi (AP-GNT-01)</p>
         </div>
       </div>
       <div class="flex items-center space-x-3">
+        <button onclick="logoutAdmin()" id="btn-admin-logout" class="hidden text-xs bg-red-950 hover:bg-red-900 text-red-200 border border-red-800 px-3 py-1.5 rounded-lg flex items-center space-x-1">
+          <span class="material-symbols-outlined text-sm">lock</span>
+          <span>Lock Session</span>
+        </button>
         <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center space-x-1">
           <span class="material-symbols-outlined text-sm">home</span>
           <span>Main Portal</span>
@@ -33,342 +40,379 @@
     </div>
   </header>
 
-  <!-- Admin Navigation Tabs -->
-  <div class="bg-white border-b border-slate-200 sticky top-[57px] z-40 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-3 overflow-x-auto py-2">
-      <button onclick="switchAdminTab('slots')" id="tab-btn-slots" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow">
-        <span class="material-symbols-outlined text-base">calendar_clock</span>
-        <span>📅 Slot Config & Roster</span>
-      </button>
-      <button onclick="switchAdminTab('analytics')" id="tab-btn-analytics" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
-        <span class="material-symbols-outlined text-base">monitoring</span>
-        <span>📊 Monitoring & Analytics</span>
-      </button>
-      <button onclick="switchAdminTab('gate')" id="tab-btn-gate" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
-        <span class="material-symbols-outlined text-base">qr_code_scanner</span>
-        <span>1. Gatekeeper</span>
-      </button>
-      <button onclick="switchAdminTab('quality')" id="tab-btn-quality" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
-        <span class="material-symbols-outlined text-base">science</span>
-        <span>2. Quality Inspector</span>
-      </button>
-      <button onclick="switchAdminTab('weighbridge')" id="tab-btn-weighbridge" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
-        <span class="material-symbols-outlined text-base">scale</span>
-        <span>3. Weighbridge</span>
-      </button>
-      <button onclick="switchAdminTab('payment')" id="tab-btn-payment" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
-        <span class="material-symbols-outlined text-base">account_balance</span>
-        <span>4. Accounts & PFMS</span>
-      </button>
+  <!-- Private Admin Login Gate Modal (Shown when unauthenticated) -->
+  <div id="admin-login-modal" class="max-w-md mx-auto p-4 mt-12">
+    <div class="bg-white rounded-3xl p-8 shadow-2xl border border-slate-200 text-center">
+      <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-800">
+        <span class="material-symbols-outlined text-4xl">encrypted</span>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-1">Restricted Admin Access</h2>
+      <p class="text-xs text-slate-500 mb-6">Enter official staff authorization passcode to access mandi workstations</p>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Staff Access Passcode</label>
+          <input type="password" id="admin-passcode-input" value="admin123" placeholder="Enter admin passcode" required class="w-full text-lg font-bold p-3 rounded-xl border border-slate-300 focus:border-red-600 outline-none">
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-[11px] text-slate-600 space-y-1">
+          <strong class="text-slate-800 block mb-1">SIH Demo Staff Passcodes:</strong>
+          <p>• Super Admin / Officer: <code>admin123</code></p>
+          <p>• Gatekeeper Passcode: <code>gate1111</code></p>
+          <p>• Quality Inspector: <code>qual2222</code></p>
+          <p>• Weighbridge Operator: <code>weigh3333</code></p>
+          <p>• Accounts Officer: <code>pay4444</code></p>
+        </div>
+
+        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition">
+          Authenticate & Open Workstation &rarr;
+        </button>
+      </form>
+      
+      <p id="admin-login-error" class="hidden text-xs text-red-600 font-bold mt-3"></p>
     </div>
   </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <!-- Main Workstation Layout (Hidden until authenticated) -->
+  <div id="admin-workstation-content" class="hidden">
 
-    <!-- TAB 0: SLOT MANAGEMENT & DAILY ARRIVAL ROSTER -->
-    <div id="admin-tab-slots" class="admin-pane space-y-6">
-      
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Mandi Master Schedule</span>
-          <h2 class="text-2xl font-bold text-slate-900 mt-1">Daily Arrival Roster & Slot Quotas</h2>
-          <p class="text-xs text-slate-500">Monitor expected arrivals, crop quantities, and configured time slots</p>
-        </div>
-
-        <div class="flex items-center space-x-3 w-full md:w-auto">
-          <div>
-            <label class="block text-[10px] font-bold text-slate-500 uppercase">Schedule Date</label>
-            <input type="date" id="slot-date-picker" onchange="loadAdminSlotSchedule()" class="text-xs font-bold p-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white">
-          </div>
-          <button onclick="loadAdminSlotSchedule()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl mt-3 flex items-center space-x-1">
-            <span class="material-symbols-outlined text-base">refresh</span>
-            <span>Refresh</span>
-          </button>
-        </div>
+    <!-- Admin Navigation Tabs -->
+    <div class="bg-white border-b border-slate-200 sticky top-[57px] z-40 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-3 overflow-x-auto py-2">
+        <button onclick="switchAdminTab('slots')" id="tab-btn-slots" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow">
+          <span class="material-symbols-outlined text-base">calendar_clock</span>
+          <span>📅 Slot Config & Roster</span>
+        </button>
+        <button onclick="switchAdminTab('analytics')" id="tab-btn-analytics" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-base">monitoring</span>
+          <span>📊 Monitoring & Analytics</span>
+        </button>
+        <button onclick="switchAdminTab('gate')" id="tab-btn-gate" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-base">qr_code_scanner</span>
+          <span>1. Gatekeeper</span>
+        </button>
+        <button onclick="switchAdminTab('quality')" id="tab-btn-quality" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-base">science</span>
+          <span>2. Quality Inspector</span>
+        </button>
+        <button onclick="switchAdminTab('weighbridge')" id="tab-btn-weighbridge" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-base">scale</span>
+          <span>3. Weighbridge</span>
+        </button>
+        <button onclick="switchAdminTab('payment')" id="tab-btn-payment" class="admin-tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          <span class="material-symbols-outlined text-base">account_balance</span>
+          <span>4. Accounts & PFMS</span>
+        </button>
       </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
-            <span class="material-symbols-outlined text-2xl">groups</span>
-          </div>
-          <div>
-            <span class="text-xs text-slate-500 font-semibold uppercase">Expected Farmers Today</span>
-            <p id="roster-stat-farmers" class="text-2xl font-bold text-slate-900">...</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
-            <span class="material-symbols-outlined text-2xl">agriculture</span>
-          </div>
-          <div>
-            <span class="text-xs text-slate-500 font-semibold uppercase">Estimated Grain Volume</span>
-            <p id="roster-stat-quintals" class="text-2xl font-bold text-emerald-800">...</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center">
-            <span class="material-symbols-outlined text-2xl">calendar_month</span>
-          </div>
-          <div>
-            <span class="text-xs text-slate-500 font-semibold uppercase">Configured Time Windows</span>
-            <p id="roster-stat-slots" class="text-2xl font-bold text-blue-900">...</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <span class="material-symbols-outlined text-amber-600">schedule</span>
-            <span>Time Window Quotas & Scheduled Arrivals</span>
-          </h3>
-
-          <button onclick="toggleNewSlotModal(true)" class="bg-[#004c22] hover:bg-emerald-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1 shadow">
-            <span class="material-symbols-outlined text-sm">add_circle</span>
-            <span>Add Custom Slot Window</span>
-          </button>
-        </div>
-
-        <div id="slots-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Dynamically filled -->
-        </div>
-      </div>
-
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-lg font-bold text-slate-900">Daily Arrival Roster & Crop Manifest</h3>
-            <p class="text-xs text-slate-500">Detailed list of farmers arriving with crop types and quantities</p>
-          </div>
-
-          <input type="text" id="manifest-search" oninput="filterManifestTable()" placeholder="Search farmer or crop..." class="text-xs p-2.5 rounded-xl border border-slate-300 w-64">
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-xs text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-100 text-slate-700 uppercase font-bold text-[11px] border-b border-slate-200">
-                <th class="p-3">Time Window</th>
-                <th class="p-3">Booking / Token</th>
-                <th class="p-3">Farmer Name & Mobile</th>
-                <th class="p-3">Crop Type</th>
-                <th class="p-3">Est. Quantity</th>
-                <th class="p-3">Live Status</th>
-              </tr>
-            </thead>
-            <tbody id="manifest-table-body" class="divide-y divide-slate-200">
-              <!-- Dynamically filled -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
 
-    <!-- TAB: MONITORING & ANALYTICS DASHBOARD (NEW) -->
-    <div id="admin-tab-analytics" class="admin-pane hidden space-y-6">
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+      <!-- TAB 0: SLOT MANAGEMENT & DAILY ARRIVAL ROSTER -->
+      <div id="admin-tab-slots" class="admin-pane space-y-6">
+        
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Department Executive Dashboard</span>
-            <h2 class="text-2xl font-bold text-slate-900 mt-1">Monitoring & Analytics Overview</h2>
-            <p class="text-xs text-slate-500">Live centre load, staffing allocation, market trends, and system insights</p>
+            <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Mandi Master Schedule</span>
+            <h2 class="text-2xl font-bold text-slate-900 mt-1">Daily Arrival Roster & Slot Quotas</h2>
+            <p class="text-xs text-slate-500">Monitor expected arrivals, crop quantities, and configured time slots</p>
           </div>
-          <button onclick="loadMonitoringAnalytics()" class="text-xs font-semibold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg">Refresh Analytics</button>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
-            <span class="text-xs text-slate-500 uppercase font-semibold">Live Centre Load</span>
-            <p id="analytics-load" class="text-3xl font-extrabold text-blue-900 mt-1">...</p>
-          </div>
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
-            <span class="text-xs text-slate-500 uppercase font-semibold">Staffing Recommendation</span>
-            <p id="analytics-staffing" class="text-sm font-bold text-emerald-800 mt-2">...</p>
-          </div>
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
-            <span class="text-xs text-slate-500 uppercase font-semibold">Procurement Volume</span>
-            <p id="analytics-volume" class="text-3xl font-extrabold text-emerald-700 mt-1">...</p>
-          </div>
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
-            <span class="text-xs text-slate-500 uppercase font-semibold">Total PFMS Payout</span>
-            <p id="analytics-payout" class="text-3xl font-extrabold text-amber-700 mt-1">...</p>
+          <div class="flex items-center space-x-3 w-full md:w-auto">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 uppercase">Schedule Date</label>
+              <input type="date" id="slot-date-picker" onchange="loadAdminSlotSchedule()" class="text-xs font-bold p-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white">
+            </div>
+            <button onclick="loadAdminSlotSchedule()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl mt-3 flex items-center space-x-1">
+              <span class="material-symbols-outlined text-base">refresh</span>
+              <span>Refresh</span>
+            </button>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <h3 class="text-sm font-bold text-slate-900 mb-3">Crop Breakdown & Market Trends</h3>
-            <div id="analytics-crop-list" class="space-y-2 text-xs">
-              <!-- Dynamically filled -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">groups</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-500 font-semibold uppercase">Expected Farmers Today</span>
+              <p id="roster-stat-farmers" class="text-2xl font-bold text-slate-900">...</p>
             </div>
           </div>
 
-          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <h3 class="text-sm font-bold text-slate-900 mb-3">Centre Load & Active Staffing</h3>
-            <div id="analytics-staff-list" class="space-y-2 text-xs">
-              <!-- Dynamically filled -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">agriculture</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-500 font-semibold uppercase">Estimated Grain Volume</span>
+              <p id="roster-stat-quintals" class="text-2xl font-bold text-emerald-800">...</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">calendar_month</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-500 font-semibold uppercase">Configured Time Windows</span>
+              <p id="roster-stat-slots" class="text-2xl font-bold text-blue-900">...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+              <span class="material-symbols-outlined text-amber-600">schedule</span>
+              <span>Time Window Quotas & Scheduled Arrivals</span>
+            </h3>
+
+            <button onclick="toggleNewSlotModal(true)" class="bg-[#004c22] hover:bg-emerald-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-1 shadow">
+              <span class="material-symbols-outlined text-sm">add_circle</span>
+              <span>Add Custom Slot Window</span>
+            </button>
+          </div>
+
+          <div id="slots-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Dynamically filled -->
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Daily Arrival Roster & Crop Manifest</h3>
+              <p class="text-xs text-slate-500">Detailed list of farmers arriving with crop types and quantities</p>
+            </div>
+
+            <input type="text" id="manifest-search" oninput="filterManifestTable()" placeholder="Search farmer or crop..." class="text-xs p-2.5 rounded-xl border border-slate-300 w-64">
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 uppercase font-bold text-[11px] border-b border-slate-200">
+                  <th class="p-3">Time Window</th>
+                  <th class="p-3">Booking / Token</th>
+                  <th class="p-3">Farmer Name & Mobile</th>
+                  <th class="p-3">Crop Type</th>
+                  <th class="p-3">Est. Quantity</th>
+                  <th class="p-3">Live Status</th>
+                </tr>
+              </thead>
+              <tbody id="manifest-table-body" class="divide-y divide-slate-200">
+                <!-- Dynamically filled -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: MONITORING & ANALYTICS DASHBOARD -->
+      <div id="admin-tab-analytics" class="admin-pane hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Department Executive Dashboard</span>
+              <h2 class="text-2xl font-bold text-slate-900 mt-1">Monitoring & Analytics Overview</h2>
+              <p class="text-xs text-slate-500">Live centre load, staffing allocation, market trends, and system insights</p>
+            </div>
+            <button onclick="loadMonitoringAnalytics()" class="text-xs font-semibold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg">Refresh Analytics</button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+              <span class="text-xs text-slate-500 uppercase font-semibold">Live Centre Load</span>
+              <p id="analytics-load" class="text-3xl font-extrabold text-blue-900 mt-1">...</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+              <span class="text-xs text-slate-500 uppercase font-semibold">Staffing Recommendation</span>
+              <p id="analytics-staffing" class="text-sm font-bold text-emerald-800 mt-2">...</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+              <span class="text-xs text-slate-500 uppercase font-semibold">Procurement Volume</span>
+              <p id="analytics-volume" class="text-3xl font-extrabold text-emerald-700 mt-1">...</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+              <span class="text-xs text-slate-500 uppercase font-semibold">Total PFMS Payout</span>
+              <p id="analytics-payout" class="text-3xl font-extrabold text-amber-700 mt-1">...</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-900 mb-3">Crop Breakdown & Market Trends</h3>
+              <div id="analytics-crop-list" class="space-y-2 text-xs">
+                <!-- Dynamically filled -->
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-900 mb-3">Centre Load & Active Staffing</h3>
+              <div id="analytics-staff-list" class="space-y-2 text-xs">
+                <!-- Dynamically filled -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 1: GATEKEEPER SCANNER MODULE -->
-    <div id="admin-tab-gate" class="admin-pane hidden space-y-6">
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm max-w-2xl mx-auto">
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center">
-            <span class="material-symbols-outlined text-2xl">qr_code_scanner</span>
-          </div>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Gatekeeper Arrival Check-in</h2>
-            <p class="text-xs text-slate-500">Scan QR Code or enter Booking Reference ID to issue queue token</p>
-          </div>
-        </div>
-
-        <form onsubmit="handleGateCheckin(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Enter Booking ID (e.g. BK-1001)</label>
-            <div class="flex space-x-2">
-              <input type="text" id="gate-booking-id" value="BK-1001" placeholder="e.g. BK-1001" class="flex-grow text-lg font-mono font-bold uppercase p-3 rounded-xl border border-slate-300 focus:border-amber-600 outline-none">
-              <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3 rounded-xl text-sm shadow">
-                Verify & Issue Token
-              </button>
+      <!-- TAB 1: GATEKEEPER SCANNER MODULE -->
+      <div id="admin-tab-gate" class="admin-pane hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm max-w-2xl mx-auto">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">qr_code_scanner</span>
             </div>
-          </div>
-        </form>
-
-        <div id="gate-response-box" class="hidden mt-4 p-4 rounded-2xl text-xs"></div>
-      </div>
-    </div>
-
-    <!-- TAB 2: QUALITY INSPECTION MODULE -->
-    <div id="admin-tab-quality" class="admin-pane hidden space-y-6">
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-6">
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Quality Inspection & Moisture Testing</h2>
-            <p class="text-xs text-slate-500">Arrived vehicles awaiting grain quality verification</p>
-          </div>
-          <button onclick="loadPendingQualityQueue()" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">Refresh Queue</button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Pending Vehicles</h3>
-            <div id="quality-pending-list" class="space-y-3 text-xs">
-              <!-- Dynamically populated -->
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Gatekeeper Arrival Check-in</h2>
+              <p class="text-xs text-slate-500">Scan QR Code or enter Booking Reference ID to issue queue token</p>
             </div>
           </div>
 
-          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <h3 class="text-sm font-bold text-slate-900 mb-4">Inspection Form (<span id="quality-selected-id">Select Vehicle</span>)</h3>
-            <form id="form-quality" onsubmit="handleQualitySubmit(event)" class="space-y-4 text-xs">
-              <input type="hidden" id="quality-booking-id">
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Moisture Percentage (%)</label>
-                <input type="number" step="0.1" id="quality-moisture" value="12.5" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
-                <span class="text-[10px] text-slate-500 mt-1 block">Optimal threshold &le; 14.0%</span>
+          <form onsubmit="handleGateCheckin(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Enter Booking ID (e.g. BK-1001)</label>
+              <div class="flex space-x-2">
+                <input type="text" id="gate-booking-id" value="BK-1001" placeholder="e.g. BK-1001" class="flex-grow text-lg font-mono font-bold uppercase p-3 rounded-xl border border-slate-300 focus:border-amber-600 outline-none">
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3 rounded-xl text-sm shadow">
+                  Verify & Issue Token
+                </button>
               </div>
+            </div>
+          </form>
 
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Foreign Matter / Impurities (%)</label>
-                <input type="number" step="0.1" id="quality-impurity" value="0.8" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Grade Assignment</label>
-                <select id="quality-grade" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
-                  <option value="Grade A">Grade A (Full MSP Rate)</option>
-                  <option value="Grade B">Grade B (Standard MSP Rate)</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Inspector Notes</label>
-                <textarea id="quality-notes" rows="2" class="w-full p-2.5 rounded-xl border border-slate-300" placeholder="Optional inspector remarks"></textarea>
-              </div>
-
-              <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl text-sm shadow">
-                Submit Quality Certificate &rarr;
-              </button>
-            </form>
-          </div>
+          <div id="gate-response-box" class="hidden mt-4 p-4 rounded-2xl text-xs"></div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 3: WEIGHBRIDGE OPERATOR MODULE -->
-    <div id="admin-tab-weighbridge" class="admin-pane hidden space-y-6">
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-6">
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Digital Weighbridge Station</h2>
-            <p class="text-xs text-slate-500">Vehicles passed quality check ready for gross & tare weight recording</p>
+      <!-- TAB 2: QUALITY INSPECTION MODULE -->
+      <div id="admin-tab-quality" class="admin-pane hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Quality Inspection & Moisture Testing</h2>
+              <p class="text-xs text-slate-500">Arrived vehicles awaiting grain quality verification</p>
+            </div>
+            <button onclick="loadPendingQualityQueue()" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">Refresh Queue</button>
           </div>
-          <button onclick="loadPendingWeighbridgeQueue()" class="text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg">Refresh Queue</button>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Pending Weighbridge Vehicles</h3>
-            <div id="weighbridge-pending-list" class="space-y-3 text-xs">
-              <!-- Dynamically populated -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Pending Vehicles</h3>
+              <div id="quality-pending-list" class="space-y-3 text-xs">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-900 mb-4">Inspection Form (<span id="quality-selected-id">Select Vehicle</span>)</h3>
+              <form id="form-quality" onsubmit="handleQualitySubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="quality-booking-id">
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Moisture Percentage (%)</label>
+                  <input type="number" step="0.1" id="quality-moisture" value="12.5" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
+                  <span class="text-[10px] text-slate-500 mt-1 block">Optimal threshold &le; 14.0%</span>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Foreign Matter / Impurities (%)</label>
+                  <input type="number" step="0.1" id="quality-impurity" value="0.8" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Grade Assignment</label>
+                  <select id="quality-grade" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
+                    <option value="Grade A">Grade A (Full MSP Rate)</option>
+                    <option value="Grade B">Grade B (Standard MSP Rate)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Inspector Notes</label>
+                  <textarea id="quality-notes" rows="2" class="w-full p-2.5 rounded-xl border border-slate-300" placeholder="Optional inspector remarks"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl text-sm shadow">
+                  Submit Quality Certificate &rarr;
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-            <h3 class="text-sm font-bold text-slate-900 mb-4">Weighment Slip (<span id="weigh-selected-id">Select Vehicle</span>)</h3>
-            <form id="form-weighbridge" onsubmit="handleWeighbridgeSubmit(event)" class="space-y-4 text-xs">
-              <input type="hidden" id="weigh-booking-id">
+      <!-- TAB 3: WEIGHBRIDGE OPERATOR MODULE -->
+      <div id="admin-tab-weighbridge" class="admin-pane hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Digital Weighbridge Station</h2>
+              <p class="text-xs text-slate-500">Vehicles passed quality check ready for gross & tare weight recording</p>
+            </div>
+            <button onclick="loadPendingWeighbridgeQueue()" class="text-xs font-semibold text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg">Refresh Queue</button>
+          </div>
 
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Gross Weight (Loaded Vehicle in Kg)</label>
-                <input type="number" id="weigh-gross" value="6200" oninput="calcNetWeight()" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-purple-600">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Pending Weighbridge Vehicles</h3>
+              <div id="weighbridge-pending-list" class="space-y-3 text-xs">
+                <!-- Dynamically populated -->
               </div>
+            </div>
 
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Tare Weight (Empty Vehicle in Kg)</label>
-                <input type="number" id="weigh-tare" value="1200" oninput="calcNetWeight()" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-purple-600">
-              </div>
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-900 mb-4">Weighment Slip (<span id="weigh-selected-id">Select Vehicle</span>)</h3>
+              <form id="form-weighbridge" onsubmit="handleWeighbridgeSubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="weigh-booking-id">
 
-              <div class="bg-purple-100 border border-purple-200 p-3.5 rounded-xl text-purple-900 font-bold flex justify-between items-center text-sm">
-                <span>Calculated Net Quantity:</span>
-                <span id="weigh-calc-net" class="text-lg">50.00 QTL (5,000 kg)</span>
-              </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Gross Weight (Loaded Vehicle in Kg)</label>
+                  <input type="number" id="weigh-gross" value="6200" oninput="calcNetWeight()" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-purple-600">
+                </div>
 
-              <button type="submit" class="w-full bg-purple-800 hover:bg-purple-900 text-white font-bold py-3.5 rounded-xl text-sm shadow">
-                Generate Digital Weighment Slip &rarr;
-              </button>
-            </form>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Tare Weight (Empty Vehicle in Kg)</label>
+                  <input type="number" id="weigh-tare" value="1200" oninput="calcNetWeight()" class="w-full text-base font-bold p-3 rounded-xl border border-slate-300 focus:border-purple-600">
+                </div>
+
+                <div class="bg-purple-100 border border-purple-200 p-3.5 rounded-xl text-purple-900 font-bold flex justify-between items-center text-sm">
+                  <span>Calculated Net Quantity:</span>
+                  <span id="weigh-calc-net" class="text-lg">50.00 QTL (5,000 kg)</span>
+                </div>
+
+                <button type="submit" class="w-full bg-purple-800 hover:bg-purple-900 text-white font-bold py-3.5 rounded-xl text-sm shadow">
+                  Generate Digital Weighment Slip &rarr;
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 4: ACCOUNTS & PAYMENT MODULE -->
-    <div id="admin-tab-payment" class="admin-pane hidden space-y-6">
-      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-        <div class="flex items-center justify-between mb-6">
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">PFMS Direct Benefit Transfer (DBT) Payment Approval</h2>
-            <p class="text-xs text-slate-500">Weighed batches ready for financial authorization & MSP payment transfer</p>
+      <!-- TAB 4: ACCOUNTS & PAYMENT MODULE -->
+      <div id="admin-tab-payment" class="admin-pane hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">PFMS Direct Benefit Transfer (DBT) Payment Approval</h2>
+              <p class="text-xs text-slate-500">Weighed batches ready for financial authorization & MSP payment transfer</p>
+            </div>
+            <button onclick="loadPendingPaymentQueue()" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">Refresh List</button>
           </div>
-          <button onclick="loadPendingPaymentQueue()" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg">Refresh List</button>
-        </div>
 
-        <div id="payment-pending-list" class="space-y-4">
-          <!-- Dynamically populated -->
+          <div id="payment-pending-list" class="space-y-4">
+            <!-- Dynamically populated -->
+          </div>
         </div>
       </div>
-    </div>
 
-  </main>
+    </main>
+  </div>
 
   <!-- Modal for Creating New Slot Window -->
   <div id="modal-new-slot" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -397,12 +441,87 @@
   </div>
 
   <script>
+    let adminToken = sessionStorage.getItem('adminToken') || null;
     let masterManifestData = [];
 
     document.addEventListener('DOMContentLoaded', () => {
+      if (adminToken) {
+        unlockAdminWorkstation();
+      } else {
+        lockAdminWorkstation();
+      }
+    });
+
+    // Admin Passcode Login
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const passcode = document.getElementById('admin-passcode-input').value.trim();
+      const errBox = document.getElementById('admin-login-error');
+      errBox.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/auth/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode })
+        });
+        const data = await res.json();
+        if (data.success) {
+          adminToken = data.token;
+          sessionStorage.setItem('adminToken', adminToken);
+          sessionStorage.setItem('adminRole', data.role);
+          sessionStorage.setItem('adminName', data.name);
+          unlockAdminWorkstation();
+        } else {
+          errBox.textContent = data.error || 'Invalid passcode';
+          errBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        errBox.textContent = 'Server connection failed';
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    function unlockAdminWorkstation() {
+      document.getElementById('admin-login-modal').classList.add('hidden');
+      document.getElementById('admin-workstation-content').classList.remove('hidden');
+      document.getElementById('btn-admin-logout').classList.remove('hidden');
+
+      const role = sessionStorage.getItem('adminRole') || 'ADMIN';
+      const name = sessionStorage.getItem('adminName') || 'Mandi Officer';
+      document.getElementById('header-staff-info').textContent = `Role: ${name} (${role}) | Centre: Guntur Main APMC Mandi`;
+
       document.getElementById('slot-date-picker').value = new Date().toISOString().split('T')[0];
       loadAdminSlotSchedule();
-    });
+    }
+
+    function logoutAdmin() {
+      adminToken = null;
+      sessionStorage.removeItem('adminToken');
+      sessionStorage.removeItem('adminRole');
+      sessionStorage.removeItem('adminName');
+      lockAdminWorkstation();
+    }
+
+    function lockAdminWorkstation() {
+      document.getElementById('admin-login-modal').classList.remove('hidden');
+      document.getElementById('admin-workstation-content').classList.add('hidden');
+      document.getElementById('btn-admin-logout').classList.add('hidden');
+    }
+
+    // Helper for Admin Auth Fetch Calls
+    async function adminFetch(url, options = {}) {
+      if (!options.headers) options.headers = {};
+      options.headers['x-admin-token'] = adminToken;
+
+      const res = await fetch(url, options);
+      if (res.status === 401) {
+        alert('Admin Session Expired or Unauthorized');
+        logoutAdmin();
+        throw new Error('Unauthorized');
+      }
+      return res;
+    }
 
     function switchAdminTab(tabName) {
       document.querySelectorAll('.admin-pane').forEach(el => el.classList.add('hidden'));
@@ -423,7 +542,7 @@
     }
 
     async function loadMonitoringAnalytics() {
-      const res = await fetch('/api/admin/analytics');
+      const res = await adminFetch('/api/admin/analytics');
       const data = await res.json();
 
       document.getElementById('analytics-load').textContent = `${data.summary.arrived_count} Active`;
@@ -455,7 +574,7 @@
 
     async function loadAdminSlotSchedule() {
       const date = document.getElementById('slot-date-picker').value || new Date().toISOString().split('T')[0];
-      const res = await fetch(`/api/admin/slots/manage?centre_id=1&date=${date}`);
+      const res = await adminFetch(`/api/admin/slots/manage?centre_id=1&date=${date}`);
       const data = await res.json();
 
       document.getElementById('roster-stat-farmers').textContent = `${data.summary.total_expected_farmers} Farmers`;
@@ -535,7 +654,7 @@
       const max_capacity = document.getElementById('new-slot-capacity').value;
       const slot_date = document.getElementById('slot-date-picker').value;
 
-      const res = await fetch('/api/admin/slots/config', {
+      const res = await adminFetch('/api/admin/slots/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ centre_id: 1, slot_date, time_window, max_capacity })
@@ -554,7 +673,7 @@
       const booking_id = document.getElementById('gate-booking-id').value.trim();
       if (!booking_id) return alert('Enter Booking ID');
 
-      const res = await fetch('/api/admin/gate/scan', {
+      const res = await adminFetch('/api/admin/gate/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ booking_id })
@@ -579,7 +698,7 @@
 
     // Quality Inspector
     async function loadPendingQualityQueue() {
-      const res = await fetch('/api/admin/queue/pending-quality');
+      const res = await adminFetch('/api/admin/queue/pending-quality');
       const list = await res.json();
       const container = document.getElementById('quality-pending-list');
 
@@ -618,7 +737,7 @@
       const grade = document.getElementById('quality-grade').value;
       const notes = document.getElementById('quality-notes').value;
 
-      const res = await fetch('/api/admin/quality/submit', {
+      const res = await adminFetch('/api/admin/quality/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ booking_id, moisture_pct, foreign_matter_pct, grade, notes })
@@ -632,7 +751,7 @@
 
     // Weighbridge Operator
     async function loadPendingWeighbridgeQueue() {
-      const res = await fetch('/api/admin/queue/pending-weighment');
+      const res = await adminFetch('/api/admin/queue/pending-weighment');
       const list = await res.json();
       const container = document.getElementById('weighbridge-pending-list');
 
@@ -677,7 +796,7 @@
       const gross_weight_kg = document.getElementById('weigh-gross').value;
       const tare_weight_kg = document.getElementById('weigh-tare').value;
 
-      const res = await fetch('/api/admin/weighbridge/submit', {
+      const res = await adminFetch('/api/admin/weighbridge/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ booking_id, gross_weight_kg, tare_weight_kg })
@@ -691,7 +810,7 @@
 
     // Accounts & Payment Approval
     async function loadPendingPaymentQueue() {
-      const res = await fetch('/api/admin/queue/pending-payment');
+      const res = await adminFetch('/api/admin/queue/pending-payment');
       const list = await res.json();
       const container = document.getElementById('payment-pending-list');
 
@@ -731,7 +850,7 @@
     async function approvePayment(booking_id) {
       if (!confirm(`Authorize PFMS Direct Benefit Transfer Payment for ${booking_id}?`)) return;
 
-      const res = await fetch('/api/admin/payment/approve', {
+      const res = await adminFetch('/api/admin/payment/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ booking_id })

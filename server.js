@@ -6,6 +6,16 @@ const db = require('./database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Admin Authentication Secret & Pre-configured Staff Passcodes
+const ADMIN_SECRET_TOKEN = 'SECURE_SIH_ADMIN_TOKEN_2026';
+const ADMIN_PASSCODES = {
+  'admin123': { role: 'SUPER_ADMIN', name: 'Mandi Officer' },
+  'gate1111': { role: 'GATEKEEPER', name: 'Security Guard' },
+  'qual2222': { role: 'QUALITY_INSPECTOR', name: 'Quality Inspector' },
+  'weigh3333': { role: 'WEIGHBRIDGE_OPERATOR', name: 'Weighbridge Operator' },
+  'pay4444': { role: 'ACCOUNTS_OFFICER', name: 'Accounts Officer' }
+};
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,8 +30,18 @@ try {
   db.exec('ALTER TABLE users ADD COLUMN bank_ifsc TEXT;');
 } catch (e) {}
 
+// Admin Authentication Middleware
+function requireAdminAuth(req, res, next) {
+  const authHeader = req.headers['x-admin-token'] || req.query.token;
+  if (authHeader === ADMIN_SECRET_TOKEN) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Access Denied: Private Admin Authorization Required' });
+  }
+}
+
 // ==========================================
-// 1. AUTHENTICATION & FARMER KYC REGISTRATION
+// 1. AUTHENTICATION APIS (FARMER & ADMIN)
 // ==========================================
 
 app.post('/api/auth/login', (req, res) => {
@@ -34,7 +54,6 @@ app.post('/api/auth/login', (req, res) => {
   if (user) {
     return res.json({ success: true, user });
   } else {
-    // Auto-register demo farmer
     const insertStmt = db.prepare('INSERT INTO users (name, phone, role, district, state) VALUES (?, ?, ?, ?, ?)');
     const result = insertStmt.run(`Farmer (${phone.slice(-4)})`, phone, 'FARMER', 'Guntur', 'Andhra Pradesh');
     const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
@@ -42,7 +61,25 @@ app.post('/api/auth/login', (req, res) => {
   }
 });
 
-// Farmer Registration & Aadhaar/Land KYC
+// Admin Private Login Endpoint
+app.post('/api/auth/admin-login', (req, res) => {
+  const { passcode } = req.body;
+  if (!passcode) return res.status(400).json({ error: 'Passcode required' });
+
+  const staff = ADMIN_PASSCODES[passcode];
+  if (staff || passcode === 'admin123') {
+    return res.json({
+      success: true,
+      token: ADMIN_SECRET_TOKEN,
+      role: staff ? staff.role : 'SUPER_ADMIN',
+      name: staff ? staff.name : 'Mandi Administrator',
+      message: 'Admin Passcode Verified!'
+    });
+  } else {
+    return res.status(403).json({ error: 'Invalid Admin Passcode. Access Denied.' });
+  }
+});
+
 app.post('/api/auth/register-kyc', (req, res) => {
   const { name, phone, aadhaar, land_record_id, district, state, bank_account, bank_ifsc } = req.body;
 
@@ -50,7 +87,6 @@ app.post('/api/auth/register-kyc', (req, res) => {
     return res.status(400).json({ error: 'Name, Phone, Aadhaar number, and Land Record ID are required' });
   }
 
-  // Check if farmer already exists
   const existing = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone);
 
   if (existing) {
@@ -192,10 +228,10 @@ app.get('/api/queue/live/:centre_id', (req, res) => {
 });
 
 // ==========================================
-// 4. ADMIN & MANDI OPERATIONS APIS
+// 4. PRIVATE ADMIN & MANDI OPERATIONS APIS (PROTECTED BY requireAdminAuth)
 // ==========================================
 
-app.post('/api/admin/gate/scan', (req, res) => {
+app.post('/api/admin/gate/scan', requireAdminAuth, (req, res) => {
   const { booking_id } = req.body;
   const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
 
@@ -208,12 +244,12 @@ app.post('/api/admin/gate/scan', (req, res) => {
   res.json({ success: true, message: `Farmer ${booking.farmer_name} checked in successfully!`, booking: updated });
 });
 
-app.get('/api/admin/queue/pending-quality', (req, res) => {
+app.get('/api/admin/queue/pending-quality', requireAdminAuth, (req, res) => {
   const stmt = db.prepare("SELECT * FROM bookings WHERE status = 'ARRIVED' ORDER BY arrived_at ASC");
   res.json(stmt.all());
 });
 
-app.post('/api/admin/quality/submit', (req, res) => {
+app.post('/api/admin/quality/submit', requireAdminAuth, (req, res) => {
   const { booking_id, moisture_pct, foreign_matter_pct, grade, notes } = req.body;
 
   const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
@@ -234,12 +270,12 @@ app.post('/api/admin/quality/submit', (req, res) => {
   res.json({ success: true, status, bookingStatus, message: `Quality inspection recorded: ${status}` });
 });
 
-app.get('/api/admin/queue/pending-weighment', (req, res) => {
+app.get('/api/admin/queue/pending-weighment', requireAdminAuth, (req, res) => {
   const stmt = db.prepare("SELECT * FROM bookings WHERE status = 'QUALITY_PASSED' ORDER BY quality_checked_at ASC");
   res.json(stmt.all());
 });
 
-app.post('/api/admin/weighbridge/submit', (req, res) => {
+app.post('/api/admin/weighbridge/submit', requireAdminAuth, (req, res) => {
   const { booking_id, gross_weight_kg, tare_weight_kg } = req.body;
 
   const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
@@ -261,7 +297,7 @@ app.post('/api/admin/weighbridge/submit', (req, res) => {
   res.json({ success: true, netKg, netQtl, message: `Weighbridge recorded: ${netQtl} Quintals net weight` });
 });
 
-app.get('/api/admin/queue/pending-payment', (req, res) => {
+app.get('/api/admin/queue/pending-payment', requireAdminAuth, (req, res) => {
   const stmt = db.prepare(`
     SELECT b.*, w.net_weight_qtl 
     FROM bookings b
@@ -272,7 +308,7 @@ app.get('/api/admin/queue/pending-payment', (req, res) => {
   res.json(stmt.all());
 });
 
-app.post('/api/admin/payment/approve', (req, res) => {
+app.post('/api/admin/payment/approve', requireAdminAuth, (req, res) => {
   const { booking_id } = req.body;
 
   const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
@@ -304,11 +340,7 @@ app.post('/api/admin/payment/approve', (req, res) => {
   });
 });
 
-// ==========================================
-// 5. ADMIN SLOT MANAGEMENT & MONITORING ANALYTICS
-// ==========================================
-
-app.get('/api/admin/slots/manage', (req, res) => {
+app.get('/api/admin/slots/manage', requireAdminAuth, (req, res) => {
   const { centre_id, date } = req.query;
   const targetDate = date || new Date().toISOString().split('T')[0];
   const targetCentre = centre_id || 1;
@@ -347,7 +379,7 @@ app.get('/api/admin/slots/manage', (req, res) => {
   });
 });
 
-app.post('/api/admin/slots/config', (req, res) => {
+app.post('/api/admin/slots/config', requireAdminAuth, (req, res) => {
   const { centre_id, slot_date, time_window, max_capacity } = req.body;
 
   if (!centre_id || !slot_date || !time_window || !max_capacity) {
@@ -361,22 +393,19 @@ app.post('/api/admin/slots/config', (req, res) => {
   res.status(201).json({ success: true, slot: newSlot, message: `New slot '${time_window}' added successfully!` });
 });
 
-// Advanced Monitoring & Analytics Endpoint (As required in diagram)
-app.get('/api/admin/analytics', (req, res) => {
+app.get('/api/admin/analytics', requireAdminAuth, (req, res) => {
   const totalBookings = db.prepare('SELECT COUNT(*) as count FROM bookings').get().count;
   const arrivedCount = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
   const qualityPassed = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
   const totalProcuredQtl = db.prepare('SELECT COALESCE(SUM(net_weight_qtl), 0) as total FROM weighments').get().total;
   const totalDisbursedAmt = db.prepare('SELECT COALESCE(SUM(net_amount), 0) as total FROM payments').get().total;
 
-  // Crop Breakdown
   const cropStats = db.prepare(`
     SELECT crop_name, COUNT(*) as bookings_count, SUM(estimated_qtl) as est_quintals
     FROM bookings
     GROUP BY crop_name
   `).all();
 
-  // Centre Load
   const centreStats = db.prepare(`
     SELECT centre_name, COUNT(*) as active_farmers
     FROM bookings
@@ -406,14 +435,12 @@ app.get('/api/admin/analytics', (req, res) => {
 app.get('/api/admin/stats', (req, res) => {
   const totalBookings = db.prepare('SELECT COUNT(*) as count FROM bookings').get().count;
   const arrivedCount = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
-  const qualityPassed = db.prepare("SELECT COUNT(*) as count FROM bookings WHERE status IN ('QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED')").get().count;
   const totalProcuredQtl = db.prepare('SELECT COALESCE(SUM(net_weight_qtl), 0) as total FROM weighments').get().total;
   const totalDisbursedAmt = db.prepare('SELECT COALESCE(SUM(net_amount), 0) as total FROM payments').get().total;
 
   res.json({
     total_bookings: totalBookings,
     arrived_count: arrivedCount,
-    quality_passed_count: qualityPassed,
     total_procured_quintals: Math.round(totalProcuredQtl * 100) / 100,
     total_disbursed_inr: Math.round(totalDisbursedAmt)
   });
@@ -424,7 +451,7 @@ app.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`🌾 Kisan Procurement Connect Engine Running!`);
   console.log(`📍 Web Application URL: http://localhost:${PORT}`);
-  console.log(`📍 Admin Operations Portal: http://localhost:${PORT}/admin`);
+  console.log(`🔒 Private Admin Operations Portal: http://localhost:${PORT}/admin`);
   console.log(`📍 Farmer Portal: http://localhost:${PORT}/farmer`);
   console.log(`=======================================================`);
 });
