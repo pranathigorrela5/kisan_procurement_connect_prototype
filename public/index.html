@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kisan Procurement Connect - SIH Product Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    body { font-family: 'Noto Sans', sans-serif; background-color: #f8f9ff; }
+    h1, h2, h3, .font-heading { font-family: 'Public Sans', sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen text-gray-900 bg-slate-50 flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="bg-[#004c22] text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="material-symbols-outlined text-4xl text-amber-400">agriculture</span>
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">Kisan Procurement Connect</h1>
+          <p class="text-xs text-emerald-200">Smart India Hackathon Product Prototype | APMC Mandi Streamlining System</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-800 text-emerald-100 border border-emerald-600">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span> Backend Engine Active
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Role Selection -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+
+    <!-- Project Banner -->
+    <div class="bg-gradient-to-r from-[#004c22] to-emerald-800 rounded-3xl p-8 mb-10 text-white shadow-xl relative overflow-hidden">
+      <div class="relative z-10 max-w-3xl">
+        <span class="inline-block bg-amber-500 text-emerald-950 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3">SIH Final Prototype</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Digitizing Crop Procurement, Token Queueing & MSP Payments</h2>
+        <p class="text-emerald-100 text-base leading-relaxed mb-6">
+          Eliminating long mandi waiting hours for farmers through smart slot booking, real-time token tracking, transparent moisture quality inspection, digital weighment slips, and direct benefit transfer (DBT) payment processing.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="/farmer" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition flex items-center space-x-2 text-base">
+            <span class="material-symbols-outlined">person</span>
+            <span>Launch Farmer App</span>
+          </a>
+          <a href="/admin" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 font-semibold px-6 py-3.5 rounded-xl transition flex items-center space-x-2 text-base">
+            <span class="material-symbols-outlined">admin_panel_settings</span>
+            <span>Launch Admin Portal</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual Persona Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      
+      <!-- Farmer Card -->
+      <div class="bg-white rounded-3xl p-8 shadow-md border border-slate-200 hover:shadow-xl transition flex flex-col justify-between">
+        <div>
+          <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-[#004c22] flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-3xl">agriculture</span>
+          </div>
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Farmer Experience</span>
+          <h3 class="text-2xl font-bold text-gray-900 mt-1 mb-3">Farmer Web Portal & App</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            Multi-lingual interface (English, Hindi, Telugu) allowing farmers to view MSP rates, book procurement slots, receive QR entry tokens, track live token queues, and check payout status.
+          </p>
+
+          <ul class="space-y-2.5 mb-8 text-sm text-gray-700">
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-emerald-600 text-lg">check_circle</span>
+              <span>Dynamic Slot Booking & Time Window Selection</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-emerald-600 text-lg">check_circle</span>
+              <span>QR Code Token & Live Queue Tracker</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-emerald-600 text-lg">check_circle</span>
+              <span>6-Stage Procurement Progress & Weighment Receipt</span>
+            </li>
+          </ul>
+        </div>
+
+        <a href="/farmer" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 px-4 rounded-xl text-center shadow transition block">
+          Open Farmer App &rarr;
+        </a>
+      </div>
+
+      <!-- Admin Portal Card -->
+      <div class="bg-white rounded-3xl p-8 shadow-md border border-slate-200 hover:shadow-xl transition flex flex-col justify-between">
+        <div>
+          <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-3xl">storefront</span>
+          </div>
+          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Mandi Operations</span>
+          <h3 class="text-2xl font-bold text-gray-900 mt-1 mb-3">Mandi Staff & Admin Portal</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            Unified operational suite for Gatekeepers, Quality Inspectors, Weighbridge Operators, and Accounts Officers to process arriving farmers seamlessly.
+          </p>
+
+          <ul class="space-y-2.5 mb-8 text-sm text-gray-700">
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-amber-600 text-lg">check_circle</span>
+              <span><strong>Gatekeeper:</strong> QR Scanner & Arrival Check-in</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-amber-600 text-lg">check_circle</span>
+              <span><strong>Inspector:</strong> Moisture % & Quality Grading</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-amber-600 text-lg">check_circle</span>
+              <span><strong>Weighbridge:</strong> Gross/Tare Weight & Net Quintals</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <span class="material-symbols-outlined text-amber-600 text-lg">check_circle</span>
+              <span><strong>Finance:</strong> Direct Benefit Transfer (DBT) Payouts</span>
+            </li>
+          </ul>
+        </div>
+
+        <a href="/admin" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-4 rounded-xl text-center shadow transition block">
+          Open Admin Operations Portal &rarr;
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Live System Statistics Box -->
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-xl font-bold text-gray-900">Live Mandi System Status</h3>
+          <p class="text-sm text-gray-500">Real-time procurement database metrics</p>
+        </div>
+        <button onclick="loadLiveStats()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center space-x-1">
+          <span class="material-symbols-outlined text-sm">refresh</span>
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <span class="text-xs text-gray-500 uppercase font-semibold">Total Bookings</span>
+          <p id="stat-bookings" class="text-3xl font-bold text-emerald-700 mt-1">...</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <span class="text-xs text-gray-500 uppercase font-semibold">Arrived at Mandi</span>
+          <p id="stat-arrived" class="text-3xl font-bold text-amber-600 mt-1">...</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <span class="text-xs text-gray-500 uppercase font-semibold">Procured (Quintals)</span>
+          <p id="stat-quintals" class="text-3xl font-bold text-blue-600 mt-1">...</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <span class="text-xs text-gray-500 uppercase font-semibold">Disbursed (₹ INR)</span>
+          <p id="stat-amount" class="text-3xl font-bold text-emerald-800 mt-1">...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+    <p>Kisan Procurement Connect &copy; 2026 Smart India Hackathon Prototype | Empowering Indian Farmers</p>
+  </footer>
+
+  <script>
+    async function loadLiveStats() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        const data = await res.json();
+        document.getElementById('stat-bookings').textContent = data.total_bookings;
+        document.getElementById('stat-arrived').textContent = data.arrived_count;
+        document.getElementById('stat-quintals').textContent = `${data.total_procured_quintals} QTL`;
+        document.getElementById('stat-amount').textContent = `₹${data.total_disbursed_inr.toLocaleString('en-IN')}`;
+      } catch (e) {
+        console.error('Failed to load stats', e);
+      }
+    }
+    loadLiveStats();
+  </script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer App - Kisan Procurement Connect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <style>
+    body { font-family: 'Noto Sans', sans-serif; background-color: #f8f9ff; }
+    h1, h2, h3, .font-heading { font-family: 'Public Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen pb-20">
+
+  <!-- Top App Header -->
+  <header class="bg-[#004c22] text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="material-symbols-outlined text-3xl text-amber-400">agriculture</span>
+        <div>
+          <h1 class="text-lg font-bold leading-tight" id="app-title">Kisan Procurement</h1>
+          <p class="text-xs text-emerald-200" id="farmer-name-display">Not Logged In</p>
+        </div>
+      </div>
+      
+      <!-- Language Selector -->
+      <div class="flex items-center space-x-1">
+        <select id="lang-select" onchange="changeLanguage()" class="bg-emerald-900 text-white text-xs font-semibold px-2 py-1.5 rounded-lg border border-emerald-700 outline-none">
+          <option value="en">English 🇬🇧</option>
+          <option value="hi">हिंदी 🇮🇳</option>
+          <option value="te">తెలుగు 🇮🇳</option>
+        </select>
+        <button onclick="logoutFarmer()" id="btn-logout" class="hidden text-amber-300 hover:text-white p-1">
+          <span class="material-symbols-outlined text-xl">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Modal / Screen (If not logged in) -->
+  <div id="login-modal" class="max-w-xl mx-auto p-4 mt-6">
+    <div class="bg-white rounded-3xl p-6 shadow-lg border border-slate-200 text-center">
+      <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 text-[#004c22]">
+        <span class="material-symbols-outlined text-4xl">phone_iphone</span>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-1" id="txt-login-title">Farmer Login</h2>
+      <p class="text-xs text-slate-500 mb-6" id="txt-login-subtitle">Enter your mobile number to view bookings and book slots</p>
+
+      <div class="mb-4 text-left">
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number</label>
+        <input type="tel" id="input-phone" value="9876543210" placeholder="10-digit mobile number" class="w-full text-lg font-bold px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-600">
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-6 text-xs text-amber-800 text-left">
+        <strong>Demo Quick Login Numbers:</strong>
+        <ul class="mt-1 space-y-1">
+          <li>• <code>9876543210</code> (Ramesh Kumar - Active Booking)</li>
+          <li>• <code>9876543211</code> (Suresh Patel - Arrived at Mandi)</li>
+          <li>• <code>9876543212</code> (Lakshmi Devi - Quality Passed)</li>
+        </ul>
+      </div>
+
+      <button onclick="loginFarmer()" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow transition text-base">
+        Login with OTP &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Farmer App Content (Hidden until login) -->
+  <main id="app-content" class="hidden max-w-xl mx-auto p-4 space-y-5">
+
+    <!-- Tab 1: Dashboard -->
+    <div id="tab-dashboard" class="tab-pane space-y-4">
+      
+      <!-- Welcome Banner -->
+      <div class="bg-gradient-to-br from-[#004c22] to-emerald-800 text-white rounded-3xl p-5 shadow-md relative overflow-hidden">
+        <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">Minimum Support Price (MSP) 2026</span>
+        <h2 class="text-xl font-bold mt-1 mb-2">Government Crop Procurement Portal</h2>
+        <p class="text-xs text-emerald-100 leading-relaxed mb-4">Book your mandi slot in advance, avoid long queues, and track your payment directly in your bank account.</p>
+        <button onclick="switchTab('book')" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1 shadow">
+          <span class="material-symbols-outlined text-base">calendar_add_on</span>
+          <span>Book Procurement Slot</span>
+        </button>
+      </div>
+
+      <!-- Live MSP Rate Card -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center space-x-1">
+          <span class="material-symbols-outlined text-amber-600">payments</span>
+          <span>Official MSP Rates (per Quintal)</span>
+        </h3>
+        <div id="msp-rate-container" class="grid grid-cols-2 gap-2 text-xs">
+          <!-- Dynamically filled -->
+        </div>
+      </div>
+
+      <!-- Active Bookings Summary -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-bold text-slate-800">My Procurement Bookings</h3>
+          <button onclick="loadFarmerBookings()" class="text-xs text-emerald-700 font-semibold">Refresh</button>
+        </div>
+        <div id="my-bookings-list" class="space-y-3">
+          <!-- Dynamically filled -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tab 2: Book Slot -->
+    <div id="tab-book" class="tab-pane hidden space-y-4">
+      <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center space-x-2">
+          <span class="material-symbols-outlined text-[#004c22]">event_available</span>
+          <span>Book a Procurement Slot</span>
+        </h2>
+
+        <form id="form-booking" onsubmit="handleSlotBooking(event)" class="space-y-4 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Select Procurement Centre (Mandi)</label>
+            <select id="select-centre" onchange="loadSlotsForCentre()" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-emerald-600">
+              <!-- Dynamically filled -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Select Crop</label>
+            <select id="select-crop" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-emerald-600">
+              <!-- Dynamically filled -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Estimated Quantity (in Quintals)</label>
+            <input type="number" id="input-qtl" min="1" max="200" value="45" class="w-full text-sm font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Select Time Slot (Today)</label>
+            <div id="slots-radio-container" class="space-y-2">
+              <!-- Dynamically filled -->
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition">
+            Confirm & Reserve Slot &rarr;
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tab 3: Live Queue Tracker -->
+    <div id="tab-queue" class="tab-pane hidden space-y-4">
+      <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm text-center">
+        <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Live Mandi Queue Status</span>
+        <h2 class="text-xl font-bold text-slate-900 mt-1 mb-4" id="queue-centre-name">Guntur Main APMC Mandi</h2>
+
+        <!-- Current Token Display Box -->
+        <div class="bg-emerald-950 text-white p-6 rounded-2xl mb-6 shadow-inner">
+          <p class="text-xs text-emerald-300 uppercase font-semibold">Currently Serving Token</p>
+          <div id="serving-token-display" class="text-5xl font-extrabold text-amber-400 my-2">Q-101</div>
+          <p class="text-xs text-emerald-200">Please be ready near the gate when your token is called.</p>
+        </div>
+
+        <!-- Live Queue List -->
+        <div class="text-left">
+          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Vehicles in Queue Today</h3>
+          <div id="live-queue-list" class="space-y-2 text-xs">
+            <!-- Dynamically filled -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Procurement Status Tracker -->
+    <div id="tab-status" class="tab-pane hidden space-y-4">
+      <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-slate-900">Procurement Lifecycle Tracker</h2>
+          <span id="tracker-booking-id" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">BK-1001</span>
+        </div>
+
+        <!-- QR Code Container for Gatekeeper -->
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center mb-6">
+          <p class="text-xs font-bold text-slate-700 mb-2">Scan QR Code at Mandi Entry Gate</p>
+          <div id="qrcode" class="flex justify-center my-2"></div>
+          <p class="text-xs font-mono text-slate-500 mt-1" id="qr-token-label">Token: Q-101</p>
+        </div>
+
+        <!-- 6-Stage Timeline -->
+        <div class="relative pl-6 space-y-6 border-l-2 border-slate-200 ml-2 text-xs" id="timeline-container">
+          <!-- Dynamically built timeline steps -->
+        </div>
+
+        <!-- Detailed Receipt Card -->
+        <div id="receipt-box" class="hidden mt-6 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-xs">
+          <h3 class="font-bold text-emerald-900 mb-2 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-base">receipt_long</span>
+            <span>Official Procurement & Payout Receipt</span>
+          </h3>
+          <div class="space-y-1 text-slate-700" id="receipt-details">
+            <!-- Dynamically filled -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50">
+    <div class="max-w-xl mx-auto flex justify-around py-2">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center text-xs font-medium text-emerald-700">
+        <span class="material-symbols-outlined text-2xl">grid_view</span>
+        <span>Home</span>
+      </button>
+      <button onclick="switchTab('book')" id="nav-book" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
+        <span class="material-symbols-outlined text-2xl">calendar_month</span>
+        <span>Book Slot</span>
+      </button>
+      <button onclick="switchTab('queue')" id="nav-queue" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
+        <span class="material-symbols-outlined text-2xl">confirmation_number</span>
+        <span>Live Queue</span>
+      </button>
+      <button onclick="switchTab('status')" id="nav-status" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
+        <span class="material-symbols-outlined text-2xl">track_changes</span>
+        <span>Status</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    let currentUser = null;
+    let masterCentres = [];
+    let masterCrops = [];
+    let activeBooking = null;
+
+    const translations = {
+      en: { appTitle: "Kisan Procurement", loginTitle: "Farmer Login", loginSub: "Enter mobile number to view bookings and book slots" },
+      hi: { appTitle: "किसान खरीद पोर्टल", loginTitle: "किसान लॉगिन", loginSub: "बुकिंग और स्लॉट बुक करने के लिए अपना मोबाइल नंबर दर्ज करें" },
+      te: { appTitle: "కిసాన్ కొనుగోలు పోర్టల్", loginTitle: "రైతు లాగిన్", loginSub: "స్లాట్ బుకింగ్ మరియు క్యూ స్టేటస్ చూడటానికి ఫోన్ నంబర్ నమోదు చేయండి" }
+    };
+
+    function changeLanguage() {
+      const lang = document.getElementById('lang-select').value;
+      document.getElementById('app-title').textContent = translations[lang].appTitle;
+      document.getElementById('txt-login-title').textContent = translations[lang].loginTitle;
+      document.getElementById('txt-login-subtitle').textContent = translations[lang].loginSub;
+    }
+
+    async function loginFarmer() {
+      const phone = document.getElementById('input-phone').value.trim();
+      if (!phone) return alert('Please enter phone number');
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        if (data.success) {
+          currentUser = data.user;
+          document.getElementById('farmer-name-display').textContent = `${currentUser.name} (${currentUser.phone})`;
+          document.getElementById('login-modal').classList.add('hidden');
+          document.getElementById('app-content').classList.remove('hidden');
+          document.getElementById('bottom-nav').classList.remove('hidden');
+          document.getElementById('btn-logout').classList.remove('hidden');
+
+          await loadMasterData();
+          await loadFarmerBookings();
+        }
+      } catch (e) {
+        alert('Login failed. Ensure backend server is running.');
+      }
+    }
+
+    function logoutFarmer() {
+      currentUser = null;
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('app-content').classList.add('hidden');
+      document.getElementById('bottom-nav').classList.add('hidden');
+      document.getElementById('btn-logout').classList.add('hidden');
+    }
+
+    async function loadMasterData() {
+      const [resC, resCr] = await Promise.all([
+        fetch('/api/centres'),
+        fetch('/api/crops')
+      ]);
+      masterCentres = await resC.json();
+      masterCrops = await resCr.json();
+
+      // Render MSP Card
+      const mspContainer = document.getElementById('msp-rate-container');
+      mspContainer.innerHTML = masterCrops.map(c => `
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <span class="text-slate-500 font-medium block">${c.name}</span>
+          <span class="text-sm font-bold text-emerald-800">₹${c.msp_rate_per_qtl} / QTL</span>
+        </div>
+      `).join('');
+
+      // Render Dropdowns
+      document.getElementById('select-centre').innerHTML = masterCentres.map(c => `<option value="${c.id}">${c.name} (${c.district})</option>`).join('');
+      document.getElementById('select-crop').innerHTML = masterCrops.map(c => `<option value="${c.id}">${c.name} (MSP ₹${c.msp_rate_per_qtl}/QTL)</option>`).join('');
+
+      await loadSlotsForCentre();
+    }
+
+    async function loadSlotsForCentre() {
+      const centreId = document.getElementById('select-centre').value || 1;
+      const res = await fetch(`/api/slots?centre_id=${centreId}`);
+      const slots = await res.json();
+
+      const container = document.getElementById('slots-radio-container');
+      container.innerHTML = slots.map((s, idx) => `
+        <label class="flex items-center justify-between p-3 rounded-xl border ${idx === 0 ? 'border-emerald-600 bg-emerald-50' : 'border-slate-200 bg-slate-50'} cursor-pointer">
+          <div class="flex items-center space-x-2">
+            <input type="radio" name="slot_id" value="${s.id}" ${idx === 0 ? 'checked' : ''} class="text-emerald-700">
+            <span class="font-bold text-slate-800">${s.time_window}</span>
+          </div>
+          <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-semibold">${30 - s.booked_count} slots left</span>
+        </label>
+      `).join('');
+    }
+
+    async function loadFarmerBookings() {
+      if (!currentUser) return;
+      const res = await fetch(`/api/bookings/farmer/${currentUser.phone}`);
+      const bookings = await res.json();
+
+      const listContainer = document.getElementById('my-bookings-list');
+
+      if (bookings.length === 0) {
+        listContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No active bookings found. Book your first slot!</p>`;
+        return;
+      }
+
+      activeBooking = bookings[0]; // Set latest booking for status tracking
+
+      listContainer.innerHTML = bookings.map(b => `
+        <div onclick="selectBookingForTracker('${b.id}')" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 cursor-pointer transition">
+          <div class="flex justify-between items-start mb-1">
+            <span class="font-bold text-slate-900">${b.crop_name} (${b.estimated_qtl} QTL)</span>
+            <span class="text-xs font-bold px-2 py-0.5 rounded ${getStatusBadgeClass(b.status)}">${b.status}</span>
+          </div>
+          <div class="text-slate-500 text-xs flex justify-between">
+            <span>Token: <strong>${b.token_number}</strong></span>
+            <span>${b.booking_date} (${b.time_window})</span>
+          </div>
+        </div>
+      `).join('');
+
+      if (activeBooking) {
+        loadBookingTrackerDetails(activeBooking.id);
+        loadLiveQueue(activeBooking.centre_id);
+      }
+    }
+
+    function getStatusBadgeClass(status) {
+      if (status === 'BOOKED') return 'bg-amber-100 text-amber-800';
+      if (status === 'ARRIVED') return 'bg-blue-100 text-blue-800';
+      if (status === 'QUALITY_PASSED') return 'bg-emerald-100 text-emerald-800';
+      if (status === 'WEIGHED') return 'bg-purple-100 text-purple-800';
+      if (status === 'PAYMENT_PROCESSED') return 'bg-emerald-800 text-white';
+      return 'bg-slate-200 text-slate-800';
+    }
+
+    async function handleSlotBooking(e) {
+      e.preventDefault();
+      const centre_id = document.getElementById('select-centre').value;
+      const crop_id = document.getElementById('select-crop').value;
+      const estimated_qtl = document.getElementById('input-qtl').value;
+      const slot_id = document.querySelector('input[name="slot_id"]:checked')?.value;
+
+      if (!slot_id) return alert('Please select a time slot');
+
+      try {
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ farmer_id: currentUser.id, centre_id, crop_id, slot_id, estimated_qtl })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`Slot Booked Successfully! Token: ${data.booking.token_number}`);
+          await loadFarmerBookings();
+          switchTab('status');
+        }
+      } catch (err) {
+        alert('Booking failed');
+      }
+    }
+
+    async function selectBookingForTracker(bookingId) {
+      await loadBookingTrackerDetails(bookingId);
+      switchTab('status');
+    }
+
+    async function loadBookingTrackerDetails(bookingId) {
+      const res = await fetch(`/api/bookings/${bookingId}`);
+      const data = await res.json();
+      const b = data.booking;
+
+      document.getElementById('tracker-booking-id').textContent = b.id;
+      document.getElementById('qr-token-label').textContent = `Token Number: ${b.token_number}`;
+
+      // Render QR Code
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+      const typeNumber = 4;
+      const errorCorrectionLevel = 'L';
+      const qr = qrcode(typeNumber, errorCorrectionLevel);
+      qr.addData(b.id);
+      qr.make();
+      qrContainer.innerHTML = qr.createImgTag(4);
+
+      // Render 6-Stage Timeline
+      const stages = [
+        { key: 'BOOKED', label: 'Slot Booked', desc: `${b.booking_date} (${b.time_window})` },
+        { key: 'ARRIVED', label: 'Arrived at Mandi Gate', desc: b.arrived_at ? new Date(b.arrived_at).toLocaleTimeString() : 'Awaiting arrival check-in' },
+        { key: 'QUALITY_PASSED', label: 'Quality Inspection', desc: data.quality ? `Moisture: ${data.quality.moisture_pct}%, Grade: ${data.quality.grade}` : 'Awaiting quality officer' },
+        { key: 'WEIGHED', label: 'Weighbridge Measurement', desc: data.weighment ? `Net Weight: ${data.weighment.net_weight_qtl} Quintals` : 'Awaiting weighbridge' },
+        { key: 'PAYMENT_PROCESSED', label: 'DBT Payment Disbursed', desc: data.payment ? `₹${data.payment.net_amount.toLocaleString('en-IN')} (Ref: ${data.payment.bank_ref})` : 'Awaiting payment approval' }
+      ];
+
+      const stageOrder = ['BOOKED', 'ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED'];
+      const currentIdx = stageOrder.indexOf(b.status);
+
+      const timelineContainer = document.getElementById('timeline-container');
+      timelineContainer.innerHTML = stages.map((s, idx) => {
+        const isDone = idx <= currentIdx;
+        const isCurrent = idx === currentIdx;
+        return `
+          <div class="relative">
+            <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full ${isDone ? 'bg-emerald-600 ring-4 ring-emerald-100' : 'bg-slate-300'} flex items-center justify-center text-white text-[9px]">
+              ${isDone ? '✓' : ''}
+            </div>
+            <h4 class="font-bold text-slate-900 ${isCurrent ? 'text-emerald-800 text-sm' : ''}">${s.label}</h4>
+            <p class="text-slate-500">${s.desc}</p>
+          </div>
+        `;
+      }).join('');
+
+      // Render Receipt if completed
+      const receiptBox = document.getElementById('receipt-box');
+      if (data.payment && data.weighment) {
+        receiptBox.classList.remove('hidden');
+        document.getElementById('receipt-details').innerHTML = `
+          <p>• Crop: <strong>${b.crop_name}</strong></p>
+          <p>• Net Weight: <strong>${data.weighment.net_weight_qtl} Quintals</strong></p>
+          <p>• MSP Rate: <strong>₹${b.msp_rate} / QTL</strong></p>
+          <p>• Total Amount: <strong class="text-emerald-800 text-sm">₹${data.payment.net_amount.toLocaleString('en-IN')}</strong></p>
+          <p class="text-[10px] text-slate-500 mt-1">Bank Ref: ${data.payment.bank_ref} | Status: DISBURSED VIA DBT</p>
+        `;
+      } else {
+        receiptBox.classList.add('hidden');
+      }
+    }
+
+    async function loadLiveQueue(centreId = 1) {
+      const res = await fetch(`/api/queue/live/${centreId}`);
+      const data = await res.json();
+      document.getElementById('serving-token-display').textContent = data.currently_serving_token;
+      
+      const listContainer = document.getElementById('live-queue-list');
+      if (data.queue.length === 0) {
+        listContainer.innerHTML = `<p class="text-slate-400 py-2">No vehicles currently in queue.</p>`;
+        return;
+      }
+
+      listContainer.innerHTML = data.queue.map(q => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-slate-50">
+          <span class="font-extrabold text-slate-800 text-sm">${q.token_number} (${q.farmer_name})</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded ${getStatusBadgeClass(q.status)}">${q.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
