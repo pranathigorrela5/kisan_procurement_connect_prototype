@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Farmer App - Kisan Procurement Connect</title>
+  <title>Farmer Portal & Voice IVR - Kisan Procurement Connect</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -32,85 +32,30 @@
     }
     h1, h2, h3, .font-heading { font-family: 'Public Sans', sans-serif; }
 
-    /* ── Natural sun disk ── */
+    /* Natural sun disk */
     .natural-sun {
       position: fixed;
-      top: 18%;
+      top: 15%;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 80px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: radial-gradient(circle, #fffde0 0%, #ffe066 35%, #ffaa22 65%, transparent 100%);
-      box-shadow: 0 0 60px 30px rgba(255,200,60,0.22), 0 0 120px 70px rgba(255,160,30,0.10);
+      box-shadow: 0 0 50px 25px rgba(255,200,60,0.2), 0 0 100px 50px rgba(255,160,30,0.1);
       animation: sunrise 8s ease-in-out infinite;
       pointer-events: none;
       z-index: 1;
     }
     @keyframes sunrise {
-      0%, 100% { box-shadow: 0 0 60px 30px rgba(255,200,60,0.22), 0 0 120px 70px rgba(255,160,30,0.10); }
-      50%       { box-shadow: 0 0 80px 45px rgba(255,220,80,0.30), 0 0 160px 100px rgba(255,180,40,0.14); }
+      0%, 100% { box-shadow: 0 0 50px 25px rgba(255,200,60,0.2), 0 0 100px 50px rgba(255,160,30,0.1); }
+      50%       { box-shadow: 0 0 70px 35px rgba(255,220,80,0.25), 0 0 140px 70px rgba(255,180,40,0.12); }
     }
 
-    /* ── Sun rays ── */
-    .sun-rays {
-      position: fixed;
-      top: 18%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: conic-gradient(
-        rgba(255,220,80,0.07) 0deg,
-        transparent 10deg,
-        rgba(255,220,80,0.05) 20deg,
-        transparent 30deg,
-        rgba(255,220,80,0.07) 40deg,
-        transparent 50deg,
-        rgba(255,220,80,0.05) 60deg,
-        transparent 70deg,
-        rgba(255,220,80,0.07) 80deg,
-        transparent 90deg,
-        rgba(255,220,80,0.05) 100deg,
-        transparent 110deg,
-        rgba(255,220,80,0.07) 120deg,
-        transparent 130deg,
-        rgba(255,220,80,0.05) 140deg,
-        transparent 150deg,
-        rgba(255,220,80,0.07) 160deg,
-        transparent 170deg,
-        rgba(255,220,80,0.05) 180deg,
-        transparent 190deg,
-        rgba(255,220,80,0.07) 200deg,
-        transparent 210deg,
-        rgba(255,220,80,0.05) 220deg,
-        transparent 230deg,
-        rgba(255,220,80,0.07) 240deg,
-        transparent 250deg,
-        rgba(255,220,80,0.05) 260deg,
-        transparent 270deg,
-        rgba(255,220,80,0.07) 280deg,
-        transparent 290deg,
-        rgba(255,220,80,0.05) 300deg,
-        transparent 310deg,
-        rgba(255,220,80,0.07) 320deg,
-        transparent 330deg,
-        rgba(255,220,80,0.05) 340deg,
-        transparent 350deg
-      );
-      animation: raysRotate 30s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-      margin-top: -160px;
-      margin-left: -200px;
-    }
-    @keyframes raysRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    /* ── Drifting clouds ── */
+    /* Drifting clouds */
     .cloud {
       position: fixed;
-      background: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.45);
       border-radius: 50px;
       pointer-events: none;
       z-index: 1;
@@ -120,7 +65,7 @@
     .cloud::before, .cloud::after {
       content: '';
       position: absolute;
-      background: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.45);
       border-radius: 50%;
     }
     .cloud::before { width: 60%; height: 150%; top: -40%; left: 15%; }
@@ -130,24 +75,7 @@
       to   { transform: translateX(110vw); }
     }
 
-    /* ── Horizon glow haze ── */
-    .horizon-haze {
-      position: fixed;
-      top: 32%;
-      left: 0;
-      width: 100%;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent, rgba(255,170,60,0.18), transparent);
-      pointer-events: none;
-      z-index: 1;
-      animation: hazeBreath 6s ease-in-out infinite;
-    }
-    @keyframes hazeBreath {
-      0%, 100% { opacity: 0.7; }
-      50%       { opacity: 1.0; }
-    }
-
-    /* ── Layered field silhouettes ── */
+    /* Layered field silhouettes */
     .field-layer {
       position: fixed;
       bottom: 0;
@@ -157,13 +85,13 @@
       z-index: 2;
     }
 
-    /* ── Wheat stalks — foreground ── */
+    /* Wheat stalks container */
     .wheat-wrap {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 260px;
+      height: 240px;
       overflow: hidden;
       pointer-events: none;
       z-index: 3;
@@ -174,7 +102,6 @@
       border-radius: 2px 2px 0 0;
       transform-origin: bottom center;
     }
-    /* stem */
     .wstalk .stem {
       position: absolute;
       bottom: 0;
@@ -182,17 +109,13 @@
       transform: translateX(-50%);
       width: 2px;
       border-radius: 1px;
-      background: linear-gradient(to top, #6b4c10, #b8870e, #d4a832, #e8c84a);
     }
-    /* grain head */
     .wstalk .head {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(to top, #b07820, #e8c040, #f5dc72);
       border-radius: 3px 3px 30% 30%;
     }
-    /* small side leaves */
     .wstalk .leaf-l {
       position: absolute;
       left: 0px;
@@ -207,7 +130,6 @@
       border-radius: 80% 0 0 80%;
       transform-origin: right center;
     }
-
     @keyframes naturalSway {
       0%   { transform: rotate(var(--lean-l)); }
       30%  { transform: rotate(var(--lean-r)); }
@@ -216,7 +138,7 @@
       100% { transform: rotate(var(--lean-l)); }
     }
 
-    /* ── Floating pollen dust ── */
+    /* Floating pollen dust */
     .pollen {
       position: fixed;
       border-radius: 50%;
@@ -225,189 +147,134 @@
       animation: pollenDrift ease-in-out infinite;
     }
     @keyframes pollenDrift {
-      0%   { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0; }
-      15%  { opacity: 1; }
-      50%  { transform: translateY(-40vh) translateX(30px) rotate(180deg); opacity: 0.7; }
-      85%  { opacity: 0.3; }
-      100% { transform: translateY(-85vh) translateX(-20px) rotate(360deg); opacity: 0; }
+      0%   { transform: translateY(0px) translateX(0px); opacity: 0; }
+      15%  { opacity: 0.9; }
+      50%  { transform: translateY(-40vh) translateX(30px); opacity: 0.6; }
+      85%  { opacity: 0.2; }
+      100% { transform: translateY(-80vh) translateX(-20px); opacity: 0; }
     }
 
-    /* ── Thin tricolor strip ── */
+    /* Tricolor strip */
     .tricolor-band {
       position: fixed;
       top: 0; left: 0;
       width: 100%;
       height: 5px;
       background: linear-gradient(to right, #ff9933 33.33%, #ffffff 33.33% 66.66%, #138808 66.66%);
-      z-index: 50;
+      z-index: 60;
       box-shadow: 0 1px 6px rgba(0,0,0,0.25);
     }
 
-    /* ── Govt watermark ── */
-    .govt-watermark {
-      position: fixed;
-      bottom: 80px;
-      right: 14px;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      color: rgba(255,255,255,0.13);
-      text-transform: uppercase;
-      writing-mode: vertical-rl;
-      pointer-events: none;
-      z-index: 4;
+    /* Simulated incoming SMS Toast */
+    #sms-toast {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(-120%);
+    }
+    #sms-toast.show {
+      transform: translateY(0);
+    }
+
+    /* Audio visualizer wave bar */
+    .wave-bar {
+      width: 4px;
+      height: 12px;
+      background-color: #f59e0b;
+      border-radius: 2px;
+      animation: soundWave 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes soundWave {
+      0% { height: 6px; }
+      100% { height: 28px; }
     }
 
     .content-relative { position: relative; z-index: 10; }
   </style>
 </head>
-<body class="text-slate-900 min-h-screen pb-20 relative">
+<body class="text-slate-900 min-h-screen pb-24 relative">
 
-  <!-- Thin tricolor top strip -->
+  <!-- Top Tricolor Ribbon -->
   <div class="tricolor-band"></div>
 
-  <!-- Natural Sun disk -->
+  <!-- Background Environment: Sun & Clouds -->
   <div class="natural-sun"></div>
-
-  <!-- Rotating light rays behind sun -->
-  <div class="sun-rays"></div>
-
-  <!-- Horizon atmospheric haze -->
-  <div class="horizon-haze"></div>
-
-  <!-- Layered field silhouettes (SVG) -->
-  <svg class="field-layer" style="height:200px;" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- far background hills -->
-    <path d="M0,200 L0,130 Q120,90 240,120 Q360,80 480,115 Q600,85 720,118 Q840,82 960,112 Q1080,88 1200,118 Q1320,90 1440,108 L1440,200 Z"
-          fill="#2d5c26" opacity="0.6"/>
-    <!-- mid-field row -->
-    <path d="M0,200 L0,155 Q80,140 160,158 Q240,135 320,155 Q400,138 480,158 Q560,140 640,156 Q720,138 800,157 Q880,140 960,157 Q1040,138 1120,155 Q1200,140 1280,156 Q1360,142 1440,155 L1440,200 Z"
-          fill="#254d20" opacity="0.85"/>
-    <!-- foreground dark ground -->
-    <path d="M0,200 L0,178 Q120,168 240,178 Q360,165 480,178 Q600,166 720,178 Q840,165 960,178 Q1080,167 1200,178 Q1320,166 1440,176 L1440,200 Z"
-          fill="#1a3a15" opacity="0.95"/>
-  </svg>
-
-  <!-- Wheat stalks container -->
-  <div class="wheat-wrap" id="wheat-wrap"></div>
-
-  <!-- Floating pollen -->
-  <div id="pollen-wrap"></div>
-
-  <!-- Drifting clouds -->
   <div id="cloud-wrap"></div>
 
-  <!-- Subtle watermark -->
-  <div class="govt-watermark">Ministry of Agriculture &amp; Farmers Welfare · Govt of India</div>
+  <!-- Layered field silhouettes (SVG) -->
+  <svg class="field-layer" style="height:190px;" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,200 L0,135 Q120,95 240,125 Q360,85 480,120 Q600,90 720,122 Q840,86 960,116 Q1080,92 1200,122 Q1320,94 1440,112 L1440,200 Z" fill="#2d5c26" opacity="0.6"/>
+    <path d="M0,200 L0,158 Q80,143 160,161 Q240,138 320,158 Q400,141 480,161 Q560,143 640,159 Q720,141 800,160 Q880,143 960,160 Q1040,141 1120,158 Q1200,143 1280,159 Q1360,145 1440,158 L1440,200 Z" fill="#254d20" opacity="0.85"/>
+    <path d="M0,200 L0,180 Q120,170 240,180 Q360,168 480,180 Q600,169 720,180 Q840,168 960,180 Q1080,170 1200,180 Q1320,169 1440,178 L1440,200 Z" fill="#1a3a15" opacity="0.95"/>
+  </svg>
 
-  <script>
-  (function() {
-    /* ── CLOUDS ── */
-    const cloudWrap = document.getElementById('cloud-wrap');
-    const cloudDefs = [
-      { top: '8%',  w: 120, h: 28, opacity: 0.45, dur: 55, delay: 0   },
-      { top: '13%', w: 90,  h: 20, opacity: 0.30, dur: 70, delay: -18 },
-      { top: '6%',  w: 160, h: 35, opacity: 0.35, dur: 85, delay: -35 },
-      { top: '18%', w: 70,  h: 16, opacity: 0.25, dur: 60, delay: -50 },
-      { top: '10%', w: 100, h: 22, opacity: 0.28, dur: 75, delay: -62 },
-    ];
-    cloudDefs.forEach(c => {
-      const el = document.createElement('div');
-      el.className = 'cloud';
-      el.style.cssText = `top:${c.top};width:${c.w}px;height:${c.h}px;opacity:${c.opacity};animation-duration:${c.dur}s;animation-delay:${c.delay}s;`;
-      cloudWrap.appendChild(el);
-    });
+  <!-- Animated Wheat Stalks & Pollen -->
+  <div class="wheat-wrap" id="wheat-wrap"></div>
+  <div id="pollen-wrap"></div>
 
-    /* ── WHEAT STALKS ── */
-    const wrap = document.getElementById('wheat-wrap');
-    const total = 80;
-    for (let i = 0; i < total; i++) {
-      const pct   = (i / total) * 100 + (Math.random() - 0.5) * 1.2;
-      const h     = 90 + Math.random() * 130;
-      const thick = 1.5 + Math.random() * 1.5;
-      const headH = 18 + Math.random() * 14;
-      const headW = thick * 2.5;
-      const leafH = 10 + Math.random() * 10;
-      const leafW = 14 + Math.random() * 10;
-      const dur   = 3 + Math.random() * 2.5;
-      const delay = Math.random() * 5;
-      const leanL = -(2 + Math.random() * 4);
-      const leanR =  (2 + Math.random() * 4);
-
-      // colour variation — ripe golden vs still-green
-      const ripe  = Math.random() > 0.3;
-      const stemGrad = ripe
-        ? `linear-gradient(to top, #7a5010, #c09018, #dab830, #ecd050)`
-        : `linear-gradient(to top, #4a6c10, #7aaa20, #a0cc38, #bce050)`;
-      const headGrad = ripe
-        ? `linear-gradient(to top, #a06820, #d4a430, #ecc848, #f8e060)`
-        : `linear-gradient(to top, #608018, #90b828, #b0d040)`;
-
-      const stalk = document.createElement('div');
-      stalk.className = 'wstalk';
-      stalk.style.cssText = `
-        left:${pct}%;
-        height:${h}px;
-        width:${headW + 20}px;
-        margin-left:-${(headW+20)/2}px;
-        animation: naturalSway ${dur}s ease-in-out ${delay}s infinite;
-        --lean-l: ${leanL}deg;
-        --lean-r: ${leanR}deg;
-        opacity: ${0.65 + Math.random() * 0.35};
-      `;
-      stalk.innerHTML = `
-        <div class="stem" style="height:${h - headH}px;width:${thick}px;background:${stemGrad};"></div>
-        <div class="head" style="bottom:${h - headH}px;width:${headW}px;height:${headH}px;background:${headGrad};"></div>
-        <div class="leaf-l" style="bottom:${h * 0.45}px;width:${leafW}px;height:${thick + 2}px;transform:rotate(-35deg);"></div>
-        <div class="leaf-r" style="bottom:${h * 0.65}px;width:${leafW * 0.8}px;height:${thick + 1}px;transform:rotate(30deg);"></div>
-      `;
-      wrap.appendChild(stalk);
-    }
-
-    /* ── POLLEN DUST ── */
-    const pollenWrap = document.getElementById('pollen-wrap');
-    for (let i = 0; i < 22; i++) {
-      const el   = document.createElement('div');
-      el.className = 'pollen';
-      const sz   = 2 + Math.random() * 4;
-      const gold = Math.random() > 0.4;
-      el.style.cssText = `
-        left:${Math.random() * 100}%;
-        bottom:${5 + Math.random() * 30}%;
-        width:${sz}px; height:${sz}px;
-        background: rgba(${gold ? '240,200,60' : '180,230,100'}, ${0.4 + Math.random()*0.4});
-        animation-duration:${10 + Math.random()*14}s;
-        animation-delay:${Math.random()*15}s;
-        filter: blur(${Math.random() > 0.5 ? 1 : 0}px);
-      `;
-      pollenWrap.appendChild(el);
-    }
-  })();
-  </script>
+  <!-- Simulated Official Govt Phone SMS Notification Banner -->
+  <div id="sms-toast" class="fixed top-3 left-4 right-4 max-w-md mx-auto z-50 bg-slate-900/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl border border-amber-400/40 flex items-start space-x-3">
+    <div class="w-10 h-10 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 mt-0.5">
+      <span class="material-symbols-outlined text-xl">sms</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex justify-between items-center mb-0.5">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Govt of AP (AP-MANDI)</span>
+        <span class="text-[10px] text-slate-400">Just Now</span>
+      </div>
+      <p id="sms-toast-body" class="text-xs text-slate-100 leading-snug line-clamp-3">Booking Confirmed. Token: Q-101.</p>
+      <div class="mt-2 flex space-x-2">
+        <button onclick="readAloudToastSms()" class="text-[11px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-2.5 py-1 rounded-md flex items-center space-x-1">
+          <span class="material-symbols-outlined text-xs">volume_up</span>
+          <span>Listen</span>
+        </button>
+        <button onclick="dismissSmsToast()" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md">
+          Dismiss
+        </button>
+      </div>
+    </div>
+    <button onclick="dismissSmsToast()" class="text-slate-400 hover:text-white">&times;</button>
+  </div>
 
   <div class="content-relative">
 
-    <!-- Top App Header -->
-    <header class="bg-[#004c22]/90 backdrop-blur-md text-white shadow-md sticky top-0 z-40 border-b border-emerald-800">
+    <!-- Official Government Header & Ticker -->
+    <div class="bg-amber-900 text-amber-100 text-[11px] font-medium py-1 px-4 text-center border-b border-amber-700/50 flex justify-between items-center max-w-xl mx-auto">
+      <span class="flex items-center space-x-1">
+        <span class="material-symbols-outlined text-xs text-amber-300">verified</span>
+        <span>Govt of AP · Dept of Agriculture</span>
+      </span>
+      <span class="font-bold text-amber-300 flex items-center space-x-1">
+        <span class="material-symbols-outlined text-xs">call</span>
+        <span>Toll-Free: 1800-180-1551</span>
+      </span>
+    </div>
+
+    <!-- App Main Header -->
+    <header class="bg-[#004c22]/95 backdrop-blur-md text-white shadow-md sticky top-0 z-40 border-b border-emerald-800">
       <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <span class="material-symbols-outlined text-3xl text-amber-400">agriculture</span>
+        <div class="flex items-center space-x-2.5">
+          <div class="w-10 h-10 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center font-black shadow">
+            <span class="material-symbols-outlined text-2xl">agriculture</span>
+          </div>
           <div>
-            <h1 class="text-lg font-bold leading-tight" id="app-title">Kisan Procurement</h1>
-            <p class="text-xs text-emerald-200" id="farmer-name-display">Not Logged In</p>
+            <h1 class="text-base font-bold leading-tight" id="app-title">Kisan Procurement</h1>
+            <p class="text-[11px] text-emerald-200" id="farmer-name-display">Not Logged In · Rythu Bharosa</p>
           </div>
         </div>
         
-        <!-- Voice IVR & Language Selector -->
-        <div class="flex items-center space-x-1">
-          <button onclick="speakVoiceAssistance()" title="Voice IVR Assistance" class="bg-amber-500 hover:bg-amber-400 text-slate-950 p-1.5 rounded-lg flex items-center shadow">
-            <span class="material-symbols-outlined text-lg">volume_up</span>
+        <div class="flex items-center space-x-1.5">
+          <!-- Prominent Call IVR Button -->
+          <button onclick="openIvrModal()" title="Call Voice IVR Helpline" class="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold px-2.5 py-1.5 rounded-xl flex items-center space-x-1 shadow-md animate-pulse">
+            <span class="material-symbols-outlined text-lg">call</span>
+            <span class="text-xs">IVR Call</span>
           </button>
+
+          <!-- Language Selector -->
           <select id="lang-select" onchange="changeLanguage()" class="bg-emerald-900 text-white text-xs font-semibold px-2 py-1.5 rounded-lg border border-emerald-700 outline-none">
-            <option value="en">English 🇬🇧</option>
-            <option value="hi">हिंदी 🇮🇳</option>
             <option value="te">తెలుగు 🇮🇳</option>
+            <option value="hi">हिंदी 🇮🇳</option>
+            <option value="en" selected>English 🇬🇧</option>
           </select>
+
           <button onclick="logoutFarmer()" id="btn-logout" class="hidden text-amber-300 hover:text-white p-1">
             <span class="material-symbols-outlined text-xl">logout</span>
           </button>
@@ -424,6 +291,18 @@
         <h2 class="text-2xl font-bold text-slate-900 mb-1" id="txt-login-title">Farmer Login & KYC Registration</h2>
         <p class="text-xs text-slate-500 mb-5" id="txt-login-subtitle">Enter mobile number or register with Aadhaar & Land Record ID</p>
 
+        <!-- Quick Access to IVR without login -->
+        <div class="bg-amber-50 border border-amber-300 rounded-2xl p-3.5 mb-5 text-left flex items-center justify-between">
+          <div>
+            <h4 class="text-xs font-bold text-amber-900">Zero Literacy? Use Voice IVR</h4>
+            <p class="text-[11px] text-amber-800">Call toll-free to book directly in Telugu, Hindi or English</p>
+          </div>
+          <button onclick="openIvrModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1 shadow">
+            <span class="material-symbols-outlined text-sm">phone_in_talk</span>
+            <span>Dial Now</span>
+          </button>
+        </div>
+
         <div class="flex border-b border-slate-200 mb-4 text-xs font-bold">
           <button onclick="toggleAuthTab('login')" id="btn-tab-login" class="flex-1 py-2 text-emerald-800 border-b-2 border-emerald-800">Quick Login</button>
           <button onclick="toggleAuthTab('kyc')" id="btn-tab-kyc" class="flex-1 py-2 text-slate-500">Aadhaar & Land KYC</button>
@@ -431,21 +310,21 @@
 
         <form id="form-quick-login" onsubmit="event.preventDefault(); loginFarmer();">
           <div class="mb-4 text-left">
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Aadhaar-Linked Mobile Number</label>
             <input type="tel" id="input-phone" value="9876543210" placeholder="10-digit mobile number" class="w-full text-lg font-bold px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-600">
           </div>
 
-          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-5 text-xs text-amber-800 text-left">
-            <strong>Demo Quick Login Numbers:</strong>
-            <ul class="mt-1 space-y-1">
-              <li>• <code>9876543210</code> (Ramesh Kumar - Booked)</li>
-              <li>• <code>9876543211</code> (Suresh Patel - Arrived)</li>
-              <li>• <code>9876543212</code> (Lakshmi Devi - Quality Passed)</li>
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-5 text-xs text-slate-700 text-left">
+            <strong>Registered Demo Farmers:</strong>
+            <ul class="mt-1 space-y-1 text-[11px]">
+              <li>• <code>9876543210</code> (Ramesh Kumar - Guntur, Paddy)</li>
+              <li>• <code>9876543211</code> (Suresh Patel - Guntur, Cotton)</li>
+              <li>• <code>9876543212</code> (Lakshmi Devi - Krishna, Groundnut)</li>
             </ul>
           </div>
 
           <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow transition text-base">
-            Login &rarr;
+            Login to Dashboard &rarr;
           </button>
         </form>
 
@@ -460,65 +339,89 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Aadhaar Card Number (12 Digits)</label>
-            <input type="text" id="kyc-aadhaar" required placeholder="12-digit UIDAI checksum" class="w-full text-sm font-mono font-bold p-3 rounded-xl border border-slate-300">
+            <input type="text" id="kyc-aadhaar" required placeholder="XXXX XXXX XXXX" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
           </div>
           <div>
-            <label class="block font-semibold text-slate-700 mb-1">Land Passbook / Survey Khata Number</label>
-            <input type="text" id="kyc-land" required placeholder="e.g. KHT-8829-GNT" class="w-full text-sm font-mono font-bold p-3 rounded-xl border border-slate-300">
+            <label class="block font-semibold text-slate-700 mb-1">AP Webland ROR 1B / Land Record ID</label>
+            <input type="text" id="kyc-land" required placeholder="e.g. AP-GNT-ROR-2024-884" class="w-full text-sm font-medium p-3 rounded-xl border border-slate-300">
           </div>
-
-          <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition mt-2">
-            Verify Aadhaar & Register KYC &rarr;
+          <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition">
+            Verify Aadhaar & Register &rarr;
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Main Farmer App Content -->
-    <main id="app-content" class="hidden max-w-xl mx-auto p-4 space-y-5">
+    <!-- Main Farmer Dashboard Content -->
+    <div id="app-content" class="hidden max-w-xl mx-auto p-4 space-y-4">
 
       <!-- Tab 1: Dashboard -->
       <div id="tab-dashboard" class="tab-pane space-y-4">
         
-        <div class="bg-gradient-to-br from-[#004c22] to-emerald-800 text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
-          <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">Minimum Support Price (MSP) 2026</span>
-          <h2 class="text-xl font-bold mt-1 mb-2">Government Crop Procurement Portal</h2>
-          <p class="text-xs text-emerald-100 leading-relaxed mb-4">Book your mandi slot in advance, avoid long queues, and track government payouts directly to your bank account.</p>
-          <button onclick="switchTab('book')" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1 shadow">
-            <span class="material-symbols-outlined text-base">calendar_add_on</span>
-            <span>Book Procurement Slot</span>
-          </button>
-        </div>
-
-        <div class="bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-slate-200 shadow-sm">
-          <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center space-x-1">
-            <span class="material-symbols-outlined text-amber-600">payments</span>
-            <span>Official Govt MSP Rates (Paid to Farmer per Quintal)</span>
-          </h3>
-          <div id="msp-rate-container" class="grid grid-cols-2 gap-2 text-xs">
-            <!-- Dynamically filled -->
+        <!-- Welcome Hero Banner -->
+        <div class="bg-gradient-to-br from-[#004c22] to-emerald-900 text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
+          <div class="flex justify-between items-start">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-amber-300">Govt of Andhra Pradesh · APMC Mandi</span>
+            <span class="bg-emerald-800 text-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded-full">Kharif/Rabi 2026</span>
+          </div>
+          <h2 class="text-xl font-bold mt-1.5 mb-1">MSP Crop Procurement & Slot Booking</h2>
+          <p class="text-xs text-emerald-100 leading-relaxed mb-4">Book your mandi slot, track live quality and weighbridge stages, and receive direct PFMS bank transfer without middlemen.</p>
+          
+          <div class="flex space-x-2">
+            <button onclick="switchTab('book')" class="bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-1 shadow">
+              <span class="material-symbols-outlined text-base">calendar_add_on</span>
+              <span>Book Slot</span>
+            </button>
+            <button onclick="openIvrModal()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-semibold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-1 border border-emerald-600">
+              <span class="material-symbols-outlined text-base">phone_in_talk</span>
+              <span>Call IVR</span>
+            </button>
           </div>
         </div>
 
+        <!-- Official MSP Rates Board (Andhra Pradesh 8 Crops) -->
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center space-x-1">
+              <span class="material-symbols-outlined text-amber-600 text-base">price_check</span>
+              <span>Official AP Minimum Support Prices (MSP)</span>
+            </h3>
+            <span class="text-[10px] text-slate-500">Per Quintal (100 Kg)</span>
+          </div>
+          <div id="msp-rate-container" class="grid grid-cols-2 gap-2 text-xs">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- My Procurement Bookings List -->
         <div class="bg-white/95 backdrop-blur-md rounded-2xl p-4 border border-slate-200 shadow-sm">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-slate-800">My Procurement Bookings</h3>
-            <button onclick="loadFarmerBookings()" class="text-xs text-emerald-700 font-semibold">Refresh</button>
+            <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-1.5">
+              <span class="material-symbols-outlined text-emerald-700">inventory_2</span>
+              <span>My Active Procurement Slots</span>
+            </h3>
+            <button onclick="loadFarmerBookings()" class="text-xs text-emerald-700 font-semibold hover:underline">Refresh</button>
           </div>
           <div id="my-bookings-list" class="space-y-3">
-            <!-- Dynamically filled -->
+            <!-- Dynamically populated -->
           </div>
         </div>
 
       </div>
 
-      <!-- Tab 2: Book Slot -->
+      <!-- Tab 2: Book Slot Form -->
       <div id="tab-book" class="tab-pane hidden space-y-4">
         <div class="bg-white/95 backdrop-blur-md rounded-3xl p-5 border border-slate-200 shadow-sm">
-          <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center space-x-2">
-            <span class="material-symbols-outlined text-[#004c22]">event_available</span>
-            <span>Book a Procurement Slot</span>
-          </h2>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+              <span class="material-symbols-outlined text-[#004c22]">event_available</span>
+              <span>Reserve Procurement Slot</span>
+            </h2>
+            <button onclick="openIvrModal()" class="text-[11px] font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-lg flex items-center space-x-1">
+              <span class="material-symbols-outlined text-sm">phone_in_talk</span>
+              <span>Book via IVR</span>
+            </button>
+          </div>
 
           <form id="form-booking" onsubmit="handleSlotBooking(event)" class="space-y-4 text-xs">
             <div>
@@ -536,19 +439,24 @@
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-700 mb-1">Estimated Quantity (in Quintals)</label>
-              <input type="number" id="input-qtl" min="1" max="200" value="45" class="w-full text-sm font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
+              <label class="block font-semibold text-slate-700 mb-1">Estimated Harvest Quantity (in Quintals)</label>
+              <input type="number" id="input-qtl" min="5" max="500" value="45" class="w-full text-sm font-bold p-3 rounded-xl border border-slate-300 focus:border-emerald-600">
+              <p class="text-[10px] text-slate-500 mt-1">Allowed range: 5 to 500 Quintals (Net weight verified at weighbridge)</p>
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-700 mb-1">Select Time Slot (Today)</label>
+              <label class="block font-semibold text-slate-700 mb-1">Select Available Time Slot</label>
               <div id="slots-radio-container" class="space-y-2">
                 <!-- Dynamically filled -->
               </div>
             </div>
 
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-900">
+              <strong>Mandi Cancellation Rule:</strong> Slots can be cancelled through IVR or portal up to <strong>2 days prior</strong> to the scheduled date.
+            </div>
+
             <button type="submit" class="w-full bg-[#004c22] hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow text-sm transition">
-              Confirm & Reserve Slot &rarr;
+              Confirm & Generate QR Token &rarr;
             </button>
           </form>
         </div>
@@ -563,7 +471,7 @@
           <div class="bg-emerald-950 text-white p-6 rounded-2xl mb-6 shadow-inner">
             <p class="text-xs text-emerald-300 uppercase font-semibold">Currently Serving Token</p>
             <div id="serving-token-display" class="text-5xl font-extrabold text-amber-400 my-2">Q-101</div>
-            <p class="text-xs text-emerald-200">Please be ready near the gate when your token is called.</p>
+            <p class="text-xs text-emerald-200">Please position vehicle near gate when your token is announced.</p>
           </div>
 
           <div class="text-left">
@@ -575,38 +483,65 @@
         </div>
       </div>
 
-      <!-- Tab 4: Procurement Status Tracker -->
+      <!-- Tab 4: Procurement Journey Tracker & Challan -->
       <div id="tab-status" class="tab-pane hidden space-y-4">
         <div class="bg-white/95 backdrop-blur-md rounded-3xl p-5 border border-slate-200 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-bold text-slate-900">Procurement Lifecycle Tracker</h2>
-            <span id="tracker-booking-id" class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg">BK-1001</span>
-          </div>
-
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center mb-6">
-            <p class="text-xs font-bold text-slate-700 mb-2">Scan QR Code at Mandi Entry Gate</p>
-            <div id="qrcode" class="flex justify-center my-2"></div>
-            <p class="text-xs font-mono text-slate-500 mt-1" id="qr-token-label">Token: Q-101</p>
-          </div>
-
-          <div class="relative pl-6 space-y-6 border-l-2 border-slate-200 ml-2 text-xs" id="timeline-container">
-            <!-- Dynamically built timeline steps -->
-          </div>
-
-          <div id="receipt-box" class="hidden mt-6 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-xs">
-            <h3 class="font-bold text-emerald-900 mb-2 flex items-center space-x-1">
-              <span class="material-symbols-outlined text-base">receipt_long</span>
-              <span>Govt-to-Farmer Payout Receipt (PFMS Direct Benefit Transfer)</span>
-            </h3>
-            <div class="space-y-1 text-slate-700" id="receipt-details">
-              <!-- Dynamically filled -->
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase">Booking ID</span>
+              <h3 class="text-lg font-bold text-slate-900" id="tracker-booking-id">BK-1001</h3>
             </div>
+            <button onclick="openProcurementChallanModal()" class="text-xs bg-[#004c22] hover:bg-emerald-800 text-white font-bold px-3 py-1.5 rounded-xl flex items-center space-x-1 shadow">
+              <span class="material-symbols-outlined text-sm">receipt_long</span>
+              <span>View Challan</span>
+            </button>
           </div>
 
+          <!-- QR Code Token Card -->
+          <div class="text-center bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6">
+            <div id="qrcode" class="flex justify-center mb-2"></div>
+            <p class="text-sm font-extrabold text-slate-900" id="qr-token-label">Token: Q-101</p>
+            <p class="text-[11px] text-slate-500">Show this QR Token at the Mandi Security Gate for vehicle entry check-in</p>
+          </div>
+
+          <!-- 5-Stage Visual Progress Timeline -->
+          <div class="space-y-6 pl-6 border-l-2 border-emerald-500 relative ml-4 text-xs" id="timeline-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- DBT Payment Breakdown Box -->
+          <div id="receipt-box" class="hidden mt-6 bg-emerald-50 border border-emerald-300 rounded-2xl p-4 text-xs text-emerald-950">
+            <h4 class="font-bold text-sm text-emerald-900 mb-2 flex items-center space-x-1">
+              <span class="material-symbols-outlined">account_balance</span>
+              <span>PFMS Direct Benefit Transfer (DBT) Receipt</span>
+            </h4>
+            <div id="receipt-details" class="space-y-1 text-[11px]"></div>
+          </div>
         </div>
       </div>
 
-    </main>
+      <!-- Tab 5: Official SMS Inbox Tab -->
+      <div id="tab-sms" class="tab-pane hidden space-y-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-5 border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 flex items-center space-x-1.5">
+                <span class="material-symbols-outlined text-amber-600">mark_chat_unread</span>
+                <span>Government SMS Dispatch Inbox</span>
+              </h2>
+              <p class="text-[11px] text-slate-500">Official text confirmations sent to your registered phone number</p>
+            </div>
+            <button onclick="loadFarmerSmsInbox()" class="text-xs text-emerald-700 font-semibold hover:underline">Refresh</button>
+          </div>
+
+          <div id="sms-inbox-list" class="space-y-3">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <!-- Bottom Navigation Bar -->
     <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-50">
@@ -617,87 +552,262 @@
         </button>
         <button onclick="switchTab('book')" id="nav-book" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
           <span class="material-symbols-outlined text-2xl">calendar_month</span>
-          <span>Book Slot</span>
+          <span>Book</span>
         </button>
         <button onclick="switchTab('queue')" id="nav-queue" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
           <span class="material-symbols-outlined text-2xl">confirmation_number</span>
-          <span>Live Queue</span>
+          <span>Queue</span>
         </button>
         <button onclick="switchTab('status')" id="nav-status" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700">
           <span class="material-symbols-outlined text-2xl">track_changes</span>
           <span>Status</span>
         </button>
+        <button onclick="switchTab('sms')" id="nav-sms" class="flex flex-col items-center text-xs font-medium text-slate-500 hover:text-emerald-700 relative">
+          <span class="material-symbols-outlined text-2xl">sms</span>
+          <span>SMS</span>
+        </button>
       </div>
     </nav>
+
   </div>
 
-  <!-- Three.js 3D Background Motion Script -->
-  <script>
-    function init3DMotionBackground() {
-      const canvas = document.getElementById('canvas-3d-bg');
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  <!-- ======================================================== -->
+  <!-- INTERACTIVE PHONE IVR HELPLINE SIMULATOR MODAL           -->
+  <!-- ======================================================== -->
+  <div id="modal-ivr" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-slate-900 border border-slate-700 text-white rounded-[32px] max-w-sm w-full p-5 shadow-2xl relative overflow-hidden flex flex-col max-h-[92vh]">
       
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      <!-- Phone Caller Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Call Connected</span>
+        </div>
+        <span class="font-mono text-xs text-slate-400" id="ivr-call-timer">00:00</span>
+        <button onclick="closeIvrModal()" class="text-slate-400 hover:text-white">&times;</button>
+      </div>
 
-      // Golden wheat/crop 3D floating particles
-      const particleCount = 150;
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(particleCount * 3);
-      const colors = new Float32Array(particleCount * 3);
+      <!-- Caller Information & Audio Waveform -->
+      <div class="text-center py-3">
+        <div class="w-14 h-14 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center mx-auto mb-2 shadow-inner">
+          <span class="material-symbols-outlined text-3xl">phone_in_talk</span>
+        </div>
+        <h3 class="text-sm font-bold">AP Kisan Procurement Helpline</h3>
+        <p class="text-[11px] text-amber-300 font-mono">1800-180-1551 (Toll Free)</p>
 
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 30;
-        positions[i + 1] = (Math.random() - 0.5) * 30;
-        positions[i + 2] = (Math.random() - 0.5) * 30;
+        <!-- Live Audio Waveform animation -->
+        <div class="flex justify-center items-center space-x-1.5 h-7 mt-2" id="ivr-waveform">
+          <div class="wave-bar" style="animation-delay: 0s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.4s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.1s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.3s;"></div>
+        </div>
+      </div>
 
-        // Golden harvest green/gold spectrum
-        colors[i] = 0.8 + Math.random() * 0.2;     // R
-        colors[i + 1] = 0.6 + Math.random() * 0.3; // G
-        colors[i + 2] = 0.1;                       // B
-      }
+      <!-- Live Voice Prompt Display -->
+      <div class="bg-slate-800/90 rounded-2xl p-3 border border-slate-700 mb-3 text-left">
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs">record_voice_over</span>
+            <span id="ivr-step-badge">Language Selection</span>
+          </span>
+          <span class="text-[10px] text-slate-400 font-mono" id="ivr-lang-badge">EN / TE / HI</span>
+        </div>
+        <p id="ivr-prompt-text" class="text-xs text-slate-100 font-medium leading-relaxed min-h-[44px]">
+          Welcome to Kisan Procurement IVR Helpline. Press 1 for Telugu, 2 for Hindi, 3 for English.
+        </p>
+      </div>
 
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      <!-- Keypad Input Display / Number buffer -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 mb-3 flex justify-between items-center">
+        <span class="text-[10px] text-slate-500 font-bold">KEYPAD INPUT:</span>
+        <span id="ivr-input-display" class="font-mono text-base font-bold text-amber-400 tracking-widest min-h-[24px]">_</span>
+        <button onclick="clearIvrInput()" class="text-[10px] text-slate-400 hover:text-white">Clear</button>
+      </div>
 
-      const material = new THREE.PointsMaterial({
-        size: 0.25,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.6
-      });
+      <!-- Quick Contextual Helper Buttons -->
+      <div id="ivr-shortcuts" class="mb-3 grid grid-cols-3 gap-1.5 text-[11px]">
+        <!-- Dynamically updated based on active state -->
+      </div>
 
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
+      <!-- DTMF Phone Dialpad (1-9, *, 0, #) -->
+      <div class="grid grid-cols-3 gap-2 px-2 my-auto">
+        <button onclick="pressIvrKey('1')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">1</button>
+        <button onclick="pressIvrKey('2')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">2</button>
+        <button onclick="pressIvrKey('3')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">3</button>
+        <button onclick="pressIvrKey('4')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">4</button>
+        <button onclick="pressIvrKey('5')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">5</button>
+        <button onclick="pressIvrKey('6')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">6</button>
+        <button onclick="pressIvrKey('7')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">7</button>
+        <button onclick="pressIvrKey('8')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">8</button>
+        <button onclick="pressIvrKey('9')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">9</button>
+        <button onclick="pressIvrKey('*')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">*</button>
+        <button onclick="pressIvrKey('0')" class="bg-slate-800 hover:bg-slate-700 active:bg-amber-500 active:text-slate-950 font-bold py-2 rounded-xl text-sm transition">0</button>
+        <button onclick="pressIvrKey('#')" class="bg-amber-600 hover:bg-amber-500 active:bg-amber-400 font-bold py-2 rounded-xl text-sm text-slate-950 transition">#</button>
+      </div>
 
-      camera.position.z = 15;
+      <!-- Action Footer: Mic Input & End Call -->
+      <div class="flex items-center space-x-2 pt-3 mt-2 border-t border-slate-800">
+        <button onclick="toggleIvrSpeechRecognition()" id="btn-ivr-mic" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center space-x-1 border border-slate-700">
+          <span class="material-symbols-outlined text-sm text-amber-400">mic</span>
+          <span>Speak Answer</span>
+        </button>
+        <button onclick="closeIvrModal()" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-1 shadow">
+          <span class="material-symbols-outlined text-sm">call_end</span>
+          <span>End Call</span>
+        </button>
+      </div>
 
-      // Animate 3D ambient motion
-      function animate() {
-        requestAnimationFrame(animate);
-        points.rotation.y += 0.0015;
-        points.rotation.x += 0.0008;
-        renderer.render(scene, camera);
-      }
-      animate();
+    </div>
+  </div>
 
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
+  <!-- ======================================================== -->
+  <!-- OFFICIAL GOVERNMENT PROCUREMENT CHALLAN (BILL) MODAL     -->
+  <!-- ======================================================== -->
+  <div id="modal-challan" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white text-slate-950 rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-300 relative my-auto">
+      
+      <div class="flex justify-between items-start border-b-2 border-slate-900 pb-3 mb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800">Government of Andhra Pradesh · APMC Mandi</span>
+          <h2 class="text-lg font-black text-slate-900">OFFICIAL CROP PROCUREMENT CHALLAN</h2>
+          <p class="text-[11px] text-slate-600">Farmer Sales Receipt & PFMS DBT Direct Benefit Transfer Authorization</p>
+        </div>
+        <button onclick="closeProcurementChallanModal()" class="text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      </div>
+
+      <div id="challan-printable-content" class="space-y-4 text-xs">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="flex space-x-3 pt-4 border-t border-slate-200 mt-5">
+        <button onclick="window.print()" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-1">
+          <span class="material-symbols-outlined text-sm">print</span>
+          <span>Print / Save as PDF</span>
+        </button>
+        <button onclick="closeProcurementChallanModal()" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Audio Context for DTMF Keypad Tones
+    let audioCtx = null;
+    function playDtmfTone(freq1 = 697, freq2 = 1209) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc1.frequency.value = freq1;
+        osc2.frequency.value = freq2;
+
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+        osc1.stop(audioCtx.currentTime + 0.15);
+        osc2.stop(audioCtx.currentTime + 0.15);
+      } catch (e) {}
     }
 
-    document.addEventListener('DOMContentLoaded', init3DMotionBackground);
+    // Generate Natural Wheat Stalks
+    (function initWheatField() {
+      const wrap = document.getElementById('wheat-wrap');
+      const total = 75;
+      for (let i = 0; i < total; i++) {
+        const pct = (i / total) * 100 + (Math.random() - 0.5) * 1.2;
+        const h = 90 + Math.random() * 130;
+        const thick = 1.5 + Math.random() * 1.5;
+        const headH = 18 + Math.random() * 14;
+        const headW = thick * 2.5;
+        const leafH = 10 + Math.random() * 10;
+        const leafW = 14 + Math.random() * 10;
+        const dur = 3 + Math.random() * 2.5;
+        const delay = Math.random() * 5;
+        const leanL = -(2 + Math.random() * 4);
+        const leanR = (2 + Math.random() * 4);
+
+        const ripe = Math.random() > 0.3;
+        const stemGrad = ripe
+          ? `linear-gradient(to top, #7a5010, #c09018, #dab830, #ecd050)`
+          : `linear-gradient(to top, #4a6c10, #7aaa20, #a0cc38, #bce050)`;
+        const headGrad = ripe
+          ? `linear-gradient(to top, #a06820, #d4a430, #ecc848, #f8e060)`
+          : `linear-gradient(to top, #608018, #90b828, #b0d040)`;
+
+        const stalk = document.createElement('div');
+        stalk.className = 'wstalk';
+        stalk.style.cssText = `
+          left:${pct}%;
+          height:${h}px;
+          width:${headW + 20}px;
+          margin-left:-${(headW + 20) / 2}px;
+          animation: naturalSway ${dur}s ease-in-out ${delay}s infinite;
+          --lean-l: ${leanL}deg;
+          --lean-r: ${leanR}deg;
+          opacity: ${0.65 + Math.random() * 0.35};
+        `;
+        stalk.innerHTML = `
+          <div class="stem" style="height:${h - headH}px;width:${thick}px;background:${stemGrad};"></div>
+          <div class="head" style="bottom:${h - headH}px;width:${headW}px;height:${headH}px;background:${headGrad};"></div>
+          <div class="leaf-l" style="bottom:${h * 0.45}px;width:${leafW}px;height:${thick + 2}px;transform:rotate(-35deg);"></div>
+          <div class="leaf-r" style="bottom:${h * 0.65}px;width:${leafW * 0.8}px;height:${thick + 1}px;transform:rotate(30deg);"></div>
+        `;
+        wrap.appendChild(stalk);
+      }
+
+      // Generate Pollen
+      const pollenWrap = document.getElementById('pollen-wrap');
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement('div');
+        el.className = 'pollen';
+        const sz = 2 + Math.random() * 4;
+        const gold = Math.random() > 0.4;
+        el.style.cssText = `
+          left:${Math.random() * 100}%;
+          bottom:${5 + Math.random() * 30}%;
+          width:${sz}px; height:${sz}px;
+          background: rgba(${gold ? '240,200,60' : '180,230,100'}, ${0.4 + Math.random() * 0.4});
+          animation-duration:${10 + Math.random() * 14}s;
+          animation-delay:${Math.random() * 15}s;
+        `;
+        pollenWrap.appendChild(el);
+      }
+    })();
   </script>
 
+  <!-- ======================================================== -->
+  <!-- MAIN CLIENT-SIDE APPLICATION & IVR LOGIC ENGINE          -->
+  <!-- ======================================================== -->
   <script>
     let currentUser = null;
     let masterCentres = [];
     let masterCrops = [];
     let activeBooking = null;
+    let lastReceivedSms = null;
+
+    // IVR Session State Variables
+    let ivrTimerInterval = null;
+    let ivrSeconds = 0;
+    let ivrLang = 'te'; // default Telugu
+    let ivrState = 'INIT';
+    let ivrInputBuffer = '';
+    let ivrSelectedCrop = null;
+    let ivrEnteredWeight = 40;
+    let ivrSelectedSlot = null;
+    let ivrSlotsCache = [];
+    let ivrRecognition = null;
 
     const translations = {
       en: { appTitle: "Kisan Procurement", loginTitle: "Farmer Login & KYC", loginSub: "Enter mobile number or register with Aadhaar & Land Record ID" },
@@ -707,6 +817,7 @@
 
     function changeLanguage() {
       const lang = document.getElementById('lang-select').value;
+      ivrLang = lang;
       document.getElementById('app-title').textContent = translations[lang].appTitle;
       document.getElementById('txt-login-title').textContent = translations[lang].loginTitle;
       document.getElementById('txt-login-subtitle').textContent = translations[lang].loginSub;
@@ -779,8 +890,10 @@
 
       await loadMasterData();
       await loadFarmerBookings();
+      await loadFarmerSmsInbox();
 
-      speakVoiceAssistance(`Welcome ${currentUser.name}. Your Kisan Procurement Assistant is active.`);
+      // Check for incoming SMS
+      checkLatestSmsNotification();
     }
 
     function logoutFarmer() {
@@ -789,26 +902,6 @@
       document.getElementById('app-content').classList.add('hidden');
       document.getElementById('bottom-nav').classList.add('hidden');
       document.getElementById('btn-logout').classList.add('hidden');
-    }
-
-    function speakVoiceAssistance(customMsg) {
-      if (!('speechSynthesis' in window)) return;
-
-      const lang = document.getElementById('lang-select').value;
-      let text = customMsg || `Hello ${currentUser ? currentUser.name : 'Farmer'}. Currently serving token is ${activeBooking ? activeBooking.token_number : 'Q-101'}.`;
-
-      if (lang === 'hi' && !customMsg) {
-        text = `नमस्कार ${currentUser ? currentUser.name : 'किसान'}. आपका टोकन नंबर ${activeBooking ? activeBooking.token_number : 'क्यू-101'} है।`;
-      } else if (lang === 'te' && !customMsg) {
-        text = `నమస్కారం ${currentUser ? currentUser.name : 'రైతు'}. మీ టోకెన్ నంబర్ ${activeBooking ? activeBooking.token_number : 'క్యూ-101'}.`;
-      }
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      if (lang === 'hi') utterance.lang = 'hi-IN';
-      else if (lang === 'te') utterance.lang = 'te-IN';
-      else utterance.lang = 'en-IN';
-
-      window.speechSynthesis.speak(utterance);
     }
 
     async function loadMasterData() {
@@ -822,13 +915,13 @@
       const mspContainer = document.getElementById('msp-rate-container');
       mspContainer.innerHTML = masterCrops.map(c => `
         <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-          <span class="text-slate-500 font-medium block">${c.name}</span>
-          <span class="text-sm font-bold text-emerald-800">₹${c.msp_rate_per_qtl} / QTL</span>
+          <span class="text-slate-600 font-bold block truncate">${c.name}</span>
+          <span class="text-xs font-black text-emerald-800">₹${c.msp_rate_per_qtl.toLocaleString('en-IN')} / QTL</span>
         </div>
       `).join('');
 
       document.getElementById('select-centre').innerHTML = masterCentres.map(c => `<option value="${c.id}">${c.name} (${c.district})</option>`).join('');
-      document.getElementById('select-crop').innerHTML = masterCrops.map(c => `<option value="${c.id}">${c.name} (MSP ₹${c.msp_rate_per_qtl}/QTL)</option>`).join('');
+      document.getElementById('select-crop').innerHTML = masterCrops.map(c => `<option value="${c.id}">${c.name} - MSP ₹${c.msp_rate_per_qtl}/QTL</option>`).join('');
 
       await loadSlotsForCentre();
     }
@@ -843,9 +936,9 @@
         <label class="flex items-center justify-between p-3 rounded-xl border ${idx === 0 ? 'border-emerald-600 bg-emerald-50' : 'border-slate-200 bg-slate-50'} cursor-pointer">
           <div class="flex items-center space-x-2">
             <input type="radio" name="slot_id" value="${s.id}" ${idx === 0 ? 'checked' : ''} class="text-emerald-700">
-            <span class="font-bold text-slate-800">${s.time_window}</span>
+            <span class="font-bold text-slate-800">${s.slot_date} (${s.time_window})</span>
           </div>
-          <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-semibold">${30 - s.booked_count} slots left</span>
+          <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-semibold">${30 - s.booked_count} left</span>
         </label>
       `).join('');
     }
@@ -858,7 +951,7 @@
       const listContainer = document.getElementById('my-bookings-list');
 
       if (bookings.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No active bookings found. Book your first slot!</p>`;
+        listContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No active bookings found. Book your first slot or call the IVR helpline!</p>`;
         return;
       }
 
@@ -868,7 +961,7 @@
         <div onclick="selectBookingForTracker('${b.id}')" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 cursor-pointer transition">
           <div class="flex justify-between items-start mb-1">
             <span class="font-bold text-slate-900">${b.crop_name} (${b.estimated_qtl} QTL)</span>
-            <span class="text-xs font-bold px-2 py-0.5 rounded ${getStatusBadgeClass(b.status)}">${b.status}</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${getStatusBadgeClass(b.status)}">${b.status}</span>
           </div>
           <div class="text-slate-500 text-xs flex justify-between">
             <span>Token: <strong>${b.token_number}</strong></span>
@@ -890,6 +983,7 @@
       if (status === 'WEIGHED') return 'bg-purple-100 text-purple-800';
       if (status === 'PAYMENT_PROCESSED') return 'bg-emerald-800 text-white';
       if (status === 'EXPIRED_REVOKED') return 'bg-red-800 text-white';
+      if (status === 'CANCELLED') return 'bg-slate-400 text-white';
       return 'bg-slate-200 text-slate-800';
     }
 
@@ -911,8 +1005,9 @@
         const data = await res.json();
         if (data.success) {
           alert(`Slot Booked Successfully! Token: ${data.booking.token_number}`);
-          speakVoiceAssistance(`Slot booked successfully. Your Token number is ${data.booking.token_number}`);
+          triggerSmsToast(`GOVT OF AP: Namaste ${currentUser.name}! Slot Booked. Token: ${data.booking.token_number}. Crop: ${data.booking.crop_name}. Date: ${data.booking.booking_date} (${data.booking.time_window}).`);
           await loadFarmerBookings();
+          await loadFarmerSmsInbox();
           switchTab('status');
         }
       } catch (err) {
@@ -929,25 +1024,26 @@
       const res = await fetch(`/api/bookings/${bookingId}`);
       const data = await res.json();
       const b = data.booking;
+      activeBooking = b;
 
       document.getElementById('tracker-booking-id').textContent = b.id;
-      document.getElementById('qr-token-label').textContent = `Token Number: ${b.token_number}`;
+      document.getElementById('qr-token-label').textContent = `Token: ${b.token_number} (${b.crop_name})`;
 
       const qrContainer = document.getElementById('qrcode');
       qrContainer.innerHTML = '';
       const typeNumber = 4;
       const errorCorrectionLevel = 'L';
       const qr = qrcode(typeNumber, errorCorrectionLevel);
-      qr.addData(b.id);
+      qr.addData(`APMC-GOVT:${b.id}:${b.token_number}:${b.farmer_phone}`);
       qr.make();
       qrContainer.innerHTML = qr.createImgTag(4);
 
       const stages = [
         { key: 'BOOKED', label: 'Slot Booked & Reserved', desc: `${b.booking_date} (${b.time_window})` },
-        { key: 'ARRIVED', label: 'Arrived at Mandi Gate', desc: b.arrived_at ? new Date(b.arrived_at).toLocaleTimeString() : 'Awaiting arrival check-in' },
-        { key: 'QUALITY_PASSED', label: 'Quality Inspection', desc: data.quality ? `Moisture: ${data.quality.moisture_pct}%, Grade: ${data.quality.grade}` : 'Awaiting quality officer' },
-        { key: 'WEIGHED', label: 'Weighbridge Measurement', desc: data.weighment ? `Net Weight: ${data.weighment.net_weight_qtl} Quintals` : 'Awaiting weighbridge' },
-        { key: 'PAYMENT_PROCESSED', label: 'PFMS Govt Payout Transferred', desc: data.payment ? `₹${data.payment.net_amount.toLocaleString('en-IN')} Credited to ${b.farmer_name} Bank Account (Ref: ${data.payment.bank_ref})` : 'Awaiting payment authorization' }
+        { key: 'ARRIVED', label: 'Gate Security Check-In', desc: b.arrived_at ? new Date(b.arrived_at).toLocaleTimeString() : 'Awaiting entry at APMC gate' },
+        { key: 'QUALITY_PASSED', label: 'Quality & Moisture Inspection', desc: data.quality ? `Moisture: ${data.quality.moisture_pct}%, Grade: ${data.quality.grade}` : 'Awaiting quality evaluation' },
+        { key: 'WEIGHED', label: 'Digital Weighbridge Measurement', desc: data.weighment ? `Net Quantity: ${data.weighment.net_weight_qtl} Quintals` : 'Awaiting weighbridge slip' },
+        { key: 'PAYMENT_PROCESSED', label: 'PFMS Direct Benefit Transfer (DBT)', desc: data.payment ? `₹${data.payment.net_amount.toLocaleString('en-IN')} Credited to Account (Ref: ${data.payment.bank_ref})` : 'Awaiting DBT fund authorization' }
       ];
 
       const stageOrder = ['BOOKED', 'ARRIVED', 'QUALITY_PASSED', 'WEIGHED', 'PAYMENT_PROCESSED'];
@@ -972,12 +1068,12 @@
       if (data.payment && data.weighment) {
         receiptBox.classList.remove('hidden');
         document.getElementById('receipt-details').innerHTML = `
-          <p>• Payer: <strong>Government of India (Agriculture Procurement Dept)</strong></p>
+          <p>• Payer: <strong>Government of Andhra Pradesh (MSP Procurement Fund)</strong></p>
           <p>• Payee (Farmer): <strong>${b.farmer_name} (${b.farmer_phone})</strong></p>
-          <p>• Crop Sold: <strong>${b.crop_name} (${data.weighment.net_weight_qtl} Quintals)</strong></p>
-          <p>• MSP Rate Paid: <strong>₹${b.msp_rate} / QTL</strong></p>
-          <p>• Net Amount Transferred: <strong class="text-emerald-800 text-base">₹${data.payment.net_amount.toLocaleString('en-IN')}</strong></p>
-          <p class="text-[10px] text-slate-500 mt-1.5 pt-1.5 border-t border-emerald-200">PFMS Ref: ${data.payment.bank_ref} | Direct Benefit Transfer (DBT) Credited to Bank Account</p>
+          <p>• Crop Delivered: <strong>${b.crop_name} (${data.weighment.net_weight_qtl} Quintals)</strong></p>
+          <p>• Official MSP Rate: <strong>₹${b.msp_rate} / QTL</strong></p>
+          <p>• Net Amount Disbursed: <strong class="text-emerald-800 text-base">₹${data.payment.net_amount.toLocaleString('en-IN')}</strong></p>
+          <p class="text-[10px] text-slate-500 mt-1.5 pt-1.5 border-t border-emerald-200">PFMS Ref: ${data.payment.bank_ref} | Direct Benefit Transfer (DBT) Credited directly to Bank Account</p>
         `;
       } else {
         receiptBox.classList.add('hidden');
@@ -1003,9 +1099,630 @@
       `).join('');
     }
 
+    async function loadFarmerSmsInbox() {
+      if (!currentUser) return;
+      const res = await fetch(`/api/sms/${currentUser.phone}`);
+      const messages = await res.json();
+
+      const container = document.getElementById('sms-inbox-list');
+      if (messages.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No official SMS notifications received yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = messages.map(m => `
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="font-bold text-emerald-800 uppercase tracking-wider text-[10px]">${m.type}</span>
+            <span class="text-slate-400 text-[10px]">${new Date(m.created_at).toLocaleString()}</span>
+          </div>
+          <p class="text-slate-800 font-medium leading-relaxed">${m.message}</p>
+          <div class="mt-2.5 flex justify-end">
+            <button onclick="speakCustomText('${m.message.replace(/'/g, "\\'")}')" class="text-[11px] text-amber-700 bg-amber-100 hover:bg-amber-200 font-bold px-2 py-1 rounded-lg flex items-center space-x-1">
+              <span class="material-symbols-outlined text-xs">volume_up</span>
+              <span>Read Aloud</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
     function switchTab(tabName) {
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('#bottom-nav button').forEach(btn => {
+        btn.classList.remove('text-emerald-700');
+        btn.classList.add('text-slate-500');
+      });
+      const activeNav = document.getElementById(`nav-${tabName}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-500');
+        activeNav.classList.add('text-emerald-700');
+      }
+    }
+
+    // ========================================================
+    // SIMULATED GOVT SMS TOAST NOTIFIER                       
+    // ========================================================
+    function triggerSmsToast(msg) {
+      lastReceivedSms = msg;
+      document.getElementById('sms-toast-body').textContent = msg;
+      const toast = document.getElementById('sms-toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('show'), 50);
+
+      // Audio notification ping tone
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+        osc.frequency.setValueAtTime(1320, audioCtx.currentTime + 0.1); // E6
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    function dismissSmsToast() {
+      const toast = document.getElementById('sms-toast');
+      toast.classList.remove('show');
+    }
+
+    function readAloudToastSms() {
+      if (lastReceivedSms) speakCustomText(lastReceivedSms);
+    }
+
+    async function checkLatestSmsNotification() {
+      if (!currentUser) return;
+      const res = await fetch(`/api/sms/${currentUser.phone}`);
+      const messages = await res.json();
+      if (messages.length > 0) {
+        triggerSmsToast(messages[0].message);
+      }
+    }
+
+    // ========================================================
+    // OFFICIAL GOVERNMENT PROCUREMENT CHALLAN MODAL           
+    // ========================================================
+    async function openProcurementChallanModal() {
+      if (!activeBooking) return alert('No active booking selected.');
+      const res = await fetch(`/api/bookings/${activeBooking.id}`);
+      const data = await res.json();
+      const b = data.booking;
+      const q = data.quality;
+      const w = data.weighment;
+      const p = data.payment;
+
+      const container = document.getElementById('challan-printable-content');
+      container.innerHTML = `
+        <div class="border border-slate-300 rounded-2xl p-4 bg-slate-50 space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+            <div>
+              <p class="font-bold text-slate-900">Challan Ref: <span class="font-mono text-emerald-800">${b.id}-CH</span></p>
+              <p class="text-[10px] text-slate-500">Procurement Date: ${b.booking_date} (${b.time_window})</p>
+            </div>
+            <div class="text-right">
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">${b.status}</span>
+              <p class="text-[10px] text-slate-500 mt-0.5">Token: <strong>${b.token_number}</strong></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-[11px]">
+            <div>
+              <span class="text-slate-500 block">Farmer Name:</span>
+              <strong class="text-slate-900">${b.farmer_name}</strong>
+              <p class="text-slate-500">Phone: ${b.farmer_phone}</p>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Procurement Mandi:</span>
+              <strong class="text-slate-900">${b.centre_name}</strong>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-2 grid grid-cols-3 gap-2 text-[11px]">
+            <div>
+              <span class="text-slate-500 block">Crop Name:</span>
+              <strong class="text-slate-900">${b.crop_name}</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Quality Grade:</span>
+              <strong class="text-slate-900">${q ? `${q.grade} (${q.moisture_pct}% Moist)` : 'Pending Inspection'}</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Official MSP Rate:</span>
+              <strong class="text-emerald-800">₹${b.msp_rate} / QTL</strong>
+            </div>
+          </div>
+
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-[11px] space-y-1">
+            <div class="flex justify-between">
+              <span>Gross Weight:</span>
+              <strong>${w ? `${w.gross_weight_kg} kg` : 'Pending'}</strong>
+            </div>
+            <div class="flex justify-between">
+              <span>Tare Weight (Vehicle):</span>
+              <strong>${w ? `${w.tare_weight_kg} kg` : 'Pending'}</strong>
+            </div>
+            <div class="flex justify-between text-xs font-bold text-slate-900 border-t border-emerald-200 pt-1">
+              <span>Net Procured Quantity:</span>
+              <span class="text-emerald-900">${w ? `${w.net_weight_qtl} Quintals` : `${b.estimated_qtl} Quintals (Est.)`}</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-white rounded-xl p-3 flex justify-between items-center text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block uppercase">Total Govt Disbursement:</span>
+              <strong class="text-base text-amber-400">₹${p ? p.net_amount.toLocaleString('en-IN') : ((w ? w.net_weight_qtl : b.estimated_qtl) * b.msp_rate).toLocaleString('en-IN')}</strong>
+            </div>
+            <div class="text-right text-[10px] text-slate-300">
+              <span>Payment Mode: <strong>PFMS Direct DBT</strong></span>
+              <p class="text-slate-400 font-mono">${p ? p.bank_ref : 'PFMS-PENDING'}</p>
+            </div>
+          </div>
+
+          <div class="text-[9px] text-slate-500 flex justify-between items-center pt-2 border-t border-slate-200">
+            <span>Verified by Mandi Superintendent · Digital Signature</span>
+            <span class="font-mono">Rythu Bharosa Certified</span>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modal-challan').classList.remove('hidden');
+    }
+
+    function closeProcurementChallanModal() {
+      document.getElementById('modal-challan').classList.add('hidden');
+    }
+
+    // ========================================================
+    // INTERACTIVE VOICE IVR HELPLINE ENGINE (STATE MACHINE)   
+    // ========================================================
+    function openIvrModal() {
+      document.getElementById('modal-ivr').classList.remove('hidden');
+      ivrSeconds = 0;
+      clearInterval(ivrTimerInterval);
+      ivrTimerInterval = setInterval(() => {
+        ivrSeconds++;
+        const mins = String(Math.floor(ivrSeconds / 60)).padStart(2, '0');
+        const secs = String(ivrSeconds % 60).padStart(2, '0');
+        document.getElementById('ivr-call-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      // Start IVR State Machine
+      startIvrSession();
+    }
+
+    function closeIvrModal() {
+      document.getElementById('modal-ivr').classList.add('hidden');
+      clearInterval(ivrTimerInterval);
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      if (ivrRecognition) ivrRecognition.stop();
+    }
+
+    function setIvrPrompt(text, stepName, shortcuts = []) {
+      document.getElementById('ivr-prompt-text').textContent = text;
+      document.getElementById('ivr-step-badge').textContent = stepName;
+      document.getElementById('ivr-lang-badge').textContent = ivrLang.toUpperCase();
+      
+      const scContainer = document.getElementById('ivr-shortcuts');
+      scContainer.innerHTML = shortcuts.map(sc => `
+        <button onclick="pressIvrKey('${sc.key}')" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-1.5 rounded-lg text-left truncate font-bold border border-slate-700">
+          ${sc.label}
+        </button>
+      `).join('');
+
+      speakIvrPrompt(text);
+    }
+
+    function speakIvrPrompt(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (ivrLang === 'te') utterance.lang = 'te-IN';
+      else if (ivrLang === 'hi') utterance.lang = 'hi-IN';
+      else utterance.lang = 'en-IN';
+
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakCustomText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = ivrLang === 'te' ? 'te-IN' : (ivrLang === 'hi' ? 'hi-IN' : 'en-IN');
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function clearIvrInput() {
+      ivrInputBuffer = '';
+      document.getElementById('ivr-input-display').textContent = '_';
+    }
+
+    // IVR State Machine Flow
+    function startIvrSession() {
+      ivrState = 'LANG_SELECT';
+      ivrInputBuffer = '';
+      document.getElementById('ivr-input-display').textContent = '_';
+
+      setIvrPrompt(
+        "Welcome to Andhra Pradesh Kisan Procurement Helpline. నమస్కారం. తెలుగు కొరకు 1 నొక్కండి. हिंदी के लिए 2 दबाएं. Press 3 for English.",
+        "Language Selection",
+        [
+          { key: '1', label: '1: తెలుగు (Telugu)' },
+          { key: '2', label: '2: हिंदी (Hindi)' },
+          { key: '3', label: '3: English' }
+        ]
+      );
+    }
+
+    async function pressIvrKey(key) {
+      playDtmfTone();
+      ivrInputBuffer += key;
+      document.getElementById('ivr-input-display').textContent = ivrInputBuffer;
+
+      // Handle Key input according to current State
+      handleIvrInput(key);
+    }
+
+    async function handleIvrInput(key) {
+      // 1. Language Selection
+      if (ivrState === 'LANG_SELECT') {
+        if (key === '1') ivrLang = 'te';
+        else if (key === '2') ivrLang = 'hi';
+        else if (key === '3') ivrLang = 'en';
+        else return;
+
+        ivrInputBuffer = '';
+        document.getElementById('ivr-input-display').textContent = '_';
+
+        // Check farmer phone identification
+        identifyFarmerInIvr();
+        return;
+      }
+
+      // 2. Farmer Identification (if not logged in)
+      if (ivrState === 'PHONE_INPUT') {
+        if (key === '#') {
+          const phone = ivrInputBuffer.replace('#', '').trim();
+          ivrInputBuffer = '';
+          document.getElementById('ivr-input-display').textContent = '_';
+          await verifyFarmerPhoneIvr(phone);
+        }
+        return;
+      }
+
+      // 3. Main Menu
+      if (ivrState === 'MAIN_MENU') {
+        ivrInputBuffer = '';
+        document.getElementById('ivr-input-display').textContent = '_';
+
+        if (key === '1') {
+          // Path 1: Book Slot
+          startIvrBookingFlow();
+        } else if (key === '2') {
+          // Path 2: Check Status
+          checkIvrStatusFlow();
+        } else if (key === '3') {
+          // Path 3: Cancel Slot
+          handleIvrCancelFlow();
+        }
+        return;
+      }
+
+      // 4. Booking: Select Crop
+      if (ivrState === 'BOOK_SELECT_CROP') {
+        const cropNum = parseInt(key);
+        if (cropNum >= 1 && cropNum <= masterCrops.length) {
+          ivrSelectedCrop = masterCrops[cropNum - 1];
+          ivrInputBuffer = '';
+          document.getElementById('ivr-input-display').textContent = '_';
+
+          ivrState = 'BOOK_ENTER_WEIGHT';
+          const prompt = ivrLang === 'te'
+            ? `మీరు ${ivrSelectedCrop.name} ఎంచుకున్నారు. దయచేసి అంచనా వేసిన క్వింటాళ్ల పరిమాణాన్ని నమోదు చేసి హ్యాష్ (#) నొక్కండి. ఉదాహరణకు 45 మరియు హ్యాష్.`
+            : (ivrLang === 'hi'
+              ? `आपने ${ivrSelectedCrop.name} चुना है। कृपया अपनी फसल की अनुमानित मात्रा क्विंटल में दर्ज करके हैश (#) दबाएं।`
+              : `You selected ${ivrSelectedCrop.name}. Please enter estimated weight in Quintals followed by hash (#). For example, 45#.`);
+
+          setIvrPrompt(prompt, "Enter Weight (Quintals)", [
+            { key: '25#', label: '25 Quintals' },
+            { key: '40#', label: '40 Quintals' },
+            { key: '60#', label: '60 Quintals' }
+          ]);
+        }
+        return;
+      }
+
+      // 5. Booking: Enter Weight (ends with #)
+      if (ivrState === 'BOOK_ENTER_WEIGHT') {
+        if (key === '#' || ivrInputBuffer.includes('#')) {
+          const rawWeight = ivrInputBuffer.replace('#', '').trim();
+          ivrEnteredWeight = parseFloat(rawWeight) || 40;
+          ivrInputBuffer = '';
+          document.getElementById('ivr-input-display').textContent = '_';
+
+          // Load available slots
+          ivrState = 'BOOK_SELECT_SLOT';
+          const res = await fetch('/api/ivr/slots?centre_id=1');
+          ivrSlotsCache = await res.json();
+
+          const prompt = ivrLang === 'te'
+            ? `క్వింటాళ్లు: ${ivrEnteredWeight}. అందుబాటులో ఉన్న స్లాట్‌లు: 1: ఉదయం 6 నుండి 9. 2: ఉదయం 9 నుండి 12. 3: మధ్యాహ్నం 12 నుండి 3. 4: మధ్యాహ్నం 3 నుండి 6. స్లాట్ సంఖ్యను నొక్కండి.`
+            : (ivrLang === 'hi'
+              ? `मात्रा: ${ivrEnteredWeight} क्विंटल। उपलब्ध स्लॉट: 1: सुबह 6 से 9। 2: सुबह 9 से 12। 3: दोपहर 12 से 3। 4: दोपहर 3 से 6। कृपया स्लॉट नंबर दबाएं।`
+              : `Weight: ${ivrEnteredWeight} QTL. Available slots: 1 for 6 AM to 9 AM, 2 for 9 AM to 12 PM, 3 for 12 PM to 3 PM, 4 for 3 PM to 6 PM. Press slot number.`);
+
+          setIvrPrompt(prompt, "Select Time Slot", [
+            { key: '1', label: '1: 6-9 AM' },
+            { key: '2', label: '2: 9-12 PM' },
+            { key: '3', label: '3: 12-3 PM' }
+          ]);
+        }
+        return;
+      }
+
+      // 6. Booking: Select Slot
+      if (ivrState === 'BOOK_SELECT_SLOT') {
+        const slotIdx = parseInt(key) - 1;
+        if (slotIdx >= 0 && slotIdx < ivrSlotsCache.length) {
+          ivrSelectedSlot = ivrSlotsCache[slotIdx];
+          ivrInputBuffer = '';
+          document.getElementById('ivr-input-display').textContent = '_';
+
+          ivrState = 'BOOK_CONFIRM';
+          const prompt = ivrLang === 'te'
+            ? `ధృవీకరణ: పంట: ${ivrSelectedCrop.name}. పరిమాణం: ${ivrEnteredWeight} క్వింటాళ్లు. తేదీ: ${ivrSelectedSlot.slot_date} (${ivrSelectedSlot.time_window}). నిర్ధారించడానికి 1 నొక్కండి. రద్దు చేయడానికి 2 నొక్కండి.`
+            : (ivrLang === 'hi'
+              ? `पुष्टि: फसल: ${ivrSelectedCrop.name}, मात्रा: ${ivrEnteredWeight} क्विंटल, स्लॉट: ${ivrSelectedSlot.slot_date} (${ivrSelectedSlot.time_window})। पुष्टि करने के लिए 1 दबाएं। रद्द करने के लिए 2 दबाएं।`
+              : `Confirmation: Crop: ${ivrSelectedCrop.name}, Weight: ${ivrEnteredWeight} QTL, Slot: ${ivrSelectedSlot.slot_date} (${ivrSelectedSlot.time_window}). Press 1 to confirm. Press 2 to cancel.`);
+
+          setIvrPrompt(prompt, "Confirm Booking", [
+            { key: '1', label: '1: Confirm & Book' },
+            { key: '2', label: '2: Cancel' }
+          ]);
+        }
+        return;
+      }
+
+      // 7. Booking: Confirm
+      if (ivrState === 'BOOK_CONFIRM') {
+        if (key === '1') {
+          // Finalize booking through API
+          const phone = currentUser ? currentUser.phone : '9876543210';
+          const res = await fetch('/api/ivr/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              phone,
+              crop_id: ivrSelectedCrop.id,
+              slot_id: ivrSelectedSlot.id,
+              estimated_qtl: ivrEnteredWeight,
+              centre_id: 1,
+              language: ivrLang
+            })
+          });
+          const data = await res.json();
+          if (data.success) {
+            ivrState = 'COMPLETED';
+            const prompt = ivrLang === 'te'
+              ? `ధన్యవాదాలు! మీ స్లాట్ బుక్ చేయబడింది. మీ టోకెన్ సంఖ్య ${data.token_number}. మీ రిజిస్టర్డ్ మొబైల్ నంబర్‌కు అధికారిక ఎస్ఎంఎస్ పంపబడింది. జై కిసాన్!`
+              : (ivrLang === 'hi'
+                ? `धन्यवाद! आपका स्लॉट बुक हो गया है। आपका टोकन नंबर है ${data.token_number}। आपके मोबाइल पर आधिकारिक एसएमएस भेज दिया गया है। जय किसान!`
+                : `Thank you! Your slot is booked. Your Token number is ${data.token_number}. An official confirmation SMS has been dispatched to your mobile. Jai Kisan!`);
+
+            setIvrPrompt(prompt, "Booking Confirmed", [
+              { key: '*', label: '*: Main Menu' },
+              { key: '#', label: '#: End Call' }
+            ]);
+
+            triggerSmsToast(data.sms_sent);
+            if (currentUser) {
+              await loadFarmerBookings();
+              await loadFarmerSmsInbox();
+            }
+          }
+        } else {
+          // Cancelled out
+          ivrState = 'MAIN_MENU';
+          identifyFarmerInIvr();
+        }
+        return;
+      }
+
+      // Shortcut back to main menu
+      if (key === '*') {
+        identifyFarmerInIvr();
+      }
+    }
+
+    async function identifyFarmerInIvr() {
+      const phone = currentUser ? currentUser.phone : '9876543210';
+      const res = await fetch('/api/ivr/lookup-farmer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+
+      if (data.registered) {
+        ivrState = 'MAIN_MENU';
+        const name = data.name;
+
+        const prompt = ivrLang === 'te'
+          ? `నమస్కారం ${name} గారు! ఆంధ్రప్రదేశ్ రైతు కొనుగోలు సహాయ కేంద్రానికి స్వాగతం. కొత్త స్లాట్ బుక్ చేయడానికి 1 నొక్కండి. మీ ప్రస్తుత బుకింగ్ స్థితిని తెలుసుకోవడానికి 2 నొక్కండి. బుకింగ్‌ను రద్దు చేయడానికి 3 నొక్కండి.`
+          : (ivrLang === 'hi'
+            ? `नमस्कार ${name} जी! आंध्र प्रदेश किसान खरीद हेल्पलाइन में आपका स्वागत है। नया स्लॉट बुक करने के लिए 1 दबाएं। अपनी बुकिंग स्थिति जांचने के लिए 2 दबाएं। स्लॉट रद्द करने के लिए 3 दबाएं।`
+            : `Namaste ${name}! Welcome to AP Kisan Procurement Helpline. Press 1 to book a new crop slot. Press 2 to check your current booking status. Press 3 to cancel an existing booking.`);
+
+        setIvrPrompt(prompt, "Main Menu", [
+          { key: '1', label: '1: Book Slot' },
+          { key: '2', label: '2: Check Status' },
+          { key: '3', label: '3: Cancel Slot' }
+        ]);
+      } else {
+        ivrState = 'PHONE_INPUT';
+        const prompt = ivrLang === 'te'
+          ? `దయచేసి మీ 10 అంకెల ఆధార్ లింక్ చేయబడిన మొబైల్ నంబర్‌ను నమోదు చేసి హ్యాష్ (#) నొక్కండి.`
+          : `Please enter your 10-digit Aadhaar linked mobile number followed by hash (#).`;
+        setIvrPrompt(prompt, "Enter Phone Number");
+      }
+    }
+
+    async function verifyFarmerPhoneIvr(phone) {
+      const res = await fetch('/api/ivr/lookup-farmer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+
+      if (data.registered) {
+        currentUser = data.farmer;
+        setupLoggedInUser();
+        identifyFarmerInIvr();
+      } else {
+        const prompt = ivrLang === 'te'
+          ? `క్షమించండి. ఈ మొబైల్ నంబర్ ఆధార్ రికార్డులలో కనుగొనబడలేదు. దయచేసి మీ సమీప రైతు భరోసా కేంద్రాన్ని సంప్రదించండి.`
+          : `Sorry, this mobile number is not registered in government Aadhaar records. Please visit your nearest Rythu Bharosa Kendra.`;
+        setIvrPrompt(prompt, "Unregistered Number", [{ key: '*', label: '*: Try Again' }]);
+      }
+    }
+
+    async function startIvrBookingFlow() {
+      ivrState = 'BOOK_SELECT_CROP';
+      const prompt = ivrLang === 'te'
+        ? `పంటను ఎంచుకోండి: 1: వరి, 2: పత్తి, 3: మొక్కజొన్న, 4: వేరుశనగ, 5: మిర్చి, 6: పొద్దుతిరుగుడు, 7: పసుపు, 8: జొన్న.`
+        : (ivrLang === 'hi'
+          ? `फसल चुनें: 1: धान, 2: कपास, 3: मक्का, 4: मूंगफली, 5: लाल मिर्च, 6: सूरजमुखी, 7: हल्दी, 8: जवार।`
+          : `Select Crop: 1 for Paddy, 2 for Cotton, 3 for Maize, 4 for Groundnut, 5 for Red Chilli, 6 for Sunflower, 7 for Turmeric, 8 for Jowar.`);
+
+      setIvrPrompt(prompt, "Select AP Crop", [
+        { key: '1', label: '1: వరి (Paddy)' },
+        { key: '2', label: '2: పత్తి (Cotton)' },
+        { key: '3', label: '3: మొక్కజొన్న (Maize)' },
+        { key: '4', label: '4: వేరుశనగ (Groundnut)' },
+        { key: '5', label: '5: మిర్చి (Red Chilli)' },
+        { key: '7', label: '7: పసుపు (Turmeric)' }
+      ]);
+    }
+
+    async function checkIvrStatusFlow() {
+      const phone = currentUser ? currentUser.phone : '9876543210';
+      const res = await fetch('/api/ivr/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, language: ivrLang })
+      });
+      const data = await res.json();
+
+      if (data.has_booking) {
+        const b = data.booking;
+        const prompt = ivrLang === 'te'
+          ? `మీకు ${b.crop_name} కొరకు ${b.booking_date} నాడు బుకింగ్ ఉంది. మీ టోకెన్ సంఖ్య: ${b.token_number}. ప్రస్తుత స్థితి: ${b.status}. ప్రధాన మెనూకు వెళ్లడానికి స్టార్ (*) నొక్కండి.`
+          : (ivrLang === 'hi'
+            ? `आपकी ${b.crop_name} के लिए ${b.booking_date} को बुकिंग है। टोकन नंबर है: ${b.token_number}। वर्तमान स्थिति: ${b.status}। मुख्य मेनू के लिए स्टार (*) दबाएं।`
+            : `You have an active booking for ${b.crop_name} on ${b.booking_date}. Token: ${b.token_number}. Current status: ${b.status}. Press star (*) for main menu.`);
+
+        setIvrPrompt(prompt, `Status: ${b.token_number}`, [
+          { key: '*', label: '*: Main Menu' }
+        ]);
+      } else {
+        const prompt = ivrLang === 'te'
+          ? `మీ నంబర్‌పై ఎటువంటి చురుకైన బుకింగ్‌లు లేవు. ప్రధాన మెనూకు వెళ్లడానికి స్టార్ (*) నొక్కండి.`
+          : `No active procurement bookings found. Press star (*) for main menu.`;
+        setIvrPrompt(prompt, "No Bookings", [{ key: '*', label: '*: Main Menu' }]);
+      }
+    }
+
+    async function handleIvrCancelFlow() {
+      const phone = currentUser ? currentUser.phone : '9876543210';
+      const res = await fetch('/api/ivr/cancel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, language: ivrLang })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        const prompt = ivrLang === 'te'
+          ? `మీ స్లాట్ విజయవంతంగా రద్దు చేయబడింది. కోటా విడుదల చేయబడింది. రద్దు నిర్ధారణ ఎస్ఎంఎస్ పంపబడింది. ప్రధాన మెనూకు వెళ్లడానికి స్టార్ (*) నొక్కండి.`
+          : (ivrLang === 'hi'
+            ? `आपका स्लॉट सफलतापूर्वक रद्द कर दिया गया है। कोटा जारी कर दिया गया है। मुख्य मेनू के लिए स्टार (*) दबाएं।`
+            : `Your booking has been CANCELLED successfully upon your request. Quota has been released. Press star (*) for main menu.`);
+
+        setIvrPrompt(prompt, "Cancelled Successfully", [{ key: '*', label: '*: Main Menu' }]);
+        triggerSmsToast(data.sms_sent);
+        if (currentUser) {
+          await loadFarmerBookings();
+          await loadFarmerSmsInbox();
+        }
+      } else {
+        // Enforce 2-Day rule rejection
+        const prompt = ivrLang === 'te'
+          ? `రద్దు తిరస్కరించబడింది: స్లాట్ తేదీ 2 రోజుల లోపు ఉంది. నిబంధనల ప్రకారం, స్లాట్ తేదీకి కనీసం 2 రోజుల ముందు మాత్రమే రద్దు చేయడానికి అనుమతి ఉంటుంది.`
+          : (ivrLang === 'hi'
+            ? `रद्दीकरण अस्वीकृत: स्लॉट 2 दिनों के भीतर है। मंडी नियमों के अनुसार, कम से कम 2 दिन पहले ही रद्दीकरण की अनुमति है।`
+            : `Cancellation Rejected: Mandi rules strictly require cancellation at least 2 days before the scheduled slot.`);
+
+        setIvrPrompt(prompt, "Cancellation Rejected (2-Day Rule)", [{ key: '*', label: '*: Main Menu' }]);
+      }
+    }
+
+    function toggleIvrSpeechRecognition() {
+      const btn = document.getElementById('btn-ivr-mic');
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert('Voice speech recognition is not supported in this browser. Please use the Keypad.');
+        return;
+      }
+
+      if (!ivrRecognition) {
+        ivrRecognition = new SpeechRecognition();
+        ivrRecognition.continuous = false;
+        ivrRecognition.interimResults = false;
+        ivrRecognition.lang = ivrLang === 'te' ? 'te-IN' : (ivrLang === 'hi' ? 'hi-IN' : 'en-IN');
+
+        ivrRecognition.onstart = () => {
+          btn.classList.add('bg-amber-500', 'text-slate-950');
+          btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-ping">mic</span><span>Listening...</span>`;
+        };
+
+        ivrRecognition.onresult = (event) => {
+          const spoken = event.results[0][0].transcript.toLowerCase();
+          btn.classList.remove('bg-amber-500', 'text-slate-950');
+          btn.innerHTML = `<span class="material-symbols-outlined text-sm text-amber-400">mic</span><span>Speak Answer</span>`;
+
+          // Map spoken text to keypad numbers
+          if (spoken.includes('1') || spoken.includes('ఒకటి') || spoken.includes('एक') || spoken.includes('one')) pressIvrKey('1');
+          else if (spoken.includes('2') || spoken.includes('రెండు') || spoken.includes('दो') || spoken.includes('two')) pressIvrKey('2');
+          else if (spoken.includes('3') || spoken.includes('మూడు') || spoken.includes('तीन') || spoken.includes('three')) pressIvrKey('3');
+          else if (spoken.includes('4') || spoken.includes('నాలుగు') || spoken.includes('चार')) pressIvrKey('4');
+          else if (spoken.includes('5') || spoken.includes('ఐదు') || spoken.includes('पांच')) pressIvrKey('5');
+          else if (spoken.includes('వరి') || spoken.includes('dhan') || spoken.includes('paddy')) pressIvrKey('1');
+          else if (spoken.includes('పత్తి') || spoken.includes('cotton')) pressIvrKey('2');
+          else if (spoken.includes('మొక్కజొన్న') || spoken.includes('maize')) pressIvrKey('3');
+        };
+
+        ivrRecognition.onerror = () => {
+          btn.classList.remove('bg-amber-500', 'text-slate-950');
+          btn.innerHTML = `<span class="material-symbols-outlined text-sm text-amber-400">mic</span><span>Speak Answer</span>`;
+        };
+
+        ivrRecognition.onend = () => {
+          btn.classList.remove('bg-amber-500', 'text-slate-950');
+          btn.innerHTML = `<span class="material-symbols-outlined text-sm text-amber-400">mic</span><span>Speak Answer</span>`;
+        };
+      }
+
+      ivrRecognition.start();
     }
   </script>
 

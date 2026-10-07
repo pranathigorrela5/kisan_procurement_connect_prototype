@@ -440,6 +440,34 @@
     </div>
   </div>
 
+  <!-- Modal for Viewing Procurement Challan in Admin -->
+  <div id="modal-admin-challan" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative my-auto">
+      <div class="flex justify-between items-start border-b border-slate-200 pb-3 mb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800">Govt of Andhra Pradesh · APMC Mandi</span>
+          <h3 class="text-lg font-black text-slate-900">Official Crop Procurement Challan</h3>
+          <p class="text-xs text-slate-500">Authorized Mandi Receipt & PFMS DBT Disbursement Record</p>
+        </div>
+        <button onclick="document.getElementById('modal-admin-challan').classList.add('hidden')" class="text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      </div>
+
+      <div id="admin-challan-content" class="space-y-4 text-xs">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="flex space-x-3 pt-4 border-t border-slate-200 mt-5">
+        <button onclick="window.print()" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center space-x-1">
+          <span class="material-symbols-outlined text-sm">print</span>
+          <span>Print / Export PDF</span>
+        </button>
+        <button onclick="document.getElementById('modal-admin-challan').classList.add('hidden')" class="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let adminToken = sessionStorage.getItem('adminToken') || null;
     let masterManifestData = [];
@@ -618,13 +646,17 @@
           <td class="p-3">
             <span class="text-xs font-bold px-2 py-0.5 rounded ${getStatusBadgeClass(b.status)}">${b.status}</span>
           </td>
-          <td class="p-3">
-            ${b.status !== 'EXPIRED_REVOKED' && b.status !== 'PAYMENT_PROCESSED' ? `
-              <button onclick="revokeFarmerToken('${b.id}', '${b.token_number}')" class="text-red-700 hover:text-white bg-red-50 hover:bg-red-700 border border-red-200 px-2.5 py-1 rounded-lg text-[11px] font-bold transition flex items-center space-x-1">
+          <td class="p-3 flex items-center space-x-1.5">
+            <button onclick="viewAdminChallan('${b.id}')" class="text-emerald-800 hover:text-white bg-emerald-50 hover:bg-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg text-[11px] font-bold transition flex items-center space-x-1">
+              <span class="material-symbols-outlined text-sm">receipt_long</span>
+              <span>Challan</span>
+            </button>
+            ${b.status !== 'EXPIRED_REVOKED' && b.status !== 'PAYMENT_PROCESSED' && b.status !== 'CANCELLED' ? `
+              <button onclick="revokeFarmerToken('${b.id}', '${b.token_number}')" class="text-red-700 hover:text-white bg-red-50 hover:bg-red-700 border border-red-200 px-2 py-1 rounded-lg text-[11px] font-bold transition flex items-center space-x-1">
                 <span class="material-symbols-outlined text-sm">cancel</span>
-                <span>Revoke Token</span>
+                <span>Revoke</span>
               </button>
-            ` : '<span class="text-slate-400 text-[11px]">—</span>'}
+            ` : ''}
           </td>
         </tr>
       `).join('');
@@ -643,6 +675,86 @@
         alert(data.message);
         loadAdminSlotSchedule();
       }
+    }
+
+    async function viewAdminChallan(bookingId) {
+      const res = await fetch(`/api/bookings/${bookingId}`);
+      const data = await res.json();
+      const b = data.booking;
+      const q = data.quality;
+      const w = data.weighment;
+      const p = data.payment;
+
+      const container = document.getElementById('admin-challan-content');
+      container.innerHTML = `
+        <div class="border border-slate-300 rounded-2xl p-4 bg-slate-50 space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+            <div>
+              <p class="font-bold text-slate-900">Challan Ref: <span class="font-mono text-emerald-800">${b.id}-CH</span></p>
+              <p class="text-[10px] text-slate-500">Date: ${b.booking_date} (${b.time_window})</p>
+            </div>
+            <div class="text-right">
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">${b.status}</span>
+              <p class="text-[10px] text-slate-500 mt-0.5">Token: <strong>${b.token_number}</strong></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-[11px]">
+            <div>
+              <span class="text-slate-500 block">Farmer Name:</span>
+              <strong class="text-slate-900">${b.farmer_name}</strong>
+              <p class="text-slate-500">Phone: ${b.farmer_phone}</p>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Procurement Mandi:</span>
+              <strong class="text-slate-900">${b.centre_name}</strong>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-2 grid grid-cols-3 gap-2 text-[11px]">
+            <div>
+              <span class="text-slate-500 block">Crop Name:</span>
+              <strong class="text-slate-900">${b.crop_name}</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Quality Grade:</span>
+              <strong class="text-slate-900">${q ? `${q.grade} (${q.moisture_pct}% Moist)` : 'Pending Inspection'}</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Official MSP Rate:</span>
+              <strong class="text-emerald-800">₹${b.msp_rate} / QTL</strong>
+            </div>
+          </div>
+
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-[11px] space-y-1">
+            <div class="flex justify-between">
+              <span>Gross Weight:</span>
+              <strong>${w ? `${w.gross_weight_kg} kg` : 'Pending'}</strong>
+            </div>
+            <div class="flex justify-between">
+              <span>Tare Weight:</span>
+              <strong>${w ? `${w.tare_weight_kg} kg` : 'Pending'}</strong>
+            </div>
+            <div class="flex justify-between text-xs font-bold text-slate-900 border-t border-emerald-200 pt-1">
+              <span>Net Procured Quantity:</span>
+              <span class="text-emerald-900">${w ? `${w.net_weight_qtl} Quintals` : `${b.estimated_qtl} Quintals (Est.)`}</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 text-white rounded-xl p-3 flex justify-between items-center text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block uppercase">Total Govt Disbursement:</span>
+              <strong class="text-base text-amber-400">₹${p ? p.net_amount.toLocaleString('en-IN') : ((w ? w.net_weight_qtl : b.estimated_qtl) * b.msp_rate).toLocaleString('en-IN')}</strong>
+            </div>
+            <div class="text-right text-[10px] text-slate-300">
+              <span>Payment Mode: <strong>PFMS Direct DBT</strong></span>
+              <p class="text-slate-400 font-mono">${p ? p.bank_ref : 'PFMS-PENDING'}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modal-admin-challan').classList.remove('hidden');
     }
 
     function filterManifestTable() {

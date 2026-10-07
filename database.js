@@ -131,6 +131,18 @@ function initDatabase() {
     );
   `);
 
+  // SMS Notifications Table (Simulated Govt SMS Dispatch)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS sms_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      phone TEXT NOT NULL,
+      farmer_name TEXT NOT NULL,
+      type TEXT NOT NULL DEFAULT 'BOOKING_CONFIRMATION',
+      message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
   console.log('Database initialized successfully.');
 }
 
