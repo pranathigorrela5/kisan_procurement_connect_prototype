@@ -4,6 +4,7 @@ function seedDatabase() {
   console.log('Seeding database with SIH Andhra Pradesh Demo Data...');
 
   // 1. Clear existing table contents for clean demo state
+  try { db.exec('DELETE FROM ivr_outbound_calls;'); } catch (e) {}
   try { db.exec('DELETE FROM sms_messages;'); } catch (e) {}
   db.exec('DELETE FROM payments;');
   db.exec('DELETE FROM weighments;');
@@ -16,7 +17,7 @@ function seedDatabase() {
 
   // Reset sqlite_sequence if present
   try {
-    db.exec("DELETE FROM sqlite_sequence WHERE name IN ('users', 'centres', 'crops', 'slots', 'quality_inspections', 'weighments', 'payments', 'sms_messages');");
+    db.exec("DELETE FROM sqlite_sequence WHERE name IN ('users', 'centres', 'crops', 'slots', 'quality_inspections', 'weighments', 'payments', 'sms_messages', 'ivr_outbound_calls');");
   } catch (e) {}
 
   // 2. Insert Users (Aadhaar linked farmers)
@@ -28,11 +29,11 @@ function seedDatabase() {
   stmtUser.run('Anil Verma', '9876543214', 'FARMER', 'Kurnool', 'Andhra Pradesh', '6789 0123 4567', 'AP-KRN-ROR-2024-551');
   stmtUser.run('Officer Admin', '9999999999', 'ADMIN', 'Guntur', 'Andhra Pradesh', '1111 2222 3333', 'GOVT-ADMIN-EMP-01');
 
-  // 3. Insert Centres
-  const stmtCentre = db.prepare('INSERT INTO centres (name, code, district, state, capacity_qtl) VALUES (?, ?, ?, ?, ?)');
-  stmtCentre.run('Guntur Main APMC Mandi', 'AP-GNT-01', 'Guntur', 'Andhra Pradesh', 1000);
-  stmtCentre.run('Vijayawada Rythu Hub', 'AP-VJA-02', 'Krishna', 'Andhra Pradesh', 800);
-  stmtCentre.run('Kurnool Cotton & Grain Mandi', 'AP-KRN-03', 'Kurnool', 'Andhra Pradesh', 1200);
+  // 3. Insert Centres with Physical Location Addresses & Landmarks
+  const stmtCentre = db.prepare('INSERT INTO centres (name, code, district, state, address, capacity_qtl) VALUES (?, ?, ?, ?, ?, ?)');
+  stmtCentre.run('Guntur Main APMC Mandi', 'AP-GNT-01', 'Guntur', 'Andhra Pradesh', 'NH-16 Bypass Road, Opposite Mirchi Yard Gate-2, Guntur - 522004', 1000);
+  stmtCentre.run('Vijayawada Rythu Hub', 'AP-VJA-02', 'Krishna', 'Andhra Pradesh', 'Gollapudi Agricultural Market Yard, NH-65, Vijayawada - 521225', 800);
+  stmtCentre.run('Kurnool Cotton & Grain Mandi', 'AP-KRN-03', 'Kurnool', 'Andhra Pradesh', 'Bellary Road, Agricultural Market Committee Complex, Kurnool - 518003', 1200);
 
   // 4. Insert 8 Major Andhra Pradesh Crops with Official MSP Rates
   const stmtCrop = db.prepare('INSERT INTO crops (name, category, msp_rate_per_qtl) VALUES (?, ?, ?)');
@@ -59,19 +60,19 @@ function seedDatabase() {
 
   const stmtSlot = db.prepare('INSERT INTO slots (centre_id, slot_date, time_window, max_capacity, booked_count) VALUES (?, ?, ?, ?, ?)');
 
-  // Slots Today
+  // Slots Today (IDs 1..4)
   stmtSlot.run(1, today, '06:00 AM - 09:00 AM', 30, 4);
   stmtSlot.run(1, today, '09:00 AM - 12:00 PM', 30, 8);
   stmtSlot.run(1, today, '12:00 PM - 03:00 PM', 30, 2);
   stmtSlot.run(1, today, '03:00 PM - 06:00 PM', 30, 0);
 
-  // Slots Tomorrow
+  // Slots Tomorrow (IDs 5..8)
   stmtSlot.run(1, tomorrow, '06:00 AM - 09:00 AM', 30, 2);
   stmtSlot.run(1, tomorrow, '09:00 AM - 12:00 PM', 30, 5);
   stmtSlot.run(1, tomorrow, '12:00 PM - 03:00 PM', 30, 1);
   stmtSlot.run(1, tomorrow, '03:00 PM - 06:00 PM', 30, 0);
 
-  // Slots in 3 Days (Valid for cancellation test)
+  // Slots in 3 Days (IDs 9..12 - Valid for >=2 days cancellation test)
   stmtSlot.run(1, in3Days, '06:00 AM - 09:00 AM', 30, 1);
   stmtSlot.run(1, in3Days, '09:00 AM - 12:00 PM', 30, 0);
   stmtSlot.run(1, in3Days, '12:00 PM - 03:00 PM', 30, 0);
@@ -88,7 +89,7 @@ function seedDatabase() {
 
   const now = new Date().toISOString();
 
-  // Booking 1: Freshly Booked for Today (Ramesh Kumar - 9876543210)
+  // Booking 1: Freshly Booked for Today (Ramesh Kumar - 9876543210) -> <2 days away (Cancel will be rejected if tested on this one)
   stmtBooking.run(
     'BK-1001', 1, 'Ramesh Kumar', '9876543210', 1, 'Guntur Main APMC Mandi',
     1, 'Paddy (వరి / Dhan)', 2300, 1, today, '06:00 AM - 09:00 AM',
@@ -135,7 +136,7 @@ function seedDatabase() {
   db.prepare('INSERT INTO payments (booking_id, total_qtl, msp_rate, gross_amount, net_amount, bank_ref, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .run('BK-1005', 40.0, 2090, 83600, 83600, 'PFMS-DBT-2026-9920148', 'PROCESSED');
 
-  // Booking 6: Future Booking for 3 Days from now (Eligible for 2-day cancellation demo)
+  // Booking 6: Future Booking for 3 Days from now (Eligible for >=2-day cancellation demo)
   stmtBooking.run(
     'BK-1006', 1, 'Ramesh Kumar', '9876543210', 1, 'Guntur Main APMC Mandi',
     7, 'Turmeric (పసుపు / Haldi)', 9000, 9, in3Days, '06:00 AM - 09:00 AM',
@@ -144,10 +145,10 @@ function seedDatabase() {
 
   // Initial SMS Messages
   const stmtSms = db.prepare('INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, ?, ?)');
-  stmtSms.run('9876543210', 'Ramesh Kumar', 'BOOKING_CONFIRMATION', `GOVT OF AP: Namaste Ramesh Kumar! Booking Confirmed. Token: Q-101. Crop: Paddy. Date: ${today} (06:00 AM - 09:00 AM) at Guntur Main APMC Mandi. Helpline: 1800-180-1551.`);
+  stmtSms.run('9876543210', 'Ramesh Kumar', 'BOOKING_CONFIRMATION', `GOVT OF AP: Namaste Ramesh Kumar! Booking Confirmed. Token: Q-101. Crop: Paddy. Date: ${today} (06:00 AM - 09:00 AM) at Guntur Main APMC Mandi (NH-16 Bypass Road, Opp Mirchi Yard Gate-2). Helpline: 1800-180-1551.`);
   stmtSms.run('9876543214', 'Anil Verma', 'PAYMENT_CONFIRMATION', `GOVT OF AP: ₹83,600 credited to Anil Verma via PFMS/DBT for Maize (40 QTL) Ref: PFMS-DBT-2026-9920148. Jai Kisan!`);
 
-  console.log('Database Seeding Complete with AP Crops and Multi-Day Slots!');
+  console.log('Database Seeding Complete with AP Crops, Physical Mandi Locations, and Multi-Day Slots!');
 }
 
 seedDatabase();

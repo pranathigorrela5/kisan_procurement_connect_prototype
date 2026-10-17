@@ -179,11 +179,46 @@
           </div>
         </div>
 
+        <!-- GOVT AUTOMATED OUTBOUND IVR CAMPAIGN DISPATCHER -->
+        <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 text-white rounded-3xl p-6 border border-emerald-700/50 shadow-lg">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-md shrink-0">
+                <span class="material-symbols-outlined text-2xl">phone_forwarded</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-[10px] font-extrabold uppercase tracking-widest bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded">Govt OBD Automated Dialer</span>
+                  <span class="text-[11px] text-emerald-300 font-mono">Toll-Free Caller ID: 1800-180-1551</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mt-1">Trigger Outbound IVR Call to Registered Farmers</h3>
+                <p class="text-xs text-slate-300">Initiates a live incoming phone call on the Farmer Portal (`/`). Farmers answer and press <strong>1 (Yes Crop)</strong>, <strong>2 (No Crop)</strong>, <strong>3 (Status &amp; Mandi Location)</strong>, or <strong>4 (Cancel &ge;2d prior)</strong>.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
+              <select id="admin-ivr-farmer-select" class="bg-slate-800 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-600 outline-none">
+                <option value="9876543210">Ramesh Kumar (9876543210) — Guntur</option>
+                <option value="9876543211">Suresh Reddy (9876543211) — Guntur</option>
+                <option value="9876543212">Venkatesh Rao (9876543212) — Bapatla</option>
+                <option value="9876543213">Lakshmi Devi (9876543213) — Tenali</option>
+                <option value="9876543214">Narasimha Naidu (9876543214) — Mangalagiri</option>
+                <option value="9876543215">Anjaneyulu Goud (9876543215) — Ponnur</option>
+              </select>
+              <button onclick="triggerAdminOutboundIVR()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl shadow flex items-center space-x-1.5 transition">
+                <span class="material-symbols-outlined text-base">ring_volume</span>
+                <span>Ring Farmer Phone Now</span>
+              </button>
+            </div>
+          </div>
+          <div id="admin-ivr-dispatch-status" class="hidden mt-3 bg-slate-950/70 border border-emerald-500/40 rounded-xl px-3.5 py-2 text-xs text-emerald-300 font-medium"></div>
+        </div>
+
         <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <div>
               <h3 class="text-lg font-bold text-slate-900">Daily Arrival Roster & Revocation Control</h3>
-              <p class="text-xs text-slate-500">Revoke tokens for timed-out / no-show farmers to free up capacity</p>
+              <p class="text-xs text-slate-500">Revoke tokens for timed-out / no-show farmers or ring their mobile via Outbound IVR</p>
             </div>
 
             <input type="text" id="manifest-search" oninput="filterManifestTable()" placeholder="Search farmer or crop..." class="text-xs p-2.5 rounded-xl border border-slate-300 w-64">
@@ -647,6 +682,10 @@
             <span class="text-xs font-bold px-2 py-0.5 rounded ${getStatusBadgeClass(b.status)}">${b.status}</span>
           </td>
           <td class="p-3 flex items-center space-x-1.5">
+            <button onclick="triggerAdminOutboundIVR('${b.farmer_phone}')" class="text-amber-900 hover:text-slate-950 bg-amber-100 hover:bg-amber-400 border border-amber-300 px-2 py-1 rounded-lg text-[11px] font-bold transition flex items-center space-x-1" title="Trigger Outbound IVR Call to Farmer">
+              <span class="material-symbols-outlined text-sm">ring_volume</span>
+              <span>Call IVR</span>
+            </button>
             <button onclick="viewAdminChallan('${b.id}')" class="text-emerald-800 hover:text-white bg-emerald-50 hover:bg-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg text-[11px] font-bold transition flex items-center space-x-1">
               <span class="material-symbols-outlined text-sm">receipt_long</span>
               <span>Challan</span>
@@ -660,6 +699,31 @@
           </td>
         </tr>
       `).join('');
+    }
+
+    async function triggerAdminOutboundIVR(phoneOverride) {
+      const selectEl = document.getElementById('admin-ivr-farmer-select');
+      const phone = phoneOverride || (selectEl ? selectEl.value : '9876543210');
+      const statusBox = document.getElementById('admin-ivr-dispatch-status');
+
+      try {
+        const res = await fetch('/api/ivr/trigger-outbound', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, triggered_by: 'ADMIN_MANDI_OFFICER' })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (statusBox) {
+            statusBox.classList.remove('hidden');
+            statusBox.innerHTML = `✅ <strong>Outbound IVR Call Dispatched (#${data.call_id}):</strong> Ringing <strong>${data.farmer.name} (${data.farmer.phone})</strong> [${data.farmer.district}] — Open the Farmer Portal (<code>/</code>) to see the incoming phone call ring!`;
+          } else {
+            alert(data.message);
+          }
+        }
+      } catch (err) {
+        alert('Failed to dispatch outbound IVR call');
+      }
     }
 
     async function revokeFarmerToken(bookingId, tokenNum) {

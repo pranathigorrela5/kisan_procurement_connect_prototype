@@ -23,12 +23,62 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Serve static frontend prototype files
 app.use('/prototype', express.static(path.join(__dirname, 'kisan_procurement_connect_prototype/stitch_kisan_procurement_connect_prototype')));
 
-// Add KYC columns to users table if missing
-try {
-  db.exec('ALTER TABLE users ADD COLUMN aadhaar TEXT;');
-  db.exec('ALTER TABLE users ADD COLUMN land_record_id TEXT;');
-  db.exec('ALTER TABLE users ADD COLUMN bank_ifsc TEXT;');
-} catch (e) {}
+// Ensure schema columns exist
+try { db.exec('ALTER TABLE users ADD COLUMN aadhaar TEXT;'); } catch (e) {}
+try { db.exec('ALTER TABLE users ADD COLUMN land_record_id TEXT;'); } catch (e) {}
+try { db.exec('ALTER TABLE users ADD COLUMN bank_account_no TEXT;'); } catch (e) {}
+try { db.exec('ALTER TABLE users ADD COLUMN bank_ifsc TEXT;'); } catch (e) {}
+try { db.exec("ALTER TABLE centres ADD COLUMN address TEXT DEFAULT 'NH-16 Bypass Road, Opposite Mirchi Yard Gate-2, Guntur - 522004';"); } catch (e) {}
+
+// Helper to get YYYY-MM-DD for offset days from today
+function getDateStr(offsetDays = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return d.toISOString().split('T')[0];
+}
+
+// Ensure standard slots exist for a centre & date
+function ensureSlotsForDate(centreId, dateStr) {
+  const stmt = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ? ORDER BY time_window ASC');
+  let slots = stmt.all(centreId, dateStr);
+  if (slots.length === 0) {
+    const defaultWindows = [
+      '06:00 AM - 09:00 AM',
+      '09:00 AM - 12:00 PM',
+      '12:00 PM - 03:00 PM',
+      '03:00 PM - 06:00 PM'
+    ];
+    const insertSlot = db.prepare('INSERT INTO slots (centre_id, slot_date, time_window, max_capacity, booked_count) VALUES (?, ?, ?, ?, ?)');
+    defaultWindows.forEach(w => insertSlot.run(centreId, dateStr, w, 30, 0));
+    slots = stmt.all(centreId, dateStr);
+  }
+  return slots;
+}
+
+// Auto-Synchronize Demo Dates to Today on Startup so Demo Never Goes Stale
+function syncDemoDatesToToday() {
+  try {
+    const today = getDateStr(0);
+    const tomorrow = getDateStr(1);
+    const in3Days = getDateStr(3);
+
+    ensureSlotsForDate(1, today);
+    ensureSlotsForDate(1, tomorrow);
+    ensureSlotsForDate(1, in3Days);
+
+    // Update centre addresses if default
+    db.prepare("UPDATE centres SET address = 'NH-16 Bypass Road, Opposite Mirchi Yard Gate-2, Guntur - 522004' WHERE id = 1").run();
+    db.prepare("UPDATE centres SET address = 'Gollapudi Agricultural Market Yard, NH-65, Vijayawada - 521225' WHERE id = 2").run();
+    db.prepare("UPDATE centres SET address = 'Bellary Road, Agricultural Market Committee Complex, Kurnool - 518003' WHERE id = 3").run();
+
+    // Shift sample bookings BK-1001..BK-1005 to today, and BK-1006 to in3Days (for >=2-day cancellation demo)
+    db.prepare("UPDATE bookings SET booking_date = ? WHERE id IN ('BK-1001', 'BK-1002', 'BK-1003', 'BK-1004', 'BK-1005')").run(today);
+    db.prepare("UPDATE bookings SET booking_date = ?, status = 'BOOKED' WHERE id = 'BK-1006'").run(in3Days);
+  } catch (e) {
+    console.error('Demo date sync notice:', e.message);
+  }
+}
+syncDemoDatesToToday();
 
 // Admin Authentication Middleware
 function requireAdminAuth(req, res, next) {
@@ -49,13 +99,13 @@ app.post('/api/auth/login', (req, res) => {
   if (!phone) return res.status(400).json({ error: 'Phone number is required' });
 
   const stmt = db.prepare('SELECT * FROM users WHERE phone = ?');
-  const user = stmt.get(phone);
+  const user = stmt.get(phone.trim());
 
   if (user) {
     return res.json({ success: true, user });
   } else {
-    const insertStmt = db.prepare('INSERT INTO users (name, phone, role, district, state) VALUES (?, ?, ?, ?, ?)');
-    const result = insertStmt.run(`Farmer (${phone.slice(-4)})`, phone, 'FARMER', 'Guntur', 'Andhra Pradesh');
+    const insertStmt = db.prepare('INSERT INTO users (name, phone, role, district, state, aadhaar, land_record_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    const result = insertStmt.run(`Farmer (${phone.slice(-4)})`, phone.trim(), 'FARMER', 'Guntur', 'Andhra Pradesh', 'Verified-KYC', 'AP-GNT-ROR');
     const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
     return res.json({ success: true, user: newUser, created: true });
   }
@@ -86,23 +136,23 @@ app.post('/api/auth/register-kyc', (req, res) => {
     return res.status(400).json({ error: 'Name, Phone, Aadhaar number, and Land Record ID are required' });
   }
 
-  const existing = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone);
+  const existing = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone.trim());
 
   if (existing) {
     db.prepare(`
       UPDATE users 
       SET name = ?, aadhaar = ?, land_record_id = ?, district = ?, state = ?, bank_account_no = ?, bank_ifsc = ?
       WHERE phone = ?
-    `).run(name, aadhaar, land_record_id, district || 'Guntur', state || 'Andhra Pradesh', bank_account || '', bank_ifsc || '', phone);
+    `).run(name, aadhaar, land_record_id, district || 'Guntur', state || 'Andhra Pradesh', bank_account || '', bank_ifsc || '', phone.trim());
 
-    const updated = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone);
+    const updated = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone.trim());
     return res.json({ success: true, user: updated, message: 'Farmer KYC verification updated successfully!' });
   } else {
     const insertStmt = db.prepare(`
       INSERT INTO users (name, phone, role, district, state, aadhaar, land_record_id, bank_account_no, bank_ifsc)
       VALUES (?, ?, 'FARMER', ?, ?, ?, ?, ?, ?)
     `);
-    const result = insertStmt.run(name, phone, district || 'Guntur', state || 'Andhra Pradesh', aadhaar, land_record_id, bank_account || '', bank_ifsc || '');
+    const result = insertStmt.run(name, phone.trim(), district || 'Guntur', state || 'Andhra Pradesh', aadhaar, land_record_id, bank_account || '', bank_ifsc || '');
     const newUser = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
     return res.status(201).json({ success: true, user: newUser, message: 'Aadhaar & Land Records Verified! Registration complete.' });
   }
@@ -113,35 +163,32 @@ app.post('/api/auth/register-kyc', (req, res) => {
 // ==========================================
 
 app.get('/api/centres', (req, res) => {
-  const stmt = db.prepare('SELECT * FROM centres ORDER BY name ASC');
+  const stmt = db.prepare('SELECT * FROM centres ORDER BY id ASC');
   res.json(stmt.all());
 });
 
+// Order by ID ASC so 1=Paddy, 2=Cotton, 3=Maize, 4=Groundnut, 5=Red Chilli, 6=Sunflower, 7=Turmeric, 8=Jowar matches IVR numbering!
 app.get('/api/crops', (req, res) => {
-  const stmt = db.prepare('SELECT * FROM crops ORDER BY name ASC');
+  const stmt = db.prepare('SELECT * FROM crops ORDER BY id ASC');
   res.json(stmt.all());
 });
 
 app.get('/api/slots', (req, res) => {
-  const { centre_id, date } = req.query;
-  const targetDate = date || new Date().toISOString().split('T')[0];
-  const targetCentre = centre_id || 1;
+  const { centre_id, date, all_upcoming } = req.query;
+  const targetCentre = parseInt(centre_id) || 1;
 
-  const stmt = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ?');
-  let slots = stmt.all(targetCentre, targetDate);
-
-  if (slots.length === 0) {
-    const defaultWindows = [
-      '08:00 AM - 10:00 AM',
-      '10:00 AM - 12:00 PM',
-      '12:00 PM - 02:00 PM',
-      '02:00 PM - 04:00 PM'
-    ];
-    const insertSlot = db.prepare('INSERT INTO slots (centre_id, slot_date, time_window, max_capacity, booked_count) VALUES (?, ?, ?, ?, ?)');
-    defaultWindows.forEach(w => insertSlot.run(targetCentre, targetDate, w, 30, 0));
-    slots = stmt.all(targetCentre, targetDate);
+  if (all_upcoming === 'true') {
+    const today = getDateStr(0);
+    const tomorrow = getDateStr(1);
+    const in3Days = getDateStr(3);
+    const s1 = ensureSlotsForDate(targetCentre, today);
+    const s2 = ensureSlotsForDate(targetCentre, tomorrow);
+    const s3 = ensureSlotsForDate(targetCentre, in3Days);
+    return res.json([...s1, ...s2, ...s3]);
   }
 
+  const targetDate = date || getDateStr(0);
+  const slots = ensureSlotsForDate(targetCentre, targetDate);
   res.json(slots);
 });
 
@@ -185,17 +232,31 @@ app.post('/api/bookings', (req, res) => {
 
   db.prepare('UPDATE slots SET booked_count = booked_count + 1 WHERE id = ?').run(slot.id);
 
+  const smsBody = `GOVT OF AP: Namaste ${farmer.name}! Booking Confirmed. Token: ${tokenNum}. Crop: ${crop.name} (${estimated_qtl} QTL). Date: ${slot.slot_date} (${slot.time_window}) at ${centre.name} (${centre.address}). Cancel at least 2 days prior. Helpline: 1800-180-1551.`;
+  db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'BOOKING_CONFIRMATION', ?)`).run(farmer.phone, farmer.name, smsBody);
+
   const newBooking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(bookingId);
-  res.status(201).json({ success: true, booking: newBooking });
+  res.status(201).json({ success: true, booking: newBooking, sms_sent: smsBody });
 });
 
 app.get('/api/bookings/farmer/:phone', (req, res) => {
-  const stmt = db.prepare('SELECT * FROM bookings WHERE farmer_phone = ? ORDER BY created_at DESC');
-  res.json(stmt.all(req.params.phone));
+  const stmt = db.prepare(`
+    SELECT b.*, c.address as centre_address, c.district as centre_district
+    FROM bookings b
+    LEFT JOIN centres c ON b.centre_id = c.id
+    WHERE b.farmer_phone = ?
+    ORDER BY b.created_at DESC
+  `);
+  res.json(stmt.all(req.params.phone.trim()));
 });
 
 app.get('/api/bookings/:id', (req, res) => {
-  const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(req.params.id);
+  const booking = db.prepare(`
+    SELECT b.*, c.address as centre_address, c.district as centre_district, c.code as centre_code
+    FROM bookings b
+    LEFT JOIN centres c ON b.centre_id = c.id
+    WHERE b.id = ?
+  `).get(req.params.id);
   if (!booking) return res.status(404).json({ error: 'Booking not found' });
 
   const quality = db.prepare('SELECT * FROM quality_inspections WHERE booking_id = ?').get(booking.id);
@@ -207,7 +268,7 @@ app.get('/api/bookings/:id', (req, res) => {
 
 app.get('/api/queue/live/:centre_id', (req, res) => {
   const centreId = req.params.centre_id;
-  const today = new Date().toISOString().split('T')[0];
+  const today = getDateStr(0);
 
   const arrived = db.prepare(`
     SELECT * FROM bookings 
@@ -230,7 +291,6 @@ app.get('/api/queue/live/:centre_id', (req, res) => {
 // 4. PRIVATE ADMIN OPERATIONS & TOKEN REVOCATION APIS
 // ==========================================
 
-// Revoke Timed-Out / Expired Token Endpoint
 app.post('/api/admin/token/revoke', requireAdminAuth, (req, res) => {
   const { booking_id, reason } = req.body;
 
@@ -346,6 +406,9 @@ app.post('/api/admin/payment/approve', requireAdminAuth, (req, res) => {
 
   db.prepare("UPDATE bookings SET status = 'PAYMENT_PROCESSED', completed_at = ? WHERE id = ?").run(now, booking.id);
 
+  const paySms = `GOVT OF AP: ₹${totalAmount.toLocaleString('en-IN')} credited to ${booking.farmer_name} via PFMS/DBT for ${booking.crop_name} (${totalQtl} QTL @ ₹${mspRate}/QTL). Ref: ${bankRef}. Jai Kisan!`;
+  db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'PAYMENT_CONFIRMATION', ?)`).run(booking.farmer_phone, booking.farmer_name, paySms);
+
   res.json({
     success: true,
     totalQtl,
@@ -361,14 +424,16 @@ app.post('/api/admin/payment/approve', requireAdminAuth, (req, res) => {
 
 app.get('/api/admin/slots/manage', requireAdminAuth, (req, res) => {
   const { centre_id, date } = req.query;
-  const targetDate = date || new Date().toISOString().split('T')[0];
-  const targetCentre = centre_id || 1;
+  const targetDate = date || getDateStr(0);
+  const targetCentre = parseInt(centre_id) || 1;
 
-  const slots = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ?').all(targetCentre, targetDate);
+  const slots = ensureSlotsForDate(targetCentre, targetDate);
   const bookings = db.prepare(`
-    SELECT * FROM bookings 
-    WHERE centre_id = ? AND booking_date = ? 
-    ORDER BY time_window ASC, token_number ASC
+    SELECT b.*, c.address as centre_address
+    FROM bookings b
+    LEFT JOIN centres c ON b.centre_id = c.id
+    WHERE b.centre_id = ? AND b.booking_date = ? 
+    ORDER BY b.time_window ASC, b.token_number ASC
   `).all(targetCentre, targetDate);
 
   const slotDetails = slots.map(s => {
@@ -466,8 +531,82 @@ app.get('/api/admin/stats', (req, res) => {
 });
 
 // ==========================================
-// 5. INTERACTIVE IVR & SMS HELPLINE APIS (FREE WEB SPEECH + DTMF)
+// 5. OUTBOUND AUTOMATED IVR & SMS HELPLINE APIS
 // ==========================================
+
+// List all registered farmers (for Outbound IVR Call Dispatcher)
+app.get('/api/ivr/farmers', (req, res) => {
+  const farmers = db.prepare("SELECT id, name, phone, district, state, aadhaar, land_record_id FROM users WHERE role = 'FARMER' ORDER BY id ASC").all();
+  res.json(farmers);
+});
+
+// Trigger Outbound Automated Govt IVR Call to a Farmer Phone Number
+app.post('/api/ivr/trigger-outbound', (req, res) => {
+  const { phone, triggered_by } = req.body;
+  if (!phone) return res.status(400).json({ error: 'Target farmer phone number is required' });
+
+  const cleanPhone = phone.trim();
+  const farmer = db.prepare('SELECT * FROM users WHERE phone = ?').get(cleanPhone);
+  const farmerName = farmer ? farmer.name : `Unregistered Caller (${cleanPhone})`;
+
+  // Clear previous RINGING calls for this phone
+  db.prepare("UPDATE ivr_outbound_calls SET status = 'MISSED' WHERE phone = ? AND status = 'RINGING'").run(cleanPhone);
+
+  const result = db.prepare(`
+    INSERT INTO ivr_outbound_calls (phone, farmer_name, triggered_by, status)
+    VALUES (?, ?, ?, 'RINGING')
+  `).run(cleanPhone, farmerName, triggered_by || 'GOVT_OBD_SYSTEM');
+
+  const callRecord = db.prepare('SELECT * FROM ivr_outbound_calls WHERE id = ?').get(result.lastInsertRowid);
+
+  res.json({
+    success: true,
+    call_id: callRecord.id,
+    call: callRecord,
+    registered: !!farmer,
+    farmer: farmer || { name: farmerName, phone: cleanPhone, district: 'Andhra Pradesh' },
+    message: `Outbound IVR Call initiated to ${farmerName} (${cleanPhone})`
+  });
+});
+
+// Poll or check if there is an incoming RINGING call for a farmer (or any farmer on demo device)
+app.get('/api/ivr/pending-call', (req, res) => {
+  const { phone } = req.query;
+  let call;
+  if (phone) {
+    call = db.prepare("SELECT * FROM ivr_outbound_calls WHERE phone = ? AND status = 'RINGING' ORDER BY id DESC LIMIT 1").get(phone.trim());
+  } else {
+    call = db.prepare("SELECT * FROM ivr_outbound_calls WHERE status = 'RINGING' ORDER BY id DESC LIMIT 1").get();
+  }
+  res.json({ has_call: !!call, call: call || null });
+});
+
+// Update Outbound Call Status (ANSWERED, DECLINED, COMPLETED_BOOKED, COMPLETED_NO_CROP)
+app.post('/api/ivr/call-status', (req, res) => {
+  const { call_id, phone, status, outcome } = req.body;
+  if (call_id) {
+    db.prepare('UPDATE ivr_outbound_calls SET status = ?, outcome = COALESCE(?, outcome) WHERE id = ?').run(status || 'ANSWERED', outcome || null, call_id);
+  } else if (phone) {
+    db.prepare("UPDATE ivr_outbound_calls SET status = ?, outcome = COALESCE(?, outcome) WHERE phone = ? AND status IN ('RINGING', 'ANSWERED')").run(status || 'COMPLETED', outcome || null, phone.trim());
+  }
+  res.json({ success: true });
+});
+
+// Record Option 2: Farmer says NO crop ready for selling right now
+app.post('/api/ivr/no-crop', (req, res) => {
+  const { phone } = req.body;
+  const cleanPhone = (phone || '').trim();
+  const farmer = db.prepare('SELECT * FROM users WHERE phone = ?').get(cleanPhone);
+  const name = farmer ? farmer.name : 'Farmer';
+
+  db.prepare("UPDATE ivr_outbound_calls SET status = 'COMPLETED', outcome = 'NO_CROP_AVAILABLE' WHERE phone = ?").run(cleanPhone);
+
+  res.json({
+    success: true,
+    farmer_name: name,
+    message: `Recorded: ${name} currently has no harvested crop ready for procurement.`
+  });
+});
 
 // IVR Farmer Identification by Aadhaar-linked phone
 app.post('/api/ivr/lookup-farmer', (req, res) => {
@@ -498,13 +637,13 @@ app.get('/api/ivr/crops', (req, res) => {
   res.json(crops);
 });
 
-// IVR Available Slots
+// IVR Available Slots (Supports date offset or specific date)
 app.get('/api/ivr/slots', (req, res) => {
-  const { centre_id, date } = req.query;
-  const targetCentre = centre_id || 1;
-  const targetDate = date || new Date().toISOString().split('T')[0];
+  const { centre_id, date, offset_days } = req.query;
+  const targetCentre = parseInt(centre_id) || 1;
+  const targetDate = date || getDateStr(parseInt(offset_days) || 0);
 
-  const slots = db.prepare('SELECT * FROM slots WHERE centre_id = ? AND slot_date = ? ORDER BY time_window ASC').all(targetCentre, targetDate);
+  const slots = ensureSlotsForDate(targetCentre, targetDate);
   res.json(slots);
 });
 
@@ -531,7 +670,7 @@ app.post('/api/ivr/book', (req, res) => {
   const randomNum = Math.floor(1000 + Math.random() * 9000);
   const bookingId = `BK-${randomNum}`;
   const tokenNum = `Q-${Math.floor(100 + Math.random() * 900)}`;
-  const qtl = parseFloat(estimated_qtl) || 40.0;
+  const qtl = Math.min(500, Math.max(5, parseFloat(estimated_qtl) || 40.0));
 
   db.prepare(`
     INSERT INTO bookings (
@@ -546,51 +685,82 @@ app.post('/api/ivr/book', (req, res) => {
   );
 
   db.prepare('UPDATE slots SET booked_count = booked_count + 1 WHERE id = ?').run(slot.id);
+  db.prepare("UPDATE ivr_outbound_calls SET status = 'COMPLETED', outcome = ? WHERE phone = ?").run(`BOOKED_${tokenNum}`, farmer.phone);
 
-  // Generate & Dispatch Official Govt Simulated SMS
-  const smsBody = `GOVT OF AP: Namaste ${farmer.name}! Crop procurement slot booked via IVR Helpline. Token: ${tokenNum}. Crop: ${crop.name}. Weight: ${qtl} Quintals. Date: ${slot.slot_date} (${slot.time_window}) at ${centre.name}. Cancellation must be completed at least 2 days in advance. Helpline: 1800-180-1551.`;
+  // Generate & Dispatch Official Govt Simulated SMS with Location & 2-Day Cancel Rule
+  const smsBody = `GOVT OF AP: Namaste ${farmer.name} (${farmer.phone})! Slot Confirmed via IVR. Token: ${tokenNum}. Crop: ${crop.name} (${qtl} QTL). Date: ${slot.slot_date} | Time: ${slot.time_window}. Location: ${centre.name}, ${centre.address}. Note: Cancel at least 2 days prior via IVR Option 4. Helpline: 1800-180-1551.`;
 
   db.prepare(`
     INSERT INTO sms_messages (phone, farmer_name, type, message)
     VALUES (?, ?, 'BOOKING_CONFIRMATION', ?)
   `).run(farmer.phone, farmer.name, smsBody);
 
-  const newBooking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(bookingId);
+  const newBooking = db.prepare(`
+    SELECT b.*, c.address as centre_address, c.district as centre_district
+    FROM bookings b
+    LEFT JOIN centres c ON b.centre_id = c.id
+    WHERE b.id = ?
+  `).get(bookingId);
 
   res.status(201).json({
     success: true,
     booking: newBooking,
     token_number: tokenNum,
+    centre_address: centre.address,
     sms_sent: smsBody,
     message: `Slot booked successfully via IVR. Token: ${tokenNum}`
   });
 });
 
-// IVR Status Inquirer
+// IVR Status & Location Inquirer (Option 3)
 app.post('/api/ivr/status', (req, res) => {
-  const { phone, language } = req.body;
+  const { phone, send_location_sms } = req.body;
   if (!phone) return res.status(400).json({ error: 'Phone number required' });
 
   const farmer = db.prepare('SELECT * FROM users WHERE phone = ?').get(phone.trim());
   if (!farmer) return res.status(404).json({ error: 'Farmer not registered' });
 
   const bookings = db.prepare(`
-    SELECT * FROM bookings 
-    WHERE farmer_phone = ? AND status NOT IN ('EXPIRED_REVOKED', 'CANCELLED')
-    ORDER BY created_at DESC
+    SELECT b.*, c.address as centre_address, c.district as centre_district
+    FROM bookings b
+    LEFT JOIN centres c ON b.centre_id = c.id
+    WHERE b.farmer_phone = ? AND b.status NOT IN ('EXPIRED_REVOKED', 'CANCELLED')
+    ORDER BY b.created_at DESC
   `).all(phone.trim());
 
   if (bookings.length === 0) {
     return res.json({
       has_booking: false,
+      farmer_name: farmer.name,
       message: 'No active procurement slot found for this phone number.'
     });
   }
 
-  const latest = bookings[0];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const enrichedBookings = bookings.map(b => {
+    const sDate = new Date(b.booking_date);
+    sDate.setHours(0, 0, 0, 0);
+    const diffDays = Math.ceil((sDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return {
+      ...b,
+      centre_address: b.centre_address || 'NH-16 Bypass Road, Opposite Mirchi Yard Gate-2, Guntur - 522004',
+      diff_days: diffDays,
+      can_cancel: b.status === 'BOOKED' && diffDays >= 2
+    };
+  });
+
+  const latest = enrichedBookings[0];
   const quality = db.prepare('SELECT * FROM quality_inspections WHERE booking_id = ?').get(latest.id);
   const weighment = db.prepare('SELECT * FROM weighments WHERE booking_id = ?').get(latest.id);
   const payment = db.prepare('SELECT * FROM payments WHERE booking_id = ?').get(latest.id);
+
+  let locationSms = null;
+  if (send_location_sms) {
+    locationSms = `GOVT OF AP: Token ${latest.token_number} Status: ${latest.status}. Crop: ${latest.crop_name}. Arrival Date: ${latest.booking_date} (${latest.time_window}). Mandi Location: ${latest.centre_name}, ${latest.centre_address}.`;
+    db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'STATUS_LOCATION_INFO', ?)`).run(farmer.phone, farmer.name, locationSms);
+  }
 
   res.json({
     has_booking: true,
@@ -599,25 +769,26 @@ app.post('/api/ivr/status', (req, res) => {
     weighment,
     payment,
     farmer_name: farmer.name,
-    all_active: bookings
+    all_active: enrichedBookings,
+    sms_sent: locationSms
   });
 });
 
-// IVR 2-Day Cancellation Rule Enforcement
+// IVR 2-Day Cancellation Rule Enforcement (Option 4)
 app.post('/api/ivr/cancel', (req, res) => {
-  const { booking_id, phone, language } = req.body;
+  const { booking_id, phone } = req.body;
   if (!booking_id && !phone) return res.status(400).json({ error: 'Booking ID or Phone required' });
 
   let booking;
   if (booking_id) {
     booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking_id);
   } else {
-    booking = db.prepare("SELECT * FROM bookings WHERE farmer_phone = ? AND status = 'BOOKED' ORDER BY created_at DESC").get(phone.trim());
+    booking = db.prepare("SELECT * FROM bookings WHERE farmer_phone = ? AND status = 'BOOKED' ORDER BY booking_date DESC, created_at DESC LIMIT 1").get(phone.trim());
   }
 
-  if (!booking) return res.status(404).json({ error: 'Active booking not found to cancel' });
+  if (!booking) return res.status(404).json({ success: false, error: 'No active BOOKED slot found to cancel.' });
   if (booking.status !== 'BOOKED') {
-    return res.status(400).json({ error: `Cannot cancel: Booking is already in ${booking.status} stage.` });
+    return res.status(400).json({ success: false, error: `Cannot cancel: Booking is already in ${booking.status} stage.` });
   }
 
   // Calculate calendar days difference
@@ -635,7 +806,8 @@ app.post('/api/ivr/cancel', (req, res) => {
     return res.status(400).json({
       success: false,
       diffDays,
-      error: `Cancellation Rejected: Slot date is ${booking.booking_date} (only ${diffDays} day(s) away). Mandi policy strictly requires cancellation at least 2 days prior to avoid penalty.`
+      booking,
+      error: `Cancellation Rejected: Your slot for ${booking.crop_name} (Token ${booking.token_number}) is on ${booking.booking_date} (${diffDays} day(s) left). Mandi policy strictly requires cancellation at least 2 days before the scheduled slot.`
     });
   }
 
@@ -643,7 +815,7 @@ app.post('/api/ivr/cancel', (req, res) => {
   db.prepare("UPDATE bookings SET status = 'CANCELLED' WHERE id = ?").run(booking.id);
   db.prepare("UPDATE slots SET booked_count = MAX(0, booked_count - 1) WHERE id = ?").run(booking.slot_id);
 
-  const cancelSms = `GOVT OF AP: Your slot for ${booking.crop_name} on ${booking.booking_date} (Token: ${booking.token_number}) has been CANCELLED successfully upon your IVR request. Quota has been released.`;
+  const cancelSms = `GOVT OF AP: Namaste ${booking.farmer_name}! Your slot for ${booking.crop_name} on ${booking.booking_date} (${booking.time_window}, Token: ${booking.token_number}) has been CANCELLED (requested ${diffDays} days in advance). Mandi slot quota released.`;
   db.prepare(`
     INSERT INTO sms_messages (phone, farmer_name, type, message)
     VALUES (?, ?, 'CANCELLATION', ?)
@@ -651,7 +823,9 @@ app.post('/api/ivr/cancel', (req, res) => {
 
   res.json({
     success: true,
-    message: `Booking ${booking.token_number} cancelled successfully. Quota released.`,
+    diffDays,
+    booking,
+    message: `Booking ${booking.token_number} (${booking.crop_name} on ${booking.booking_date}) cancelled successfully. Quota released.`,
     sms_sent: cancelSms,
     booking_id: booking.id
   });
@@ -660,7 +834,7 @@ app.post('/api/ivr/cancel', (req, res) => {
 // Farmer SMS Inbox
 app.get('/api/sms/:phone', (req, res) => {
   const phone = req.params.phone;
-  const messages = db.prepare('SELECT * FROM sms_messages WHERE phone = ? ORDER BY created_at DESC').all(phone);
+  const messages = db.prepare('SELECT * FROM sms_messages WHERE phone = ? ORDER BY created_at DESC').all(phone.trim());
   res.json(messages);
 });
 

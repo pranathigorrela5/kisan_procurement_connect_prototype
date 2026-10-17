@@ -17,6 +17,10 @@ function initDatabase() {
       role TEXT NOT NULL DEFAULT 'FARMER',
       district TEXT,
       state TEXT,
+      aadhaar TEXT,
+      land_record_id TEXT,
+      bank_account_no TEXT,
+      bank_ifsc TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
@@ -29,9 +33,14 @@ function initDatabase() {
       code TEXT UNIQUE NOT NULL,
       district TEXT NOT NULL,
       state TEXT NOT NULL,
+      address TEXT DEFAULT 'APMC Agricultural Market Yard, Main Road',
       capacity_qtl INTEGER NOT NULL DEFAULT 500
     );
   `);
+
+  try {
+    db.exec("ALTER TABLE centres ADD COLUMN address TEXT DEFAULT 'APMC Agricultural Market Yard, Main Road';");
+  } catch (e) {}
 
   // Crops Table
   db.exec(`
@@ -139,6 +148,19 @@ function initDatabase() {
       farmer_name TEXT NOT NULL,
       type TEXT NOT NULL DEFAULT 'BOOKING_CONFIRMATION',
       message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  // Outbound IVR Calls Table (Govt-Triggered Automated IVR Calls to Farmers)
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS ivr_outbound_calls (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      phone TEXT NOT NULL,
+      farmer_name TEXT NOT NULL,
+      triggered_by TEXT DEFAULT 'GOVT_OBD_SCHEDULER',
+      status TEXT NOT NULL DEFAULT 'RINGING',
+      outcome TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
