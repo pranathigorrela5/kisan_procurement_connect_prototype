@@ -316,8 +316,17 @@ app.post('/api/admin/gate/scan', requireAdminAuth, (req, res) => {
   const now = new Date().toISOString();
   db.prepare("UPDATE bookings SET status = 'ARRIVED', arrived_at = ? WHERE id = ?").run(now, booking.id);
 
+  const gunnyBags = Math.ceil((booking.estimated_qtl || 40) * 2); // 2 bags of 50kg per Quintal
+  const gateSms = `GOVT OF AP: Gate Entry Verified for ${booking.farmer_name} (Token: ${booking.token_number}). Collect ${gunnyBags} Govt Gunny Bags (50kg Bardana) at Counter-1 & proceed to Quality Lab.`;
+  db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'GATE_CHECKIN', ?)`).run(booking.farmer_phone, booking.farmer_name, gateSms);
+
   const updated = db.prepare('SELECT * FROM bookings WHERE id = ?').get(booking.id);
-  res.json({ success: true, message: `Farmer ${booking.farmer_name} checked in successfully!`, booking: updated });
+  res.json({
+    success: true,
+    gunny_bags_issued: gunnyBags,
+    message: `Farmer ${booking.farmer_name} checked in! Issued ${gunnyBags} Gunny Bags (50kg Bardana).`,
+    booking: updated
+  });
 });
 
 app.get('/api/admin/queue/pending-quality', requireAdminAuth, (req, res) => {
@@ -332,18 +341,26 @@ app.post('/api/admin/quality/submit', requireAdminAuth, (req, res) => {
   if (!booking) return res.status(404).json({ error: 'Booking not found' });
 
   const moisture = parseFloat(moisture_pct);
-  const status = moisture <= 14.0 ? 'PASSED' : 'REJECTED';
+  const impurity = parseFloat(foreign_matter_pct || 0);
+  // Real FAQ (Fair Average Quality) Standards: <=14% Grade A, 14.1-15.0% Grade B (Relaxed FAQ), >15.0% Rejected for Sun-Drying
+  const status = moisture <= 15.0 ? 'PASSED' : 'REJECTED';
+  const assignedGrade = moisture <= 14.0 ? (grade || 'Grade A (FAQ Optimal)') : (moisture <= 15.0 ? 'Grade B (FAQ Relaxed)' : 'Rejected (>15% Moisture - Drying Yard)');
   const bookingStatus = status === 'PASSED' ? 'QUALITY_PASSED' : 'QUALITY_REJECTED';
   const now = new Date().toISOString();
 
   db.prepare(`
     INSERT INTO quality_inspections (booking_id, moisture_pct, foreign_matter_pct, grade, status, notes)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).run(booking.id, moisture, parseFloat(foreign_matter_pct || 0), grade || 'Grade A', status, notes || '');
+  `).run(booking.id, moisture, impurity, assignedGrade, status, notes || '');
 
   db.prepare('UPDATE bookings SET status = ?, quality_checked_at = ? WHERE id = ?').run(bookingStatus, now, booking.id);
 
-  res.json({ success: true, status, bookingStatus, message: `Quality inspection recorded: ${status}` });
+  const qualSms = status === 'PASSED'
+    ? `GOVT OF AP: Quality PASSED (${assignedGrade}, Moisture: ${moisture}%, Impurity: ${impurity}%) for Token ${booking.token_number}. Proceed to Electronic Weighbridge.`
+    : `GOVT OF AP: Quality Alert for Token ${booking.token_number}. Moisture ${moisture}% exceeds 15% FAQ limit. Please spread grain at Mandi Drying Yard Bay-3 & re-test in 3 hrs.`;
+  db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'QUALITY_REPORT', ?)`).run(booking.farmer_phone, booking.farmer_name, qualSms);
+
+  res.json({ success: true, status, grade: assignedGrade, bookingStatus, message: `Quality inspection recorded: ${status} (${assignedGrade})` });
 });
 
 app.get('/api/admin/queue/pending-weighment', requireAdminAuth, (req, res) => {
@@ -361,6 +378,7 @@ app.post('/api/admin/weighbridge/submit', requireAdminAuth, (req, res) => {
   const tare = parseFloat(tare_weight_kg);
   const netKg = gross - tare;
   const netQtl = netKg / 100.0;
+  const gunnyBags = Math.ceil(netQtl * 2);
   const now = new Date().toISOString();
 
   db.prepare(`
@@ -370,7 +388,11 @@ app.post('/api/admin/weighbridge/submit', requireAdminAuth, (req, res) => {
 
   db.prepare("UPDATE bookings SET status = 'WEIGHED', weighed_at = ? WHERE id = ?").run(now, booking.id);
 
-  res.json({ success: true, netKg, netQtl, message: `Weighbridge recorded: ${netQtl} Quintals net weight` });
+  const estAmount = Math.round(netQtl * booking.msp_rate);
+  const weighSms = `GOVT OF AP: Weighment Slip Generated for Token ${booking.token_number}. Gross: ${gross}kg, Tare: ${tare}kg, Net: ${netQtl} QTL (${gunnyBags} Gunny Bags). Est MSP Value: ₹${estAmount.toLocaleString('en-IN')}. Sent to Accounts for PFMS DBT.`;
+  db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'WEIGHMENT_SLIP', ?)`).run(booking.farmer_phone, booking.farmer_name, weighSms);
+
+  res.json({ success: true, netKg, netQtl, gunnyBags, message: `Weighbridge recorded: ${netQtl} Quintals net weight (${gunnyBags} Gunny Bags)` });
 });
 
 app.get('/api/admin/queue/pending-payment', requireAdminAuth, (req, res) => {
@@ -538,6 +560,19 @@ app.get('/api/admin/stats', (req, res) => {
 app.get('/api/ivr/farmers', (req, res) => {
   const farmers = db.prepare("SELECT id, name, phone, district, state, aadhaar, land_record_id FROM users WHERE role = 'FARMER' ORDER BY id ASC").all();
   res.json(farmers);
+});
+
+// Get Recent Outbound IVR Call Logs & Farmer Survey Outcomes
+app.get('/api/ivr/call-logs', (req, res) => {
+  const calls = db.prepare('SELECT * FROM ivr_outbound_calls ORDER BY id DESC LIMIT 25').all();
+  const stats = {
+    total: calls.length,
+    ringing: calls.filter(c => c.status === 'RINGING').length,
+    booked: calls.filter(c => (c.outcome || '').startsWith('BOOKED')).length,
+    no_crop: calls.filter(c => c.outcome === 'NO_CROP_AVAILABLE').length,
+    cancelled: calls.filter(c => (c.outcome || '').startsWith('CANCELLED')).length
+  };
+  res.json({ stats, calls });
 });
 
 // Trigger Outbound Automated Govt IVR Call to a Farmer Phone Number
@@ -762,6 +797,8 @@ app.post('/api/ivr/status', (req, res) => {
     db.prepare(`INSERT INTO sms_messages (phone, farmer_name, type, message) VALUES (?, ?, 'STATUS_LOCATION_INFO', ?)`).run(farmer.phone, farmer.name, locationSms);
   }
 
+  db.prepare("UPDATE ivr_outbound_calls SET status = 'COMPLETED', outcome = ? WHERE phone = ?").run(`STATUS_LOCATION_${latest.token_number}`, farmer.phone);
+
   res.json({
     has_booking: true,
     booking: latest,
@@ -803,6 +840,7 @@ app.post('/api/ivr/cancel', (req, res) => {
 
   // Policy: Must cancel at least 2 days before the slot date
   if (diffDays < 2) {
+    db.prepare("UPDATE ivr_outbound_calls SET status = 'COMPLETED', outcome = ? WHERE phone = ?").run(`CANCEL_REJECTED_<2D_${booking.token_number}`, booking.farmer_phone);
     return res.status(400).json({
       success: false,
       diffDays,
@@ -814,6 +852,7 @@ app.post('/api/ivr/cancel', (req, res) => {
   // Allow cancellation
   db.prepare("UPDATE bookings SET status = 'CANCELLED' WHERE id = ?").run(booking.id);
   db.prepare("UPDATE slots SET booked_count = MAX(0, booked_count - 1) WHERE id = ?").run(booking.slot_id);
+  db.prepare("UPDATE ivr_outbound_calls SET status = 'COMPLETED', outcome = ? WHERE phone = ?").run(`CANCELLED_${booking.token_number}`, booking.farmer_phone);
 
   const cancelSms = `GOVT OF AP: Namaste ${booking.farmer_name}! Your slot for ${booking.crop_name} on ${booking.booking_date} (${booking.time_window}, Token: ${booking.token_number}) has been CANCELLED (requested ${diffDays} days in advance). Mandi slot quota released.`;
   db.prepare(`

@@ -1338,13 +1338,15 @@
       const q = data.quality;
       const w = data.weighment;
       const p = data.payment;
+      const netQtlVal = w ? w.net_weight_qtl : b.estimated_qtl;
+      const gunnyBags = Math.ceil(netQtlVal * 2);
 
       const container = document.getElementById('challan-printable-content');
       container.innerHTML = `
         <div class="border border-slate-300 rounded-2xl p-4 bg-slate-50 space-y-3">
           <div class="flex justify-between items-center border-b border-slate-200 pb-2">
             <div>
-              <p class="font-bold text-slate-900">Challan Ref: <span class="font-mono text-emerald-800">${b.id}-CH</span></p>
+              <p class="font-bold text-slate-900">J-Form / Takpatti Challan: <span class="font-mono text-emerald-800">${b.id}-CH</span></p>
               <p class="text-[10px] text-slate-500">Procurement Date: ${b.booking_date} (${b.time_window})</p>
             </div>
             <div class="text-right">
@@ -1355,12 +1357,12 @@
 
           <div class="grid grid-cols-2 gap-3 text-[11px]">
             <div>
-              <span class="text-slate-500 block">Farmer Name:</span>
+              <span class="text-slate-500 block">Farmer Name &amp; Aadhaar Mobile:</span>
               <strong class="text-slate-900">${b.farmer_name}</strong>
               <p class="text-slate-500">Phone: ${b.farmer_phone}</p>
             </div>
             <div>
-              <span class="text-slate-500 block">Procurement Mandi & Location:</span>
+              <span class="text-slate-500 block">Procurement Mandi &amp; Location:</span>
               <strong class="text-slate-900">${b.centre_name}</strong>
               <p class="text-[10px] text-slate-500">${b.centre_address || 'NH-16 Bypass Road, Guntur'}</p>
             </div>
@@ -1372,7 +1374,7 @@
               <strong class="text-slate-900">${b.crop_name}</strong>
             </div>
             <div>
-              <span class="text-slate-500 block">Quality Grade:</span>
+              <span class="text-slate-500 block">FAQ Quality Grade:</span>
               <strong class="text-slate-900">${q ? `${q.grade} (${q.moisture_pct}% Moist)` : 'Pending Inspection'}</strong>
             </div>
             <div>
@@ -1383,12 +1385,16 @@
 
           <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-[11px] space-y-1">
             <div class="flex justify-between">
-              <span>Gross Weight:</span>
-              <strong>${w ? `${w.gross_weight_kg} kg` : 'Pending'}</strong>
+              <span>Gross Vehicle Weight:</span>
+              <strong>${w ? `${w.gross_weight_kg} kg` : 'Pending Weighbridge'}</strong>
             </div>
             <div class="flex justify-between">
-              <span>Tare Weight (Vehicle):</span>
-              <strong>${w ? `${w.tare_weight_kg} kg` : 'Pending'}</strong>
+              <span>Tare Weight (Empty Vehicle):</span>
+              <strong>${w ? `${w.tare_weight_kg} kg` : 'Pending Weighbridge'}</strong>
+            </div>
+            <div class="flex justify-between">
+              <span>Govt Gunny Bags (50kg Bardana) &amp; Godown:</span>
+              <strong>${gunnyBags} Jute Bags &bull; Godown-B Stack-04</strong>
             </div>
             <div class="flex justify-between text-xs font-bold text-slate-900 border-t border-emerald-200 pt-1">
               <span>Net Procured Quantity:</span>
@@ -1398,12 +1404,12 @@
 
           <div class="bg-slate-900 text-white rounded-xl p-3 flex justify-between items-center text-xs">
             <div>
-              <span class="text-[10px] text-slate-400 block uppercase">Total Govt Disbursement:</span>
-              <strong class="text-base text-amber-400">₹${p ? p.net_amount.toLocaleString('en-IN') : ((w ? w.net_weight_qtl : b.estimated_qtl) * b.msp_rate).toLocaleString('en-IN')}</strong>
+              <span class="text-[10px] text-slate-400 block uppercase">Total Govt MSP Disbursement:</span>
+              <strong class="text-base text-amber-400">₹${p ? p.net_amount.toLocaleString('en-IN') : (netQtlVal * b.msp_rate).toLocaleString('en-IN')}</strong>
             </div>
             <div class="text-right text-[10px] text-slate-300">
-              <span>Payment Mode: <strong>PFMS Direct DBT</strong></span>
-              <p class="text-slate-400 font-mono">${p ? p.bank_ref : 'PFMS-PENDING'}</p>
+              <span>Payment Mode: <strong>PFMS Direct DBT (AEPS)</strong></span>
+              <p class="text-slate-400 font-mono">${p ? p.bank_ref : 'PFMS-PENDING-APPROVAL'}</p>
             </div>
           </div>
 
